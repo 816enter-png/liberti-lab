@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberti Lab — Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --gray-100: #F5F5F5;
+  --gray-200: #E8E8E8;
+  --gray-400: #A0A0A0;
+  --gray-600: #5A5A5A;
+  --ff: 'Space Grotesk', sans-serif;
+  --max: 1200px;
+  --pad: clamp(24px, 5vw, 80px);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  background: var(--white);
+  color: var(--black);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* —— UTILS —— */
+.container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+.divider { width: 100%; height: 1px; background: var(--black); }
+
+/* —— NAV —— */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--black);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  text-decoration: none;
+}
+/* —— LOGO SVG SLOT — paste your Figma SVG export here —— */
+.logo-svg-slot {
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+.logo-svg-slot svg { height: 32px; width: auto; }
+/* Fallback wordmark shown until SVG is pasted */
+.logo-fallback {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--black);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.nav-links a:hover { opacity: 0.45; }
+.nav-cta {
+  background: var(--black);
+  color: var(--white) !important;
+  padding: 10px 20px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--gray-600) !important; opacity: 1 !important; }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* —— HERO —— */
+.hero {
+  padding: clamp(80px, 12vw, 160px) 0 clamp(60px, 8vw, 120px);
+  border-bottom: 1px solid var(--black);
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+}
+@media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+
+.hero-left {}
+.hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  border: 1px solid var(--gray-200);
+  padding: 6px 12px;
+}
+.hero-h1 {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 32px;
+}
+.hero-h1 em {
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.hero-desc {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--gray-600);
+  max-width: 420px;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+}
+/* —— HERO IMAGE SLOT — paste your hero asset SVG here —— */
+.hero-asset {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-asset-placeholder {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+
+
+
+/* —— ABOUT / INTRO —— */
+.intro {
+  padding: clamp(64px, 8vw, 120px) 0;
+  border-bottom: 1px solid var(--black);
+}
+.intro-inner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 768px) { .intro-inner { grid-template-columns: 1fr; gap: 32px; } }
+.intro-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  padding-top: 6px;
+}
+.intro-body h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+.intro-body p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--gray-600);
+  max-width: 600px;
+}
+.intro-body p + p { margin-top: 16px; }
+
+/* —— SERVICES —— */
+.services {
+  padding: clamp(64px, 8vw, 120px) 0;
+  border-bottom: 1px solid var(--black);
+}
+.services-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  gap: 24px;
+}
+.services-header h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.services-header .label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  white-space: nowrap;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--black);
+}
+@media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+.service-card {
+  padding: 36px 32px;
+  border-right: 1px solid var(--black);
+  transition: background 0.2s;
+}
+.service-card:last-child { border-right: none; }
+.service-card:hover { background: var(--black); color: var(--white); }
+.service-card:hover .service-num,
+.service-card:hover .service-desc { color: rgba(255,255,255,0.5); }
+.service-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+.service-name {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.service-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--gray-600);
+  transition: color 0.2s;
+}
+
+/* —— EVENTS —— */
+.events {
+  padding: clamp(64px, 8vw, 120px) 0;
+  border-bottom: 1px solid var(--black);
+}
+.events-header {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  margin-bottom: 48px;
+  align-items: end;
+}
+@media (max-width: 768px) { .events-header { grid-template-columns: 1fr; gap: 16px; } }
+.events-header .label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.events-header h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.events-list { border-top: 1px solid var(--black); }
+.event-row {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 32px;
+  align-items: center;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background 0.15s;
+  cursor: default;
+}
+.event-row:hover { background: var(--gray-100); padding-left: 16px; padding-right: 16px; margin: 0 -16px; }
+@media (max-width: 640px) {
+  .event-row { grid-template-columns: 1fr; gap: 10px; }
+  .event-arrow { display: none; }
+}
+.event-date {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.event-info {}
+.event-name {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.event-venue {
+  font-size: 14px;
+  color: var(--gray-600);
+  font-weight: 400;
+}
+.event-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--black);
+  color: var(--white);
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.event-tag.upcoming { background: var(--black); }
+.event-tag.event-more {
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.event-tag.event-more:hover { background: var(--gray-600); }
+.event-name-link { text-decoration: none; color: inherit; }
+.event-name-link:hover .event-name { text-decoration: underline; text-underline-offset: 3px; }
+.venue-link {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--gray-400);
+  font-weight: 500;
+  transition: text-decoration-color 0.15s;
+}
+.venue-link:hover { text-decoration-color: var(--black); }
+
+
+
+/* —— EMAIL SIGNUP —— */
+.signup {
+  padding: clamp(80px, 10vw, 140px) 0;
+  border-bottom: 1px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+}
+.signup-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 768px) { .signup-inner { grid-template-columns: 1fr; gap: 40px; } }
+.signup-copy .label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 20px;
+}
+.signup-copy h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+.signup-copy h2 em {
+  font-style: normal;
+  font-weight: 300;
+}
+.signup-copy p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--gray-400);
+}
+.signup-form-wrap {}
+.signup-field {
+  display: flex;
+  border: 1px solid rgba(255,255,255,0.25);
+  margin-bottom: 12px;
+}
+.signup-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 16px 20px;
+  font-family: var(--ff);
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 400;
+}
+.signup-field input::placeholder { color: rgba(255,255,255,0.3); }
+.signup-submit {
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  padding: 16px 28px;
+  font-family: var(--ff);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.signup-submit:hover { background: var(--gray-200); }
+.signup-note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.signup-note.success { color: rgba(255,255,255,0.7); }
+
+/* —— FOOTER —— */
+footer {
+  padding: 40px 0;
+  background: var(--black);
+  color: var(--white);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--white);
+}
+.footer-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--white); }
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.04em;
+}
+
+/* —— ANIMATIONS —— */
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.js-ready .reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════ -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+
+      <!-- —— LOGO SLOT ——
+           Replace the fallback below with your Figma SVG export:
+           Right-click logo in Figma → Copy/Paste as → Copy as SVG → paste inside .logo-svg-slot
+      -->
+      <a href="#" class="nav-logo">
+        <div class="logo-svg-slot">
+          <!-- PASTE LOGO SVG HERE -->
+          <!-- Fallback wordmark: -->
+          <span class="logo-fallback">Liberti Lab</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Studio</a></li>
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Services</a></li>
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener" class="nav-cta">Follow on IG</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left reveal">
+        <span class="hero-tag">Jersey City, NJ — Est. 2023</span>
+        <h1 class="hero-h1">
+          Design<br>
+          <em>that</em><br>
+          builds.
+        </h1>
+        <p class="hero-desc">
+          Industrial design studio specializing in physical products, sculptural objects, and wearable hardware. We make ideas tangible.
+        </p>
+      </div>
+
+      <div class="hero-right reveal">
+        <!-- —— HERO IMAGE SLOT ——
+             Replace placeholder with your Figma hero asset SVG:
+             Right-click the hero image in Figma → Copy/Paste as → Copy as SVG → paste inside .hero-asset
+        -->
+        <div class="hero-asset">
+          <div class="hero-asset-placeholder">Studio Image</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- ═══════════════════════════════════════════════
+     ABOUT
+══════════════════════════════════════════════════ -->
+<section class="intro" id="about">
+  <div class="container">
+    <div class="intro-inner reveal">
+      <div class="intro-label">About the Studio</div>
+      <div class="intro-body">
+        <h2>Where material craft meets digital intelligence.</h2>
+        <p>
+          Liberti Lab is an industrial design studio and maker space in Jersey City, NJ. We prototype physical products, build wearable hardware systems, and create sculptural objects from recycled plastics.
+        </p>
+        <p>
+          Our work spans consumer electronics, medical devices, and limited-edition art objects — united by a belief that the best design is built by hand before it's refined by machine.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SERVICES
+══════════════════════════════════════════════════ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <h2>What we do</h2>
+      <span class="label">Services</span>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name">Industrial Design</div>
+        <p class="service-desc">From concept sketches to production-ready CAD. Consumer electronics, medical devices, and packaging with a decade of material knowledge behind every decision.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name">Rapid Prototyping</div>
+        <p class="service-desc">Large-format 3D printing, CNC, and embedded electronics. We build functional prototypes fast — the kind you can actually test in the real world.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name">Sculptural Objects</div>
+        <p class="service-desc">Limited-edition pieces from recycled plastics. The Everloop collection — Torus Ring, Infinity Form — where industrial process becomes gallery object.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     EVENTS
+══════════════════════════════════════════════════ -->
+<section class="events" id="events">
+  <div class="container">
+    <div class="events-header reveal">
+      <div class="label">Upcoming</div>
+      <h2>Events & Exhibitions</h2>
+    </div>
+
+    <div class="events-list reveal">
+
+      <!-- UPCOMING EVENT -->
+      <div class="event-row">
+        <div class="event-date">Apr 18, 2026</div>
+        <div class="event-info">
+          <a href="https://www.gardenstateartweekend.org" target="_blank" rel="noopener" class="event-name-link">
+            <div class="event-name">Garden State Art Weekend</div>
+          </a>
+          <div class="event-venue">
+            @
+            <a href="https://www.instagram.com/projectstudiosllc/" target="_blank" rel="noopener" class="venue-link">Project Studios</a>
+            — Hoboken, NJ
+          </div>
+        </div>
+        <a href="https://www.gardenstateartweekend.org" target="_blank" rel="noopener" class="event-tag event-more">More Info →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- ═══════════════════════════════════════════════
+     EMAIL SIGNUP
+══════════════════════════════════════════════════ -->
+<section class="signup" id="signup">
+  <div class="container">
+    <div class="signup-inner">
+      <div class="signup-copy reveal">
+        <p class="label">Join the Lab</p>
+        <h2>Stay close<br><em>to the work.</em></h2>
+        <p>Project drops, event announcements, and behind-the-scenes process from the studio. No noise.</p>
+      </div>
+      <div class="signup-form-wrap reveal">
+        <form onsubmit="handleSignup(event)">
+          <div class="signup-field">
+            <input
+              type="email"
+              id="email-input"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            >
+            <button type="submit" class="signup-submit">Join →</button>
+          </div>
+          <p class="signup-note" id="signup-msg">No spam. Unsubscribe anytime.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Liberti Lab</div>
+      <ul class="footer-links">
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Studio</a></li>
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Services</a></li>
+        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="mailto:hello@libertilab.com">Contact</a></li>
+      </ul>
+      <div style="text-align:right;">
+        <span class="footer-copy" style="display:block;">98 Forrest St, Jersey City, NJ</span>
+        <span class="footer-copy" style="display:block; margin-top:4px;">© 2025 Liberti Lab</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// —— SCROLL REVEAL ——
+document.body.classList.add('js-ready');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// —— SIGNUP ——
+function handleSignup(e) {
+  e.preventDefault();
+  const msg = document.getElementById('signup-msg');
+  const input = document.getElementById('email-input');
+  // Wire to Mailchimp / ConvertKit endpoint here
+  msg.textContent = "You're in. Watch for studio updates.";
+  msg.classList.add('success');
+  input.value = '';
+}
+</script>
+</body>
+</html>
