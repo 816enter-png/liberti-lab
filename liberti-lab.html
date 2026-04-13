@@ -1,9 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/LocalBusiness">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liberti Lab — Design Studio</title>
+<title>Liberti Lab — Industrial Design Studio | Jersey City, NJ</title>
+<meta name="description" content="Liberti Lab is an industrial design studio in Jersey City, NJ. We offer industrial design, rapid prototyping with large-format 3D printing, and bespoke design objects. From concept to production.">
+<meta name="keywords" content="industrial design, rapid prototyping, 3D printing, Jersey City, design studio, product design, large format printing, design objects, Hudson County">
+<link rel="canonical" href="https://liberti-lab.com">
+<meta property="og:title" content="Liberti Lab — Industrial Design Studio">
+<meta property="og:description" content="Industrial design studio specializing in physical products, rapid prototyping, and design objects. Jersey City, NJ.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://liberti-lab.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Liberti Lab",
+  "description": "Industrial design studio specializing in physical products, rapid prototyping, and bespoke design objects.",
+  "url": "https://liberti-lab.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "98 Forrest St",
+    "addressLocality": "Jersey City",
+    "addressRegion": "NJ",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.7282,
+    "longitude": -74.0776
+  },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Industrial Design" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rapid Prototyping" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design Objects" } }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -16,6 +49,8 @@
   --gray-200: #E8E8E8;
   --gray-400: #A0A0A0;
   --gray-600: #5A5A5A;
+  --cobalt: #210FEA;
+  --cobalt-glow: rgba(33,15,234,0.15);
   --ff: 'Space Grotesk', sans-serif;
   --max: 1200px;
   --pad: clamp(24px, 5vw, 80px);
@@ -24,79 +59,69 @@
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--ff);
-  background: var(--white);
-  color: var(--black);
+  background: var(--black);
+  color: var(--white);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* —— UTILS —— */
 .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
-.divider { width: 100%; height: 1px; background: var(--black); }
 
 /* —— NAV —— */
 nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--white);
-  border-bottom: 1px solid var(--black);
+  background: rgba(10,10,10,0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 72px;
 }
 .nav-logo {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--black);
   text-decoration: none;
+  color: var(--white);
 }
-/* —— LOGO SVG SLOT — paste your Figma SVG export here —— */
 .logo-svg-slot {
-  height: 32px;
+  height: 42px;
   display: flex;
   align-items: center;
 }
-.logo-svg-slot svg { height: 32px; width: auto; }
-/* Fallback wordmark shown until SVG is pasted */
-.logo-fallback {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--black);
-}
+.logo-svg-slot svg { height: 42px; width: auto; }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 36px;
   list-style: none;
 }
 .nav-links a {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--black);
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-.nav-links a:hover { opacity: 0.45; }
-.nav-cta {
-  background: var(--black);
-  color: var(--white) !important;
-  padding: 10px 20px;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.05em !important;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: background 0.2s !important;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
 }
-.nav-cta:hover { background: var(--gray-600) !important; opacity: 1 !important; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: transparent !important;
+  color: var(--white) !important;
+  padding: 10px 20px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  transition: background 0.3s !important;
+}
+.nav-cta:hover {
+  background: rgba(255,255,255,0.2) !important;
+}
 
 @media (max-width: 768px) {
   .nav-links { display: none; }
@@ -104,35 +129,65 @@ nav {
 
 /* —— HERO —— */
 .hero {
-  padding: clamp(80px, 12vw, 160px) 0 clamp(60px, 8vw, 120px);
-  border-bottom: 1px solid var(--black);
+  position: relative;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
 }
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: end;
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-100);
+  z-index: 0;
 }
-@media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
-
-.hero-left {}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.3) 40%, transparent 70%);
+  z-index: 1;
+}
+.hero-bg-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--pad) clamp(60px, 8vw, 120px);
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+}
 .hero-tag {
   display: inline-block;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-600);
+  color: var(--cobalt);
   margin-bottom: 24px;
-  border: 1px solid var(--gray-200);
-  padding: 6px 12px;
+  border: 1px solid rgba(33,15,234,0.3);
+  padding: 6px 14px;
 }
 .hero-h1 {
-  font-size: clamp(48px, 7vw, 96px);
+  font-size: clamp(56px, 9vw, 120px);
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 0.92;
   letter-spacing: -0.04em;
+  text-transform: uppercase;
   margin-bottom: 32px;
+  color: var(--white);
 }
 .hero-h1 em {
   font-style: normal;
@@ -140,91 +195,129 @@ nav {
   letter-spacing: -0.02em;
 }
 .hero-desc {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.65;
-  color: var(--gray-600);
-  max-width: 420px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  max-width: 480px;
 }
-
-.hero-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 24px;
-}
-/* —— HERO IMAGE SLOT — paste your hero asset SVG here —— */
-.hero-asset {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: var(--gray-100);
-  border: 1px solid var(--gray-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero-asset-placeholder {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-}
-
-
-
 
 /* —— ABOUT / INTRO —— */
 .intro {
-  padding: clamp(64px, 8vw, 120px) 0;
-  border-bottom: 1px solid var(--black);
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
 }
-.intro-inner {
+.intro-split {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 80px;
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
 }
-@media (max-width: 768px) { .intro-inner { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 768px) { .intro-split { grid-template-columns: 1fr; } }
+
+.intro-left {
+  background: var(--cobalt);
+  padding: clamp(60px, 8vw, 120px) var(--pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .intro-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-400);
-  padding-top: 6px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 32px;
 }
 .intro-body h2 {
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
   letter-spacing: -0.03em;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  color: var(--white);
 }
 .intro-body p {
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--gray-600);
-  max-width: 600px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.65);
+  max-width: 480px;
 }
-.intro-body p + p { margin-top: 16px; }
+.intro-body p + p { margin-top: 20px; }
+
+.intro-right {
+  position: relative;
+  background: url('partemis.png') 80% center/cover no-repeat;
+  min-height: 100%;
+}
+.intro-right {}
+.intro-right-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(16px, 3vw, 32px);
+}
+.intro-right-label {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  line-height: 1.1;
+}
+.intro-learn-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: transform 0.3s;
+}
+.intro-learn-btn:hover {
+  transform: translateY(-4px);
+}
+.intro-learn-btn svg {
+  width: 56px;
+  height: 56px;
+}
+.learn-text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.intro-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,10,0.2);
+}
+@media (max-width: 768px) {
+  .intro-right { min-height: 400px; }
+}
 
 /* —— SERVICES —— */
 .services {
-  padding: clamp(64px, 8vw, 120px) 0;
-  border-bottom: 1px solid var(--black);
+  padding: clamp(100px, 12vw, 180px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .services-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 48px;
+  margin-bottom: 60px;
   gap: 24px;
 }
 .services-header h2 {
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-size: clamp(32px, 4vw, 52px);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -234,57 +327,83 @@ nav {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-400);
+  color: var(--cobalt);
   white-space: nowrap;
 }
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--black);
+  gap: 0;
+  border: 1px solid rgba(33,15,234,0.2);
 }
 @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
 .service-card {
-  padding: 36px 32px;
-  border-right: 1px solid var(--black);
-  transition: background 0.2s;
+  padding: 48px 36px;
+  border-right: 1px solid rgba(33,15,234,0.2);
+  transition: background 0.35s, color 0.35s;
+  cursor: default;
+  overflow: hidden;
 }
 .service-card:last-child { border-right: none; }
-.service-card:hover { background: var(--black); color: var(--white); }
-.service-card:hover .service-num,
-.service-card:hover .service-desc { color: rgba(255,255,255,0.5); }
+@media (max-width: 768px) {
+  .service-card { border-right: none; border-bottom: 1px solid rgba(33,15,234,0.2); }
+  .service-card:last-child { border-bottom: none; }
+}
+.service-card:hover { background: var(--white); color: var(--black); }
+.service-card:hover .service-num { color: var(--cobalt); }
+.service-card:hover .service-desc { color: rgba(0,0,0,0.55); }
 .service-num {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 20px;
-  transition: color 0.2s;
+  color: var(--cobalt);
+  margin-bottom: 24px;
+  transition: color 0.35s;
 }
-.service-name {
-  font-size: 22px;
+h3.service-name {
+  font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  margin-bottom: 14px;
+  margin-bottom: 0;
+  transition: margin-bottom 0.35s;
+}
+.service-card:hover .service-name {
+  margin-bottom: 16px;
 }
 .service-desc {
   font-size: 14px;
-  line-height: 1.65;
-  color: var(--gray-600);
-  transition: color 0.2s;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.4);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.35s ease, color 0.35s;
 }
+.service-card:hover .service-desc {
+  max-height: 200px;
+  opacity: 1;
+}
+/* SEO: ensure crawlers see hidden descriptions */
+@media only x {
+  .service-desc { max-height: none; opacity: 1; }
+}
+noscript .service-desc { max-height: none; opacity: 1; }
 
 /* —— EVENTS —— */
 .events {
-  padding: clamp(64px, 8vw, 120px) 0;
-  border-bottom: 1px solid var(--black);
+  padding: clamp(100px, 12vw, 180px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: var(--cobalt);
+  color: var(--white);
 }
 .events-header {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 240px 1fr;
   gap: 80px;
-  margin-bottom: 48px;
+  margin-bottom: 60px;
   align-items: end;
 }
 @media (max-width: 768px) { .events-header { grid-template-columns: 1fr; gap: 16px; } }
@@ -293,40 +412,43 @@ nav {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-400);
+  color: rgba(255,255,255,0.5);
 }
 .events-header h2 {
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-size: clamp(32px, 4vw, 52px);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
-.events-list { border-top: 1px solid var(--black); }
+.events-list { border-top: 1px solid rgba(255,255,255,0.2); }
 .event-row {
   display: grid;
   grid-template-columns: 160px 1fr auto;
   gap: 32px;
   align-items: center;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--gray-200);
-  transition: background 0.15s;
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.3s;
   cursor: default;
 }
-.event-row:hover { background: var(--gray-100); padding-left: 16px; padding-right: 16px; margin: 0 -16px; }
+.event-row:hover {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 -20px;
+  background: rgba(255,255,255,0.06);
+}
 @media (max-width: 640px) {
   .event-row { grid-template-columns: 1fr; gap: 10px; }
-  .event-arrow { display: none; }
 }
 .event-date {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gray-400);
+  color: rgba(255,255,255,0.55);
 }
-.event-info {}
 .event-name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -334,46 +456,45 @@ nav {
 }
 .event-venue {
   font-size: 14px;
-  color: var(--gray-600);
-  font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  font-weight: 300;
 }
 .event-tag {
   display: inline-block;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: var(--black);
+  background: var(--cobalt);
   color: var(--white);
-  padding: 5px 10px;
+  padding: 8px 16px;
   white-space: nowrap;
-}
-.event-tag.upcoming { background: var(--black); }
-.event-tag.event-more {
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.3s;
 }
-.event-tag.event-more:hover { background: var(--gray-600); }
+.event-tag:hover { background: #3D2EF5; }
+.event-buttons {
+  display: flex;
+  gap: 8px;
+}
 .event-name-link { text-decoration: none; color: inherit; }
 .event-name-link:hover .event-name { text-decoration: underline; text-underline-offset: 3px; }
 .venue-link {
-  color: var(--black);
+  color: var(--white);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: var(--gray-400);
+  text-decoration-color: rgba(255,255,255,0.25);
   font-weight: 500;
-  transition: text-decoration-color 0.15s;
+  transition: text-decoration-color 0.3s;
 }
-.venue-link:hover { text-decoration-color: var(--black); }
-
-
+.venue-link:hover { text-decoration-color: var(--white); }
 
 /* —— EMAIL SIGNUP —— */
 .signup {
-  padding: clamp(80px, 10vw, 140px) 0;
-  border-bottom: 1px solid var(--black);
-  background: var(--black);
-  color: var(--white);
+  padding: clamp(100px, 12vw, 180px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: var(--white);
+  color: var(--black);
 }
 .signup-inner {
   display: grid;
@@ -381,35 +502,36 @@ nav {
   gap: 80px;
   align-items: center;
 }
-@media (max-width: 768px) { .signup-inner { grid-template-columns: 1fr; gap: 40px; } }
+@media (max-width: 768px) { .signup-inner { grid-template-columns: 1fr; gap: 48px; } }
 .signup-copy .label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-400);
+  color: var(--cobalt);
   margin-bottom: 20px;
 }
 .signup-copy h2 {
-  font-size: clamp(32px, 4vw, 56px);
+  font-size: clamp(36px, 4.5vw, 60px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.05;
   margin-bottom: 16px;
+  color: var(--black);
 }
 .signup-copy h2 em {
   font-style: normal;
   font-weight: 300;
 }
 .signup-copy p {
-  font-size: 16px;
-  line-height: 1.65;
-  color: var(--gray-400);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(0,0,0,0.45);
 }
-.signup-form-wrap {}
 .signup-field {
   display: flex;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(0,0,0,0.15);
   margin-bottom: 12px;
 }
 .signup-field input {
@@ -417,41 +539,83 @@ nav {
   background: transparent;
   border: none;
   outline: none;
-  padding: 16px 20px;
+  padding: 18px 20px;
   font-family: var(--ff);
   font-size: 15px;
-  color: var(--white);
-  font-weight: 400;
-}
-.signup-field input::placeholder { color: rgba(255,255,255,0.3); }
-.signup-submit {
-  background: var(--white);
+  font-weight: 300;
   color: var(--black);
+}
+.signup-field input::placeholder { color: rgba(0,0,0,0.25); }
+.signup-submit {
+  background: var(--cobalt);
+  color: var(--white);
   border: none;
-  padding: 16px 28px;
+  padding: 18px 28px;
   font-family: var(--ff);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.3s;
   white-space: nowrap;
 }
-.signup-submit:hover { background: var(--gray-200); }
+.signup-submit:hover { background: #3D2EF5; }
 .signup-note {
   font-size: 12px;
-  color: rgba(255,255,255,0.25);
-  font-weight: 400;
+  color: rgba(0,0,0,0.25);
+  font-weight: 300;
   letter-spacing: 0.02em;
 }
-.signup-note.success { color: rgba(255,255,255,0.7); }
+.signup-note.success { color: rgba(0,0,0,0.6); }
+.connect-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.connect-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-family: var(--ff);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  background: var(--cobalt);
+  transition: background 0.3s;
+}
+.connect-btn:hover { background: #3D2EF5; }
+@media (max-width: 480px) {
+  .connect-buttons { flex-direction: column; }
+}
+
+/* —— STAR SECTION —— */
+.star-section {
+  padding: clamp(120px, 16vw, 280px) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+}
+.star-icon-large {
+  width: clamp(300px, 40vw, 600px);
+  height: auto;
+}
+.star-icon-large svg {
+  width: 100%;
+  height: auto;
+}
 
 /* —— FOOTER —— */
 footer {
-  padding: 40px 0;
+  padding: 48px 0;
   background: var(--black);
   color: var(--white);
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 .footer-inner {
   display: flex;
@@ -461,9 +625,10 @@ footer {
   flex-wrap: wrap;
 }
 .footer-logo {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--white);
 }
 .footer-links {
@@ -472,29 +637,39 @@ footer {
   list-style: none;
 }
 .footer-links a {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: color 0.3s;
 }
 .footer-links a:hover { color: var(--white); }
 .footer-copy {
-  font-size: 12px;
-  color: rgba(255,255,255,0.2);
+  font-size: 11px;
+  color: var(--white);
   letter-spacing: 0.04em;
+}
+
+/* —— HERO SLIDESHOW —— */
+.hero-slide {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.hero-slide-active {
+  opacity: 1;
 }
 
 /* —— ANIMATIONS —— */
 .reveal {
   opacity: 1;
   transform: none;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 .js-ready .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(32px);
 }
 .js-ready .reveal.visible {
   opacity: 1;
@@ -504,22 +679,16 @@ footer {
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     NAV
-══════════════════════════════════════════════════ -->
+<!-- NAV -->
 <nav>
   <div class="container">
     <div class="nav-inner">
-
-      <!-- —— LOGO SLOT ——
-           Replace the fallback below with your Figma SVG export:
-           Right-click logo in Figma → Copy/Paste as → Copy as SVG → paste inside .logo-svg-slot
-      -->
       <a href="#" class="nav-logo">
         <div class="logo-svg-slot">
-          <!-- PASTE LOGO SVG HERE -->
-          <!-- Fallback wordmark: -->
-          <span class="logo-fallback">Liberti Lab</span>
+          <svg height="28" viewBox="395 100 680 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M401.741 229.544V131.013H420.321V212.653H465.364V229.544H401.741ZM478.031 229.544V131.013H496.611V229.544H478.031ZM512.33 229.544V213.216H525.279V147.341H512.33V131.013H563.003C569.008 131.013 574.216 132.045 578.627 134.11C583.131 136.08 586.603 138.942 589.043 142.696C591.577 146.356 592.844 150.766 592.844 155.927V157.335C592.844 161.839 591.999 165.546 590.31 168.455C588.621 171.27 586.603 173.475 584.257 175.07C582.005 176.572 579.847 177.651 577.782 178.308V180.842C579.847 181.405 582.099 182.484 584.539 184.079C586.979 185.58 589.043 187.786 590.732 190.695C592.515 193.604 593.407 197.404 593.407 202.096V203.504C593.407 208.946 592.14 213.638 589.606 217.579C587.072 221.427 583.553 224.383 579.049 226.447C574.639 228.512 569.478 229.544 563.566 229.544H512.33ZM543.86 212.653H561.314C565.349 212.653 568.586 211.668 571.026 209.697C573.56 207.726 574.826 204.911 574.826 201.252V199.844C574.826 196.184 573.607 193.369 571.167 191.398C568.727 189.428 565.443 188.443 561.314 188.443H543.86V212.653ZM543.86 171.552H561.032C564.88 171.552 568.023 170.566 570.463 168.596C572.997 166.625 574.263 163.904 574.263 160.432V159.024C574.263 155.458 573.043 152.737 570.604 150.86C568.164 148.889 564.973 147.904 561.032 147.904H543.86V171.552ZM608.617 229.544V131.013H671.958V147.904H627.197V171.411H668.017V188.302H627.197V212.653H672.803V229.544H608.617ZM686.557 229.544V131.013H729.347C735.541 131.013 740.936 132.092 745.534 134.251C750.133 136.409 753.698 139.459 756.232 143.4C758.766 147.341 760.033 151.986 760.033 157.335V159.024C760.033 164.936 758.625 169.722 755.81 173.381C752.995 177.041 749.523 179.715 745.394 181.405V183.938C749.147 184.126 752.056 185.44 754.121 187.879C756.185 190.225 757.217 193.369 757.217 197.31V229.544H738.637V199.985C738.637 197.733 738.027 195.903 736.807 194.495C735.681 193.088 733.758 192.384 731.036 192.384H705.137V229.544H686.557ZM705.137 175.493H727.377C731.787 175.493 735.212 174.32 737.652 171.974C740.186 169.534 741.452 166.343 741.452 162.402V160.995C741.452 157.053 740.233 153.91 737.793 151.564C735.353 149.124 731.881 147.904 727.377 147.904H705.137V175.493ZM796.646 229.544V147.904H767.931V131.013H843.941V147.904H815.226V229.544H796.646ZM856.594 229.544V131.013H875.174V229.544H856.594Z" fill="#FFFFFF"/>
+            <path d="M1001.5 130.219C1001.33 131.029 1001.12 131.878 1001.1 132.7C999.438 139.922 996.733 145.082 990.426 149.236C981.664 155.008 972.911 156.428 963.119 152.168C961.771 151.301 960.686 150.685 959.387 149.706C959.765 150.308 963.066 153.956 963.525 154.242C964.537 156.203 965.763 158.286 966.605 160.278C969.012 165.935 968.309 172.389 966.458 178.099C965.738 180.321 964.257 183.729 962.916 185.677C962.214 186.697 959.767 189.374 958.819 190.183C957.306 191.474 954.816 192.736 953.086 193.749C952.965 193.813 952.759 193.896 952.669 193.979C951.888 194.41 950.698 194.659 949.807 194.906C950.649 194.982 950.986 195.027 951.838 194.903C953.632 194.939 956.461 194.803 958.182 195.109C969.931 197.203 980.101 209.844 980.308 221.628C980.332 223.03 979.883 224.752 979.805 226.197C979.309 228.338 978.367 230.028 977.96 231.78C978.875 230.513 979.599 229.206 980.486 227.95C983.273 224.094 987.21 221.317 991.716 219.724C992.585 219.416 994.589 219.088 995.54 218.951C1002.81 217.903 1011.11 218.327 1017.12 223.023C1018.74 224.29 1019.89 225.24 1021.23 226.855C1021.43 227.093 1022.35 228.344 1022.42 228.404C1023.35 229.568 1023.94 231.063 1024.8 232.021C1024.5 231.229 1023.99 229.769 1023.62 229.074C1023.6 228.926 1023.18 227.373 1023.09 227.011C1022.66 225.169 1022.35 223.203 1022.34 221.299C1022.38 214.6 1025.82 208.073 1030.27 203.224C1033.95 199.218 1038.9 196.086 1044.31 195.162C1047.01 194.7 1050.05 194.985 1052.8 194.95C1040.56 191.318 1034.97 180.527 1034.48 168.355C1034.29 163.611 1036.94 156.35 1040.3 152.957C1041.23 152.089 1042.66 150.393 1043.54 149.405C1041.82 150.332 1041.44 151.179 1038.94 152.34C1037.01 153.6 1032.93 154.413 1030.71 154.582C1020.58 155.351 1008.6 149.41 1004.04 140.151C1002.87 137.791 1001.77 135.036 1001.55 132.408C1001.55 131.664 1001.55 130.963 1001.5 130.219ZM1001.85 154.823C1017.57 155.133 1030.06 168.132 1029.74 183.851C1029.42 199.569 1016.42 212.051 1000.7 211.724C984.994 211.396 972.525 198.403 972.843 182.697C973.161 166.991 986.147 154.514 1001.85 154.823Z" fill="#FFFFFF"/>
+          </svg>
         </div>
       </a>
 
@@ -527,57 +696,48 @@ footer {
         <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Studio</a></li>
         <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Services</a></li>
         <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Events</a></li>
-        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener" class="nav-cta">Follow on IG</a></li>
+        <li><a href="#signup" class="nav-cta">Connect</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-
-<!-- ═══════════════════════════════════════════════
-     HERO
-══════════════════════════════════════════════════ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-left reveal">
-        <span class="hero-tag">Jersey City, NJ — Est. 2023</span>
-        <h1 class="hero-h1">
-          Design<br>
-          <em>that</em><br>
-          builds.
-        </h1>
-        <p class="hero-desc">
-          Industrial design studio specializing in physical products, sculptural objects, and wearable hardware. We make ideas tangible.
-        </p>
-      </div>
+  <div class="hero-bg">
+    <img src="infill-frame-libertilab.jpg" alt="Liberti Lab" class="hero-slide hero-slide-active" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+    <img src="electronics-libertilab.jpg" alt="Liberti Lab" class="hero-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+  </div>
+  <div class="hero-content reveal">
 
-      <div class="hero-right reveal">
-        <!-- —— HERO IMAGE SLOT ——
-             Replace placeholder with your Figma hero asset SVG:
-             Right-click the hero image in Figma → Copy/Paste as → Copy as SVG → paste inside .hero-asset
-        -->
-        <div class="hero-asset">
-          <div class="hero-asset-placeholder">Studio Image</div>
-        </div>
-      </div>
-    </div>
+    <h1 class="hero-h1">
+      Freedom<br>
+      <em>to</em><br>
+      Create.
+    </h1>
+    <p class="hero-desc">
+      Industrial design studio specializing in physical products, sculptural objects, and wearable hardware. We make ideas tangible.
+    </p>
   </div>
 </section>
 
-
-
-
-
-<!-- ═══════════════════════════════════════════════
-     ABOUT
-══════════════════════════════════════════════════ -->
+<!-- ABOUT -->
 <section class="intro" id="about">
-  <div class="container">
-    <div class="intro-inner reveal">
-      <div class="intro-label">About the Studio</div>
+  <div class="intro-split">
+    <div class="intro-right">
+      <div class="intro-right-bottom">
+        <span class="intro-right-label">Partemis 01</span>
+        <a href="capabilities.html" class="intro-learn-btn" aria-label="Learn more about Partemis 01">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 34L34 14M34 14H16M34 14V32" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="learn-text">Learn</span>
+        </a>
+      </div>
+    </div>
+    <div class="intro-left reveal">
       <div class="intro-body">
-        <h2>Where material craft meets digital intelligence.</h2>
+        <h2>Design for all.</h2>
         <p>
           Liberti Lab is an industrial design studio and maker space in Jersey City, NJ. We prototype physical products, build wearable hardware systems, and create sculptural objects from recycled plastics.
         </p>
@@ -589,50 +749,42 @@ footer {
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════
-     SERVICES
-══════════════════════════════════════════════════ -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="container">
     <div class="services-header reveal">
-      <h2>What we do</h2>
+      <h2>Material craft meets digital intelligence.</h2>
       <span class="label">Services</span>
     </div>
     <div class="services-grid reveal">
-      <div class="service-card">
+      <article class="service-card" role="region" aria-label="Industrial Design">
         <div class="service-num">01</div>
-        <div class="service-name">Industrial Design</div>
-        <p class="service-desc">From concept sketches to production-ready CAD. Consumer electronics, medical devices, and packaging with a decade of material knowledge behind every decision.</p>
-      </div>
-      <div class="service-card">
+        <h3 class="service-name">Industrial Design</h3>
+        <p class="service-desc" aria-hidden="false">We work with clients to develop any idea from the ground up — from first sketch to production-ready CAD. Consumer electronics, medical devices, and packaging with a decade of material knowledge behind every decision.</p>
+      </article>
+      <article class="service-card" role="region" aria-label="Rapid Prototyping">
         <div class="service-num">02</div>
-        <div class="service-name">Rapid Prototyping</div>
-        <p class="service-desc">Large-format 3D printing, CNC, and embedded electronics. We build functional prototypes fast — the kind you can actually test in the real world.</p>
-      </div>
-      <div class="service-card">
+        <h3 class="service-name">Rapid Prototyping</h3>
+        <p class="service-desc" aria-hidden="false">Large-format 3D printing, CNC, and embedded electronics. We build functional prototypes fast — the kind you can actually test in the real world.</p>
+      </article>
+      <article class="service-card" role="region" aria-label="Design Objects">
         <div class="service-num">03</div>
-        <div class="service-name">Sculptural Objects</div>
-        <p class="service-desc">Limited-edition pieces from recycled plastics. The Everloop collection — Torus Ring, Infinity Form — where industrial process becomes gallery object.</p>
-      </div>
+        <h3 class="service-name">Design<br>Objects</h3>
+        <p class="service-desc" aria-hidden="false">Limited-edition pieces from recycled plastics. The Everloop collection — Torus Ring, Infinity Form — where industrial process becomes gallery object.</p>
+      </article>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════
-     EVENTS
-══════════════════════════════════════════════════ -->
+<!-- EVENTS -->
 <section class="events" id="events">
   <div class="container">
     <div class="events-header reveal">
       <div class="label">Upcoming</div>
-      <h2>Events & Exhibitions</h2>
+      <h2>Events</h2>
     </div>
 
     <div class="events-list reveal">
-
-      <!-- UPCOMING EVENT -->
       <div class="event-row">
         <div class="event-date">Apr 18, 2026</div>
         <div class="event-info">
@@ -645,20 +797,16 @@ footer {
             — Hoboken, NJ
           </div>
         </div>
-        <a href="https://www.gardenstateartweekend.org" target="_blank" rel="noopener" class="event-tag event-more">More Info →</a>
+        <div class="event-buttons">
+          <a href="https://www.projectstudiosllc.com/" target="_blank" rel="noopener" class="event-tag">Project Studios</a>
+          <a href="https://www.gardenstateartweekend.org" target="_blank" rel="noopener" class="event-tag">GSAW 26</a>
+        </div>
       </div>
-
     </div>
   </div>
 </section>
 
-
-
-
-
-<!-- ═══════════════════════════════════════════════
-     EMAIL SIGNUP
-══════════════════════════════════════════════════ -->
+<!-- EMAIL SIGNUP -->
 <section class="signup" id="signup">
   <div class="container">
     <div class="signup-inner">
@@ -681,36 +829,49 @@ footer {
           </div>
           <p class="signup-note" id="signup-msg">No spam. Unsubscribe anytime.</p>
         </form>
+        <div class="connect-buttons">
+          <a href="https://cal.com/liberti-lab/schedule-a-call" target="_blank" rel="noopener" class="connect-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Schedule a Call
+          </a>
+          <a href="https://cal.com/liberti-lab/schedule-a-visit" target="_blank" rel="noopener" class="connect-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Schedule a Visit
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- STAR ICON SECTION -->
+<section class="star-section">
+  <div class="star-icon-large">
+    <svg viewBox="920 95 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1001.5 130.219C1001.33 131.029 1001.12 131.878 1001.1 132.7C999.438 139.922 996.733 145.082 990.426 149.236C981.664 155.008 972.911 156.428 963.119 152.168C961.771 151.301 960.686 150.685 959.387 149.706C959.765 150.308 963.066 153.956 963.525 154.242C964.537 156.203 965.763 158.286 966.605 160.278C969.012 165.935 968.309 172.389 966.458 178.099C965.738 180.321 964.257 183.729 962.916 185.677C962.214 186.697 959.767 189.374 958.819 190.183C957.306 191.474 954.816 192.736 953.086 193.749C952.965 193.813 952.759 193.896 952.669 193.979C951.888 194.41 950.698 194.659 949.807 194.906C950.649 194.982 950.986 195.027 951.838 194.903C953.632 194.939 956.461 194.803 958.182 195.109C969.931 197.203 980.101 209.844 980.308 221.628C980.332 223.03 979.883 224.752 979.805 226.197C979.309 228.338 978.367 230.028 977.96 231.78C978.875 230.513 979.599 229.206 980.486 227.95C983.273 224.094 987.21 221.317 991.716 219.724C992.585 219.416 994.589 219.088 995.54 218.951C1002.81 217.903 1011.11 218.327 1017.12 223.023C1018.74 224.29 1019.89 225.24 1021.23 226.855C1021.43 227.093 1022.35 228.344 1022.42 228.404C1023.35 229.568 1023.94 231.063 1024.8 232.021C1024.5 231.229 1023.99 229.769 1023.62 229.074C1023.6 228.926 1023.18 227.373 1023.09 227.011C1022.66 225.169 1022.35 223.203 1022.34 221.299C1022.38 214.6 1025.82 208.073 1030.27 203.224C1033.95 199.218 1038.9 196.086 1044.31 195.162C1047.01 194.7 1050.05 194.985 1052.8 194.95C1040.56 191.318 1034.97 180.527 1034.48 168.355C1034.29 163.611 1036.94 156.35 1040.3 152.957C1041.23 152.089 1042.66 150.393 1043.54 149.405C1041.82 150.332 1041.44 151.179 1038.94 152.34C1037.01 153.6 1032.93 154.413 1030.71 154.582C1020.58 155.351 1008.6 149.41 1004.04 140.151C1002.87 137.791 1001.77 135.036 1001.55 132.408C1001.55 131.664 1001.55 130.963 1001.5 130.219ZM1001.85 154.823C1017.57 155.133 1030.06 168.132 1029.74 183.851C1029.42 199.569 1016.42 212.051 1000.7 211.724C984.994 211.396 972.525 198.403 972.843 182.697C973.161 166.991 986.147 154.514 1001.85 154.823Z" fill="rgba(255,255,255,0.04)"/>
+    </svg>
+  </div>
+</section>
 
-<!-- ═══════════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-logo">Liberti Lab</div>
-      <ul class="footer-links">
-        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Studio</a></li>
-        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Services</a></li>
-        <li><a href="https://instagram.com/libertilab" target="_blank" rel="noopener">Events</a></li>
-        <li><a href="mailto:hello@libertilab.com">Contact</a></li>
-      </ul>
-      <div style="text-align:right;">
-        <span class="footer-copy" style="display:block;">98 Forrest St, Jersey City, NJ</span>
+      <div>
+        <div class="footer-logo">Liberti Lab</div>
+        <span class="footer-copy" style="display:block; margin-top:8px;">98 Forrest St, Jersey City, NJ</span>
         <span class="footer-copy" style="display:block; margin-top:4px;">© 2025 Liberti Lab</span>
+      </div>
+      <div style="text-align:right;">
+        <span class="footer-copy" style="display:block;"><a href="tel:+12012105178" style="color:var(--white);text-decoration:none;">201-210-5178</a></span>
+        <span class="footer-copy" style="display:block; margin-top:4px;">Studio Hours: 12–6pm Daily</span>
+        <span class="footer-copy" style="display:block; margin-top:2px;">Visits by appointment only</span>
       </div>
     </div>
   </div>
 </footer>
 
-
 <script>
-// —— SCROLL REVEAL ——
 document.body.classList.add('js-ready');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -722,12 +883,19 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// —— SIGNUP ——
+// —— HERO SLIDESHOW ——
+const slides = document.querySelectorAll('.hero-slide');
+let current = 0;
+setInterval(() => {
+  slides[current].classList.remove('hero-slide-active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('hero-slide-active');
+}, 2000);
+
 function handleSignup(e) {
   e.preventDefault();
   const msg = document.getElementById('signup-msg');
   const input = document.getElementById('email-input');
-  // Wire to Mailchimp / ConvertKit endpoint here
   msg.textContent = "You're in. Watch for studio updates.";
   msg.classList.add('success');
   input.value = '';
