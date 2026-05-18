@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capabilities — Liberti Lab</title>
+<meta name="description" content="Liberti Lab capabilities: large-format 3D printing with the Partemis 01, industrial design, rapid prototyping, and design objects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --gray-100: #F5F5F5;
+  --gray-200: #E8E8E8;
+  --gray-400: #A0A0A0;
+  --gray-600: #5A5A5A;
+  --cobalt: #210FEA;
+  --ff: 'Space Grotesk', sans-serif;
+  --max: 1200px;
+  --pad: clamp(24px, 5vw, 80px);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  background: var(--black);
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+/* —— NAV —— */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: var(--cobalt);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  pointer-events: none;
+  z-index: 0;
+}
+nav > * {
+  position: relative;
+  z-index: 1;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  text-decoration: none;
+  color: var(--white);
+}
+.logo-svg-slot {
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+.logo-svg-slot svg { height: 42px; width: auto; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-back {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-back:hover { color: var(--white); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* —— HERO —— */
+.cap-hero {
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: url('partemis.png') center/cover no-repeat;
+}
+.cap-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.3) 50%, transparent 80%);
+}
+.cap-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--pad) clamp(60px, 8vw, 100px);
+  max-width: var(--max);
+  margin: 0 auto;
+  width: 100%;
+}
+.cap-hero-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 20px;
+}
+.cap-hero-h1 {
+  font-size: clamp(48px, 8vw, 100px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.cap-hero-desc {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+}
+
+/* —— SPECS —— */
+.specs {
+  padding: clamp(100px, 12vw, 180px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.specs-header {
+  margin-bottom: 60px;
+}
+.specs-header .label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 16px;
+}
+.specs-header h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(33,15,234,0.2);
+}
+@media (max-width: 768px) { .specs-grid { grid-template-columns: 1fr; } }
+.spec-card {
+  padding: 48px 36px;
+  border-right: 1px solid rgba(33,15,234,0.2);
+}
+.spec-card:last-child { border-right: none; }
+@media (max-width: 768px) {
+  .spec-card { border-right: none; border-bottom: 1px solid rgba(33,15,234,0.2); }
+  .spec-card:last-child { border-bottom: none; }
+}
+.spec-value {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.spec-label {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+
+/* —— CAPABILITIES LIST —— */
+.cap-list {
+  padding: clamp(100px, 12vw, 180px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.cap-list-header {
+  margin-bottom: 60px;
+}
+.cap-list-header .label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 16px;
+}
+.cap-list-header h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.cap-items {
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+.cap-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 32px;
+  align-items: start;
+  padding: 36px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+@media (max-width: 640px) { .cap-item { grid-template-columns: 1fr; gap: 12px; } }
+.cap-item-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--cobalt);
+  padding-top: 4px;
+}
+.cap-item-name {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.cap-item-desc {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+  max-width: 600px;
+}
+
+/* —— CTA —— */
+.cap-cta {
+  padding: clamp(100px, 12vw, 180px) 0;
+  text-align: center;
+}
+.cap-cta h2 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 32px;
+}
+.cap-cta h2 em {
+  font-style: normal;
+  font-weight: 300;
+}
+.cap-cta-btn {
+  display: inline-block;
+  background: var(--cobalt);
+  color: var(--white);
+  text-decoration: none;
+  padding: 16px 40px;
+  font-family: var(--ff);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.3s;
+}
+.cap-cta-btn:hover { background: #3D2EF5; }
+
+/* —— FOOTER —— */
+footer {
+  padding: 48px 0;
+  background: var(--black);
+  color: var(--white);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.footer-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--white); }
+.footer-copy {
+  font-size: 11px;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.04em;
+}
+
+/* —— ANIMATIONS —— */
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.js-ready .reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="liberti-lab.html" class="nav-logo">
+        <div class="logo-svg-slot">
+          <svg height="42" viewBox="395 100 680 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M401.741 229.544V131.013H420.321V212.653H465.364V229.544H401.741ZM478.031 229.544V131.013H496.611V229.544H478.031ZM512.33 229.544V213.216H525.279V147.341H512.33V131.013H563.003C569.008 131.013 574.216 132.045 578.627 134.11C583.131 136.08 586.603 138.942 589.043 142.696C591.577 146.356 592.844 150.766 592.844 155.927V157.335C592.844 161.839 591.999 165.546 590.31 168.455C588.621 171.27 586.603 173.475 584.257 175.07C582.005 176.572 579.847 177.651 577.782 178.308V180.842C579.847 181.405 582.099 182.484 584.539 184.079C586.979 185.58 589.043 187.786 590.732 190.695C592.515 193.604 593.407 197.404 593.407 202.096V203.504C593.407 208.946 592.14 213.638 589.606 217.579C587.072 221.427 583.553 224.383 579.049 226.447C574.639 228.512 569.478 229.544 563.566 229.544H512.33ZM543.86 212.653H561.314C565.349 212.653 568.586 211.668 571.026 209.697C573.56 207.726 574.826 204.911 574.826 201.252V199.844C574.826 196.184 573.607 193.369 571.167 191.398C568.727 189.428 565.443 188.443 561.314 188.443H543.86V212.653ZM543.86 171.552H561.032C564.88 171.552 568.023 170.566 570.463 168.596C572.997 166.625 574.263 163.904 574.263 160.432V159.024C574.263 155.458 573.043 152.737 570.604 150.86C568.164 148.889 564.973 147.904 561.032 147.904H543.86V171.552ZM608.617 229.544V131.013H671.958V147.904H627.197V171.411H668.017V188.302H627.197V212.653H672.803V229.544H608.617ZM686.557 229.544V131.013H729.347C735.541 131.013 740.936 132.092 745.534 134.251C750.133 136.409 753.698 139.459 756.232 143.4C758.766 147.341 760.033 151.986 760.033 157.335V159.024C760.033 164.936 758.625 169.722 755.81 173.381C752.995 177.041 749.523 179.715 745.394 181.405V183.938C749.147 184.126 752.056 185.44 754.121 187.879C756.185 190.225 757.217 193.369 757.217 197.31V229.544H738.637V199.985C738.637 197.733 738.027 195.903 736.807 194.495C735.681 193.088 733.758 192.384 731.036 192.384H705.137V229.544H686.557ZM705.137 175.493H727.377C731.787 175.493 735.212 174.32 737.652 171.974C740.186 169.534 741.452 166.343 741.452 162.402V160.995C741.452 157.053 740.233 153.91 737.793 151.564C735.353 149.124 731.881 147.904 727.377 147.904H705.137V175.493ZM796.646 229.544V147.904H767.931V131.013H843.941V147.904H815.226V229.544H796.646ZM856.594 229.544V131.013H875.174V229.544H856.594Z" fill="#FFFFFF"/>
+            <path d="M1001.5 130.219C1001.33 131.029 1001.12 131.878 1001.1 132.7C999.438 139.922 996.733 145.082 990.426 149.236C981.664 155.008 972.911 156.428 963.119 152.168C961.771 151.301 960.686 150.685 959.387 149.706C959.765 150.308 963.066 153.956 963.525 154.242C964.537 156.203 965.763 158.286 966.605 160.278C969.012 165.935 968.309 172.389 966.458 178.099C965.738 180.321 964.257 183.729 962.916 185.677C962.214 186.697 959.767 189.374 958.819 190.183C957.306 191.474 954.816 192.736 953.086 193.749C952.965 193.813 952.759 193.896 952.669 193.979C951.888 194.41 950.698 194.659 949.807 194.906C950.649 194.982 950.986 195.027 951.838 194.903C953.632 194.939 956.461 194.803 958.182 195.109C969.931 197.203 980.101 209.844 980.308 221.628C980.332 223.03 979.883 224.752 979.805 226.197C979.309 228.338 978.367 230.028 977.96 231.78C978.875 230.513 979.599 229.206 980.486 227.95C983.273 224.094 987.21 221.317 991.716 219.724C992.585 219.416 994.589 219.088 995.54 218.951C1002.81 217.903 1011.11 218.327 1017.12 223.023C1018.74 224.29 1019.89 225.24 1021.23 226.855C1021.43 227.093 1022.35 228.344 1022.42 228.404C1023.35 229.568 1023.94 231.063 1024.8 232.021C1024.5 231.229 1023.99 229.769 1023.62 229.074C1023.6 228.926 1023.18 227.373 1023.09 227.011C1022.66 225.169 1022.35 223.203 1022.34 221.299C1022.38 214.6 1025.82 208.073 1030.27 203.224C1033.95 199.218 1038.9 196.086 1044.31 195.162C1047.01 194.7 1050.05 194.985 1052.8 194.95C1040.56 191.318 1034.97 180.527 1034.48 168.355C1034.29 163.611 1036.94 156.35 1040.3 152.957C1041.23 152.089 1042.66 150.393 1043.54 149.405C1041.82 150.332 1041.44 151.179 1038.94 152.34C1037.01 153.6 1032.93 154.413 1030.71 154.582C1020.58 155.351 1008.6 149.41 1004.04 140.151C1002.87 137.791 1001.77 135.036 1001.55 132.408C1001.55 131.664 1001.55 130.963 1001.5 130.219ZM1001.85 154.823C1017.57 155.133 1030.06 168.132 1029.74 183.851C1029.42 199.569 1016.42 212.051 1000.7 211.724C984.994 211.396 972.525 198.403 972.843 182.697C973.161 166.991 986.147 154.514 1001.85 154.823Z" fill="#FFFFFF"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="liberti-lab.html" class="nav-back">← Back</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="cap-hero">
+  <div class="cap-hero-content reveal">
+    <div class="cap-hero-label">Capabilities</div>
+    <h1 class="cap-hero-h1">Partemis 01</h1>
+    <p class="cap-hero-desc">
+      Large-format additive manufacturing. 800mm build volume. From concept to physical object in hours, not weeks.
+    </p>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="specs">
+  <div class="container">
+    <div class="specs-header reveal">
+      <h2>Design Unlimited.</h2>
+    </div>
+<div class="specs-grid reveal">
+      <div class="spec-card">
+        <div class="spec-value">800x800x1000</div>
+        <div class="spec-label">Full build volume in mm. Print massive objects in a single run.</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-value">2.4mm</div>
+        <div class="spec-label">Wide nozzle for rapid deposition. 10x faster than standard FDM.</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-value">48hr</div>
+        <div class="spec-label">Concept to physical prototype. Overnight builds for production deadlines.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES LIST -->
+<section class="cap-list">
+  <div class="container">
+    <div class="cap-list-header reveal">
+      <div class="label">What We Build</div>
+      <h2>Applications</h2>
+    </div>
+    <div class="cap-items reveal">
+      <div class="cap-item">
+        <div class="cap-item-num">01</div>
+        <div>
+          <div class="cap-item-name">Event Props & Experiential Marketing</div>
+          <div class="cap-item-desc">Giant branded logos, oversized product replicas, and structural elements for trade shows, launch parties, and corporate events across NYC and NJ.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-item-num">02</div>
+        <div>
+          <div class="cap-item-name">Architectural Molds</div>
+          <div class="cap-item-desc">Complex molds for custom concrete planters, fire pits, sinks, and wall panels. Printed in PETG for high-end contractors and landscape architects.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-item-num">03</div>
+        <div>
+          <div class="cap-item-name">Film & Theatrical Set Pieces</div>
+          <div class="cap-item-desc">Lightweight, large-scale props for NJ's growing film industry. Sci-fi panels, creature armatures, architectural elements — built to meet production schedules.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-item-num">04</div>
+        <div>
+          <div class="cap-item-name">Bespoke Furniture & Objects</div>
+          <div class="cap-item-desc">Parametric coffee table bases, ribbed planters, and statement pieces for interior designers. Locally manufactured, sustainable polymer furniture.</div>
+        </div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-item-num">05</div>
+        <div>
+          <div class="cap-item-name">Visual Merchandising</div>
+          <div class="cap-item-desc">Seasonal window displays and retail installations for high-end boutiques. Giant parametric forms, abstract mannequins, and thematic structures.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cap-cta">
+  <div class="container reveal">
+    <h2>Have a<br><em>project?</em></h2>
+    <a href="liberti-lab.html#signup" class="cap-cta-btn">Get in Touch →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Liberti Lab</div>
+      <ul class="footer-links">
+        <li><a href="liberti-lab.html">Home</a></li>
+        <li><a href="liberti-lab.html#services">Services</a></li>
+        <li><a href="liberti-lab.html#events">Events</a></li>
+        <li><a href="mailto:hello@liberti-lab.com">Contact</a></li>
+      </ul>
+      <div style="text-align:right;">
+        <span class="footer-copy" style="display:block;">98 Forrest St, Jersey City, NJ</span>
+        <span class="footer-copy" style="display:block; margin-top:4px;">© 2025 Liberti Lab</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.body.classList.add('js-ready');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
