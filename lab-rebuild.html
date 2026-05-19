@@ -185,6 +185,40 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   background: var(--cobalt);
   transform: scale(1.2);
 }
+.slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+  padding: 0;
+  opacity: 0.55;
+  transition: opacity 0.25s, background 0.25s, color 0.25s, transform 0.25s;
+}
+.slideshow:hover .slideshow-arrow { opacity: 1; }
+.slideshow-arrow:hover {
+  background: var(--cobalt);
+  color: var(--white);
+  border-color: var(--cobalt);
+}
+.slideshow-arrow.prev { left: 14px; }
+.slideshow-arrow.next { right: 14px; }
+.slideshow-arrow svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
 
 /* Services section (rebuilt from Figma) */
 .services-block {
@@ -605,6 +639,12 @@ h1 em {
       <img class="slide" src="images/lab-light.jpg" alt="Pair of 3D-printed LED light bars &mdash; one off, one glowing blue" loading="lazy" />
       <img class="slide" src="images/lab-light-wall.jpg" alt="3D-printed LED light bar wall-mounted, glowing teal" loading="lazy" />
       <img class="slide" src="images/lab-electronics.jpg" alt="Electronics workbench &mdash; soldering PCBs, microcontrollers, and custom hardware components" loading="lazy" />
+      <button class="slideshow-arrow prev" id="labSlideshowPrev" aria-label="Previous slide" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="slideshow-arrow next" id="labSlideshowNext" aria-label="Next slide" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
       <div class="slideshow-dots" id="labSlideshowDots"></div>
     </div>
   </figure>
@@ -830,6 +870,10 @@ h1 em {
 
   root.addEventListener('mouseenter', () => paused = true);
   root.addEventListener('mouseleave', () => paused = false);
+
+  // Arrow controls
+  document.getElementById('labSlideshowPrev')?.addEventListener('click', () => go(idx - 1));
+  document.getElementById('labSlideshowNext')?.addEventListener('click', () => go(idx + 1));
 })();
 </script>
 
