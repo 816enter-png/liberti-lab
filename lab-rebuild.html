@@ -451,6 +451,75 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   border-color: var(--black);
 }
 
+/* Partemis 01 — large-format capability showcase */
+.partemis {
+  margin: 48px 0 8px;
+}
+.partemis-photo {
+  border: 3px solid var(--cobalt);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.partemis-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.partemis-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 8px;
+}
+.partemis h2 {
+  font-size: clamp(34px, 6vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: var(--black);
+  margin-bottom: 14px;
+}
+.partemis-desc {
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.65);
+  max-width: 520px;
+  margin-bottom: 28px;
+}
+.partemis-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid var(--cobalt);
+}
+@media (max-width: 600px) { .partemis-specs { grid-template-columns: 1fr; } }
+.partemis-spec {
+  padding: 24px 20px;
+  border-right: 2px solid var(--cobalt);
+}
+.partemis-spec:last-child { border-right: 0; }
+@media (max-width: 600px) {
+  .partemis-spec { border-right: 0; border-bottom: 2px solid var(--cobalt); }
+  .partemis-spec:last-child { border-bottom: 0; }
+}
+.partemis-spec-value {
+  font-size: clamp(24px, 3.2vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.partemis-spec-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(0,0,0,0.6);
+}
+
 /* Tag */
 .tag {
   display: inline-block;
@@ -762,6 +831,29 @@ h1 em {
     <span class="dot" aria-hidden="true"></span>
     <span>Studio open &middot; 9am&ndash;6pm Mon&ndash;Fri</span>
   </div>
+
+  <section class="partemis">
+    <figure class="partemis-photo">
+      <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
+    </figure>
+    <p class="partemis-label">Capabilities</p>
+    <h2>Partemis 01</h2>
+    <p class="partemis-desc">Large-format additive manufacturing. 800&nbsp;mm build volume. From concept to physical object in hours, not weeks.</p>
+    <div class="partemis-specs">
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">800&times;800&times;1000</div>
+        <div class="partemis-spec-label">Full build volume in mm. Print massive objects in a single run.</div>
+      </div>
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">2.4&nbsp;mm</div>
+        <div class="partemis-spec-label">Wide nozzle for rapid deposition. 10&times; faster than standard FDM.</div>
+      </div>
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">48&nbsp;hr</div>
+        <div class="partemis-spec-label">Concept to physical prototype. Overnight builds for production deadlines.</div>
+      </div>
+    </div>
+  </section>
 
   <div class="card-footer">
     <div class="footer-row">
