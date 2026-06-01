@@ -455,6 +455,103 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   border-color: var(--black);
 }
 
+/* Work / Projects grid */
+.work-section { margin: 48px 0 56px; }
+.work-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.work-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 8px;
+}
+.work-header h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--black);
+}
+.work-see-all {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.work-see-all:hover { color: var(--black); }
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 700px) { .work-grid { grid-template-columns: 1fr; } }
+.work-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.6);
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.work-card:hover {
+  border-color: var(--cobalt);
+  transform: translateY(-2px);
+}
+.work-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #0A0A0A;
+  overflow: hidden;
+}
+.work-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.work-body { padding: 18px 18px 22px; }
+.work-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.55);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.work-cat { color: var(--black); }
+.work-tech { color: var(--cobalt); }
+.work-title {
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+.work-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(0,0,0,0.65);
+}
+
 /* Partemis 01 — large-format capability showcase */
 .partemis {
   margin: 48px 0 8px;
@@ -755,6 +852,55 @@ h1 em {
       <p>For Same-Day Delivery</p>
     </div>
   </div>
+
+  <section class="work-section">
+    <div class="work-header">
+      <div>
+        <div class="work-eyebrow">Our work</div>
+        <h2>Projects we&rsquo;ve made.</h2>
+      </div>
+      <a href="mailto:hello@liberti-lab.com?subject=Tell%20me%20more%20about%20your%20past%20work" class="work-see-all">See more &rarr;</a>
+    </div>
+
+    <div class="work-grid">
+      <!-- TODO: swap title/desc + image when full case studies are ready -->
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Furniture</span><span class="work-tech">FDM</span></div>
+          <h3 class="work-title">Saddle Prototype for Modular Seating</h3>
+          <p class="work-desc">Snap-on 3D-printed seat for a tubular steel frame &mdash; rapid prototype, no tooling.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Lighting</span><span class="work-tech">FDM &middot; Translucent</span></div>
+          <h3 class="work-title">Wall-Mounted Ambient Light Fixture</h3>
+          <p class="work-desc">Custom LED bar housing in translucent PLA with diffuser channel and slim mount profile.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-electronics.jpg" alt="Custom electronics workbench with PCBs and microcontrollers" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Hardware</span><span class="work-tech">PCB + Enclosure</span></div>
+          <h3 class="work-title">Custom Microcontroller Enclosure</h3>
+          <p class="work-desc">Compact housing for an ESP32-based controller with snap-fit lid and USB cutout.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Tooling</span><span class="work-tech">Lathe + 3D Print</span></div>
+          <h3 class="work-title">Hybrid Steel + Polymer Jig</h3>
+          <p class="work-desc">Mixed-material production jig &mdash; steel for accuracy, printed soft jaws for grip.</p>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <div class="tiers-header">
     <span class="label">Lab Pass</span>
