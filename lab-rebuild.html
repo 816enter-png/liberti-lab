@@ -95,18 +95,22 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(40px, 5vw, 64px) clamp(28px, 5vw, 64px);
+  /* Full-width frost band; content stays in a 1180px centered column via padding-calc */
+  padding-top: clamp(40px, 5vw, 64px);
+  padding-bottom: clamp(40px, 5vw, 64px);
+  padding-left: max(28px, calc((100% - 1180px) / 2));
+  padding-right: max(28px, calc((100% - 1180px) / 2));
   position: relative;
   z-index: 1;
-  max-width: 1180px;
-  margin: 24px auto;
-  width: calc(100% - 32px);
+  width: 100%;
+  max-width: none;
+  margin: 0;
   pointer-events: none; /* let hover pass through to wave shapes */
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: none;
-  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.06);
 }
 main > * { pointer-events: auto; } /* re-enable on actual content */
 
