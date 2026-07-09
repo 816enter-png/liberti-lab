@@ -105,13 +105,21 @@ main {
   max-width: none;
   margin: 0;
   pointer-events: none; /* let hover pass through to wave shapes */
+  background: transparent; /* frost handled by full-viewport .frost layer */
+  border: none;
+}
+main > * { pointer-events: auto; } /* re-enable on actual content */
+
+/* Full-viewport frosted sheet — covers the entire page over the wave */
+.frost {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* let cursor still reach wave shapes */
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: none;
-  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.06);
 }
-main > * { pointer-events: auto; } /* re-enable on actual content */
 
 /* ===== Top nav (fixed glass bar) ===== */
 .topnav {
@@ -950,6 +958,9 @@ h1 em {
     <g id="wave-grid"></g>
   </svg>
 </div>
+
+<!-- Full-viewport frosted sheet over the animated wave -->
+<div class="frost" aria-hidden="true"></div>
 
 <nav class="topnav" aria-label="Main">
   <a href="#top" class="topnav-logo"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
