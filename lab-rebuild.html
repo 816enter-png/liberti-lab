@@ -729,14 +729,25 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 .partemis {
   margin-bottom: 8px;
 }
+.partemis-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 640px) { .partemis-photos { grid-template-columns: 1fr; } }
 .partemis-photo {
   border: 3px solid var(--cobalt);
   overflow: hidden;
-  margin-bottom: 24px;
+  margin: 0;
+  aspect-ratio: 1 / 1;
+  background: rgba(255,255,255,0.5);
 }
 .partemis-photo img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   display: block;
 }
 .partemis-label {
@@ -1068,9 +1079,14 @@ h1 em {
     <p class="partemis-label">The flagship machine</p>
     <h2>Partemis 01</h2>
     <p class="partemis-desc">Large-format additive manufacturing. 800&nbsp;mm build volume. From concept to physical object in hours, not weeks &mdash; the machine desktop printers can&rsquo;t compete with.</p>
-    <figure class="partemis-photo">
-      <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
-    </figure>
+    <div class="partemis-photos">
+      <figure class="partemis-photo">
+        <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
+      </figure>
+      <figure class="partemis-photo">
+        <img src="images/lab-fifa-trophy.jpg" alt="Large 3D-printed World Cup trophy made at Liberti Lab" loading="lazy" />
+      </figure>
+    </div>
     <div class="partemis-specs">
       <div class="partemis-spec">
         <div class="partemis-spec-value">800&times;800&times;1000</div>
