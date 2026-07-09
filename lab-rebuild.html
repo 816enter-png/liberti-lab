@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liberti Lab — Updates Coming Soon</title>
-<meta name="description" content="Liberti Lab is rebuilding the studio site. New membership program, new capabilities, new ways to make. Back soon. Jersey City, NJ.">
-<meta name="robots" content="noindex, follow">
+<title>Liberti Lab — Design + Prototyping Studio | Jersey City, NJ</title>
+<meta name="description" content="Liberti Lab is a design + fabrication studio in Jersey City. Custom CAD, functional prototypes, large-format 3D printing up to 800×800×1000mm, and same-day parts. Lab Pass membership for makers and hardware founders.">
 <link rel="canonical" href="https://liberti-lab.com">
-<meta property="og:title" content="Liberti Lab — Updates Coming Soon">
-<meta property="og:description" content="Liberti Lab. Design, fabrication, and membership in Jersey City.">
+<meta property="og:title" content="Liberti Lab — Design + Prototyping Studio, Jersey City">
+<meta property="og:description" content="Concept to physical part — fast. Custom CAD, prototyping, and large-format 3D printing in Jersey City.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -96,7 +95,7 @@ main {
   flex-direction: column;
   justify-content: center;
   /* Full-width frost band; content stays in a 1180px centered column via padding-calc */
-  padding-top: clamp(40px, 5vw, 64px);
+  padding-top: calc(clamp(40px, 5vw, 64px) + 54px); /* + fixed nav height */
   padding-bottom: clamp(40px, 5vw, 64px);
   padding-left: max(28px, calc((100% - 1180px) / 2));
   padding-right: max(28px, calc((100% - 1180px) / 2));
@@ -113,6 +112,172 @@ main {
   box-shadow: 0 12px 60px rgba(0, 0, 0, 0.06);
 }
 main > * { pointer-events: auto; } /* re-enable on actual content */
+
+/* ===== Top nav (fixed glass bar) ===== */
+.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 13px max(28px, calc((100% - 1180px) / 2));
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.topnav-logo img { height: 28px; width: auto; display: block; }
+.topnav-links { display: flex; gap: 28px; }
+.topnav-links a {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.topnav-links a:hover { color: var(--cobalt); }
+.topnav-cta {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  background: var(--cobalt);
+  padding: 11px 20px;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+.topnav-cta:hover { background: #3D2EF5; transform: translateY(-1px); }
+@media (max-width: 760px) {
+  .topnav-links { display: none; }
+}
+
+/* Anchor offsets under fixed nav */
+#services, #work, #lab-pass, #contact { scroll-margin-top: 76px; }
+
+/* ===== Hero ===== */
+.hero { padding: clamp(20px, 4vw, 48px) 0 clamp(16px, 3vw, 32px); }
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 20px;
+}
+.hero-sub {
+  font-size: clamp(16px, 1.8vw, 19px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.7);
+  max-width: 620px;
+  margin: 22px 0 32px;
+}
+.hero-sub strong { font-weight: 600; color: var(--black); }
+.hero .ctas { margin-bottom: 26px; }
+.hero .status { margin-bottom: 8px; }
+
+/* ===== Quick facts strip ===== */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid var(--cobalt);
+  margin: clamp(28px, 4vw, 44px) 0 0;
+}
+.fact { padding: 18px 20px; border-right: 2px solid var(--cobalt); }
+.fact:last-child { border-right: 0; }
+@media (max-width: 640px) {
+  .facts { grid-template-columns: 1fr; }
+  .fact { border-right: 0; border-bottom: 2px solid var(--cobalt); }
+  .fact:last-child { border-bottom: 0; }
+}
+.fact-value {
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.fact-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(0,0,0,0.6);
+  margin-top: 5px;
+}
+
+/* ===== Section rhythm ===== */
+.section {
+  margin-top: clamp(56px, 7vw, 88px);
+  padding-top: clamp(36px, 5vw, 56px);
+  border-top: 1px solid rgba(0,0,0,0.10);
+}
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 8px;
+}
+.section-h2 {
+  font-size: clamp(26px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--black);
+  margin-bottom: 22px;
+}
+
+/* ===== Process strip ===== */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 860px) { .process-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .process-grid { grid-template-columns: 1fr; } }
+.process-step {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.6);
+  padding: 22px 20px;
+}
+.process-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cobalt);
+  margin-bottom: 12px;
+}
+.process-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.process-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.65);
+}
+
+/* ===== Contact section ===== */
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 32px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(0,0,0,0.7);
+  margin-top: 22px;
+}
 
 /* Lab logo lockup */
 .logo {
@@ -228,7 +393,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 
 /* Services section (rebuilt from Figma) */
 .services-block {
-  margin: 32px 0 40px;
+  margin-bottom: 8px;
 }
 .services-grid {
   display: grid;
@@ -299,7 +464,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 
 /* Lab Pass membership tiers */
 .tiers-header {
-  margin: 40px 0 18px;
+  margin-bottom: 18px;
   text-align: center;
 }
 .tiers-header .label {
@@ -456,7 +621,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 
 /* Work / Projects grid */
-.work-section { margin: 48px 0 56px; }
+.work-section { margin-bottom: 8px; }
 .work-header {
   display: flex;
   align-items: baseline;
@@ -554,7 +719,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 
 /* Partemis 01 — large-format capability showcase */
 .partemis {
-  margin: 48px 0 8px;
+  margin-bottom: 8px;
 }
 .partemis-photo {
   border: 3px solid var(--cobalt);
@@ -786,26 +951,60 @@ h1 em {
   </svg>
 </div>
 
-<main>
-  <!-- Lab logo (Figma export) -->
-  <div class="logo">
-    <img src="images/lab-logo.svg" alt="Liberti Lab" />
+<nav class="topnav" aria-label="Main">
+  <a href="#top" class="topnav-logo"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <div class="topnav-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#lab-pass">Lab Pass</a>
+    <a href="#contact">Contact</a>
   </div>
+  <a class="topnav-cta" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
+</nav>
 
-  <h1>Liberti<br><em>Lab.</em></h1>
+<main id="top">
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">Jersey City &middot; Design + Prototyping Studio</p>
+    <h1>Concept<br><em>to part. Fast.</em></h1>
+    <p class="hero-sub">
+      Liberti Lab is a design + fabrication studio in Jersey City. Custom CAD, functional prototypes, and large-format 3D printing &mdash; from napkin sketch to physical part, with <strong>same-day turnaround</strong> on small prints.
+    </p>
+    <div class="ctas">
+      <a class="cta primary" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Book a call
+      </a>
+      <a class="cta" href="mailto:hello@liberti-lab.com?subject=Project%20inquiry%20%E2%80%94%20liberti-lab.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email the lab
+      </a>
+    </div>
+    <div class="status">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Studio open &middot; 9am&ndash;6pm Mon&ndash;Fri &middot; 98 Forrest St, Jersey City</span>
+    </div>
 
-  <p class="lede">
-    A new site incoming and new ways to make are on the way. The studio is still open in Jersey City &mdash; reach out anytime.
-  </p>
-
-  <figure class="lab-photo">
-    <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio &mdash; large-format printer and the print rack with desktop printers and filament spools" />
-  </figure>
-  <p class="lab-photo-caption">Inside the lab &middot; Jersey City</p>
+    <div class="facts">
+      <div class="fact">
+        <div class="fact-value">800&times;800&times;1000&nbsp;mm</div>
+        <div class="fact-label">Large-format build volume &mdash; the Partemis 01</div>
+      </div>
+      <div class="fact">
+        <div class="fact-value">Same-day</div>
+        <div class="fact-label">Small printed parts &amp; local delivery</div>
+      </div>
+      <div class="fact">
+        <div class="fact-value">End-to-end</div>
+        <div class="fact-label">CAD &middot; prototype &middot; low-volume production</div>
+      </div>
+    </div>
+  </header>
 
   <figure class="lab-photo">
     <div class="slideshow" id="labSlideshow">
-      <img class="slide active" src="images/lab-metalwork.jpg" alt="Hands-on metalwork at the Liberti Lab &mdash; using a vise and machinist tools at the lathe bench" />
+      <img class="slide active" src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio &mdash; large-format printer and the print rack with desktop printers and filament spools" />
+      <img class="slide" src="images/lab-metalwork.jpg" alt="Hands-on metalwork at the Liberti Lab &mdash; using a vise and machinist tools at the lathe bench" loading="lazy" />
       <img class="slide" src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame &mdash; furniture prototype" loading="lazy" />
       <img class="slide" src="images/lab-bench-detail.jpg" alt="Close-up detail of the 3D-printed clip-on geometry on the saddle seat" loading="lazy" />
       <img class="slide" src="images/lab-light.jpg" alt="Pair of 3D-printed LED light bars &mdash; one off, one glowing blue" loading="lazy" />
@@ -820,9 +1019,11 @@ h1 em {
       <div class="slideshow-dots" id="labSlideshowDots"></div>
     </div>
   </figure>
-  <p class="lab-photo-caption">From the bench &middot; what we make</p>
+  <p class="lab-photo-caption">Inside the lab &middot; Jersey City</p>
 
-  <div class="services-block">
+  <div class="services-block section" id="services">
+    <p class="section-eyebrow">What we do</p>
+    <h2 class="section-h2">Design + fabrication, under one roof.</h2>
     <div class="services-grid">
       <div class="services-col">
         <h3>Design Services</h3>
@@ -853,7 +1054,30 @@ h1 em {
     </div>
   </div>
 
-  <section class="work-section">
+  <section class="partemis section">
+    <p class="partemis-label">The flagship machine</p>
+    <h2>Partemis 01</h2>
+    <p class="partemis-desc">Large-format additive manufacturing. 800&nbsp;mm build volume. From concept to physical object in hours, not weeks &mdash; the machine desktop printers can&rsquo;t compete with.</p>
+    <figure class="partemis-photo">
+      <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
+    </figure>
+    <div class="partemis-specs">
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">800&times;800&times;1000</div>
+        <div class="partemis-spec-label">Full build volume in mm. Print massive objects in a single run.</div>
+      </div>
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">2.4&nbsp;mm</div>
+        <div class="partemis-spec-label">Wide nozzle for rapid deposition. 10&times; faster than standard FDM.</div>
+      </div>
+      <div class="partemis-spec">
+        <div class="partemis-spec-value">48&nbsp;hr</div>
+        <div class="partemis-spec-label">Concept to physical prototype. Overnight builds for production deadlines.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="work-section section" id="work">
     <div class="work-header">
       <div>
         <div class="work-eyebrow">Our work</div>
@@ -902,7 +1126,34 @@ h1 em {
     </div>
   </section>
 
-  <div class="tiers-header">
+  <section class="section" id="process">
+    <p class="section-eyebrow">How it works</p>
+    <h2 class="section-h2">From first call to finished part.</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <div class="process-title">Consult</div>
+        <p class="process-desc">Tell us what you&rsquo;re building &mdash; a 15-minute call or an email with sketches, photos, or a broken part.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <div class="process-title">Design</div>
+        <p class="process-desc">We model it in CAD and send renders for approval before anything gets printed.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <div class="process-title">Prototype</div>
+        <p class="process-desc">Printed and finished in-house. Small parts often same-day; large-format overnight.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <div class="process-title">Deliver</div>
+        <p class="process-desc">Pick up at the studio, or same-day local delivery in the Jersey City area.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tiers-header section" id="lab-pass">
     <span class="label">Lab Pass</span>
     <h2>Become a member <em>of the lab.</em></h2>
   </div>
@@ -963,37 +1214,16 @@ h1 em {
     </article>
   </div>
 
-  <div class="status">
-    <span class="dot" aria-hidden="true"></span>
-    <span>Studio open &middot; 9am&ndash;6pm Mon&ndash;Fri</span>
-  </div>
-
-  <section class="partemis">
-    <figure class="partemis-photo">
-      <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
-    </figure>
-    <p class="partemis-label">Capabilities</p>
-    <h2>Partemis 01</h2>
-    <p class="partemis-desc">Large-format additive manufacturing. 800&nbsp;mm build volume. From concept to physical object in hours, not weeks.</p>
-    <div class="partemis-specs">
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">800&times;800&times;1000</div>
-        <div class="partemis-spec-label">Full build volume in mm. Print massive objects in a single run.</div>
-      </div>
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">2.4&nbsp;mm</div>
-        <div class="partemis-spec-label">Wide nozzle for rapid deposition. 10&times; faster than standard FDM.</div>
-      </div>
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">48&nbsp;hr</div>
-        <div class="partemis-spec-label">Concept to physical prototype. Overnight builds for production deadlines.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="ctas">
-    <a class="cta primary" href="mailto:hello@liberti-lab.com?subject=Hello%20from%20liberti-lab.com">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  <section class="section" id="contact">
+    <p class="section-eyebrow">Contact</p>
+    <h2 class="section-h2">Let&rsquo;s build it.</h2>
+    <div class="ctas">
+      <a class="cta primary" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Book a call
+      </a>
+      <a class="cta" href="mailto:hello@liberti-lab.com?subject=Project%20inquiry%20%E2%80%94%20liberti-lab.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       Email the lab
     </a>
     <a class="cta" href="tel:+15512336933">
@@ -1004,7 +1234,13 @@ h1 em {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       Instagram
     </a>
-  </div>
+    </div>
+    <div class="contact-info">
+      <span>98 Forrest St, Jersey City, NJ</span>
+      <span>Studio open 9am&ndash;6pm Mon&ndash;Fri</span>
+      <span>hello@liberti-lab.com</span>
+    </div>
+  </section>
 
   <div class="card-footer">
     <div class="footer-row">
