@@ -136,7 +136,23 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
+.topnav-logo { transition: opacity 0.35s ease, transform 0.35s ease; }
 .topnav-logo img { height: 28px; width: auto; display: block; }
+/* Block logo hidden while the hero masthead is on screen; fades into the header on scroll */
+.topnav.at-top .topnav-logo { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .topnav-logo { transition: none; }
+  .topnav.at-top .topnav-logo { transform: none; }
+}
+
+/* Hero masthead wordmark */
+.hero-masthead { margin-bottom: clamp(22px, 3vw, 40px); }
+.hero-masthead img {
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  display: block;
+}
 .topnav-links { display: flex; gap: 28px; }
 .topnav-links a {
   font-size: 11px;
@@ -986,6 +1002,9 @@ h1 em {
 <main id="top">
   <!-- HERO -->
   <header class="hero">
+    <div class="hero-masthead">
+      <img src="images/lab-wordmark.svg" alt="Liberti Lab" />
+    </div>
     <p class="hero-eyebrow">Design / Prototype / Fabrication</p>
     <h1>Concept<br><em>to part. Fast.</em></h1>
     <p class="hero-sub">
@@ -1218,6 +1237,22 @@ h1 em {
 </main>
 
 <script>
+// Nav logo: hidden while hero masthead is visible, fades into header on scroll
+(function () {
+  const nav = document.querySelector('.topnav');
+  if (!nav) return;
+  const THRESHOLD = 130;
+  let ticking = false;
+  function apply() {
+    nav.classList.toggle('at-top', window.scrollY < THRESHOLD);
+    ticking = false;
+  }
+  apply();
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+  }, { passive: true });
+})();
+
 // Load the Figma SVG, split its compound path, wire cursor-tracking rotation
 (function () {
   const g = document.getElementById('wave-grid');
