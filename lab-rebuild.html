@@ -748,16 +748,15 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 @media (max-width: 640px) { .partemis-photos { grid-template-columns: 1fr; } }
 .partemis-photo {
-  border: 3px solid var(--cobalt);
+  border: 0;
   overflow: hidden;
   margin: 0;
   aspect-ratio: 1 / 1;
-  background: rgba(255,255,255,0.5);
 }
 .partemis-photo img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
