@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberti Lab — Design + Prototyping Studio | Jersey City, NJ</title>
+<meta name="description" content="Liberti Lab is a design + fabrication studio in Jersey City. Custom CAD, functional prototypes, and large-format 3D printing.">
+<link rel="canonical" href="https://liberti-lab.com">
+<meta property="og:title" content="Liberti Lab — Design + Prototyping Studio, Jersey City">
+<meta property="og:description" content="Concept to part — fast. Custom CAD, prototyping, and large-format 3D printing in Jersey City.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+    --cobalt: #210FEA;
+    --ff: 'Space Grotesk', sans-serif;
+  }
+  html, body {
+    height: 100%;
+    font-family: var(--ff);
+    background: var(--black);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* ===== Full-bleed carousel ===== */
+  .carousel {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    overflow: hidden;
+  }
+  .cslide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 0;
+  }
+  .cslide.active { opacity: 1; z-index: 1; }
+  .cslide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  /* legibility scrims: darken top (for logo/nav) and a touch of bottom */
+  .carousel::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 220px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .carousel::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 160px;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* ===== Header (block logo + nav) ===== */
+  .top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 26px clamp(24px, 4vw, 56px);
+  }
+  .brand img {
+    height: 40px;
+    width: auto;
+    display: block;
+    /* dark SVG -> pure white over photos */
+    filter: brightness(0) invert(1);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2.4vw, 40px);
+  }
+  .nav a {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav a:hover { color: var(--white); }
+  .nav .book {
+    color: var(--white);
+    background: var(--cobalt);
+    padding: 11px 20px;
+    transition: background 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .nav .book:hover { background: #3D2EF5; transform: translateY(-1px); }
+  @media (max-width: 720px) {
+    .nav a:not(.book) { display: none; }
+  }
+
+  /* ===== Arrows ===== */
+  .arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 8;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .arrow:hover {
+    background: var(--cobalt);
+    border-color: var(--cobalt);
+    transform: translateY(-50%) scale(1.06);
+  }
+  .arrow svg { width: 22px; height: 22px; display: block; }
+  .arrow.prev { left: clamp(16px, 3vw, 40px); }
+  .arrow.next { right: clamp(16px, 3vw, 40px); }
+
+  /* ===== Caption + counter (bottom-left) ===== */
+  .cap {
+    position: fixed;
+    left: clamp(24px, 4vw, 56px);
+    bottom: clamp(22px, 4vw, 44px);
+    z-index: 9;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .cap-count {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--white);
+  }
+  .cap-count .sep { color: rgba(255,255,255,0.5); margin: 0 3px; }
+  .cap-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* ===== Dots (bottom-right) ===== */
+  .dots {
+    position: fixed;
+    right: clamp(24px, 4vw, 56px);
+    bottom: clamp(24px, 4vw, 46px);
+    z-index: 9;
+    display: flex;
+    gap: 9px;
+  }
+  .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .dot.active { background: var(--white); transform: scale(1.25); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cslide { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Full-bleed carousel -->
+<div class="carousel" id="carousel" aria-label="Studio work">
+  <div class="cslide active"><img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio — large-format printer and print rack" data-label="Inside the lab" /></div>
+  <div class="cslide"><img src="images/lab-partemis.jpg" alt="Partemis 01 large-format 3D printer" data-label="Partemis 01 · large format" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-fifa-trophy.jpg" alt="3D-printed World Cup trophy" data-label="Large-format print" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe" data-label="Metalwork" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-bench.jpg" alt="3D-printed saddle seat on a metal frame" data-label="Furniture prototype" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-bench-detail.jpg" alt="Detail of the 3D-printed clip-on seat geometry" data-label="Prototype detail" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-light.jpg" alt="Pair of 3D-printed LED light bars" data-label="Lighting" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar" data-label="Ambient light fixture" loading="lazy" /></div>
+  <div class="cslide"><img src="images/lab-electronics.jpg" alt="Electronics workbench with PCBs and microcontrollers" data-label="Custom hardware" loading="lazy" /></div>
+</div>
+
+<!-- Header -->
+<header class="top">
+  <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <nav class="nav" aria-label="Main">
+    <a href="lab-rebuild.html#services">Services</a>
+    <a href="lab-rebuild.html#work">Work</a>
+    <a href="lab-rebuild.html#contact">Contact</a>
+    <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+</header>
+
+<!-- Arrows -->
+<button class="arrow prev" id="prev" aria-label="Previous image" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="arrow next" id="next" aria-label="Next image" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<!-- Caption / counter -->
+<div class="cap">
+  <span class="cap-count"><span id="capNum">01</span><span class="sep">/</span><span id="capTotal">09</span></span>
+  <span class="cap-label" id="capLabel">Inside the lab</span>
+</div>
+
+<!-- Dots -->
+<div class="dots" id="dots" aria-hidden="true"></div>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.cslide'));
+  const dotsHost = document.getElementById('dots');
+  const capNum = document.getElementById('capNum');
+  const capTotal = document.getElementById('capTotal');
+  const capLabel = document.getElementById('capLabel');
+  const INTERVAL = 3000;
+  let idx = 0, timer = null, paused = false;
+
+  capTotal.textContent = String(slides.length).padStart(2, '0');
+
+  // build dots
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (i === 0 ? ' active' : '');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Go to image ' + (i + 1));
+    b.addEventListener('click', () => { go(i); restart(); });
+    dotsHost.appendChild(b);
+  });
+  const dots = Array.from(dotsHost.children);
+
+  function go(n) {
+    slides[idx].classList.remove('active');
+    dots[idx].classList.remove('active');
+    idx = (n + slides.length) % slides.length;
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+    capNum.textContent = String(idx + 1).padStart(2, '0');
+    const label = slides[idx].querySelector('img').dataset.label || '';
+    capLabel.textContent = label;
+  }
+  function next() { go(idx + 1); }
+  function prev() { go(idx - 1); }
+
+  function start() { timer = setInterval(() => { if (!paused) next(); }, INTERVAL); }
+  function restart() { clearInterval(timer); start(); }
+
+  document.getElementById('next').addEventListener('click', () => { next(); restart(); });
+  document.getElementById('prev').addEventListener('click', () => { prev(); restart(); });
+
+  // keyboard arrows
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { next(); restart(); }
+    else if (e.key === 'ArrowLeft') { prev(); restart(); }
+  });
+
+  // pause on hover
+  const carousel = document.getElementById('carousel');
+  carousel.addEventListener('mouseenter', () => paused = true);
+  carousel.addEventListener('mouseleave', () => paused = false);
+
+  start();
+})();
+</script>
+</body>
+</html>

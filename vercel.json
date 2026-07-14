@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!lab-rebuild|images|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)).*)", "destination": "/lab-rebuild.html" }
+    { "source": "/((?!lab-rebuild|home|images|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)).*)", "destination": "/lab-rebuild.html" }
   ]
 }
