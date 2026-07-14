@@ -136,9 +136,9 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
-/* Block logo opacity is driven by scroll position (see script). Starts hidden. */
-.topnav-logo { opacity: 0; transition: opacity 0.12s linear; will-change: opacity; }
 .topnav-logo img { height: 28px; width: auto; display: block; }
+
+/* Hero masthead wordmark (retired — block logo lives in the nav) */
 
 /* Hero masthead wordmark */
 .hero-masthead { margin-bottom: clamp(22px, 3vw, 40px); }
@@ -984,7 +984,7 @@ h1 em {
 <div class="frost" aria-hidden="true"></div>
 
 <nav class="topnav" aria-label="Main">
-  <a href="#top" class="topnav-logo"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <a href="home.html" class="topnav-logo" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
   <div class="topnav-links">
     <a href="home.html">Home</a>
     <a href="#services">Services</a>
@@ -996,9 +996,6 @@ h1 em {
 <main id="top">
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-masthead">
-      <img src="images/lab-wordmark.svg" alt="Liberti Lab" />
-    </div>
     <p class="hero-eyebrow">Design / Prototype / Fabrication</p>
     <h1>Concept<br><em>to part. Fast.</em></h1>
     <p class="hero-sub">
@@ -1230,34 +1227,6 @@ h1 em {
 </main>
 
 <script>
-// Nav block logo fades in as the hero masthead scrolls up behind the nav bar.
-// Opacity is tied to scroll position: 0 while the masthead is below the nav,
-// ramping to 1 over FADE_DIST px once its bottom edge passes behind the nav.
-(function () {
-  const nav = document.querySelector('.topnav');
-  const navLogo = document.querySelector('.topnav-logo');
-  const masthead = document.querySelector('.hero-masthead');
-  if (!nav || !navLogo || !masthead) return;
-  const FADE_DIST = 150;
-  let ticking = false;
-  function update() {
-    ticking = false;
-    const navBottom = nav.getBoundingClientRect().bottom;
-    const mastBottom = masthead.getBoundingClientRect().bottom;
-    // How far the masthead's bottom has travelled above the nav's bottom edge
-    const progress = (navBottom - mastBottom) / FADE_DIST;
-    const op = Math.max(0, Math.min(1, progress));
-    navLogo.style.opacity = op.toFixed(3);
-    navLogo.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
-  }
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(update); }
-  }
-  update();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-})();
-
 // Load the Figma SVG, split its compound path, wire cursor-tracking rotation
 (function () {
   const g = document.getElementById('wave-grid');
