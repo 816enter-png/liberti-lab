@@ -231,7 +231,7 @@
 
 <!-- Caption / counter -->
 <div class="cap">
-  <span class="cap-count"><span id="capNum">01</span><span class="sep">/</span><span id="capTotal">09</span></span>
+  <span class="cap-count"><span id="capNum">01</span></span>
   <span class="cap-label" id="capLabel">Inside the lab</span>
 </div>
 
@@ -243,12 +243,9 @@
   const slides = Array.from(document.querySelectorAll('.cslide'));
   const dotsHost = document.getElementById('dots');
   const capNum = document.getElementById('capNum');
-  const capTotal = document.getElementById('capTotal');
   const capLabel = document.getElementById('capLabel');
   const INTERVAL = 3000;
   let idx = 0, timer = null, paused = false;
-
-  capTotal.textContent = String(slides.length).padStart(2, '0');
 
   // build dots
   slides.forEach((_, i) => {
