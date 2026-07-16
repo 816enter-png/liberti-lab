@@ -510,6 +510,15 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   flex-direction: column;
   justify-content: center;
 }
+.services-proof .proof-title {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--black);
+  margin-bottom: 14px;
+}
 .services-proof .proof-label {
   font-size: 11px;
   font-weight: 600;
@@ -1143,6 +1152,7 @@ h1 em {
         <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" loading="lazy" />
       </figure>
       <div class="proof-body">
+        <h3 class="proof-title">Functional Large-Format Prints</h3>
         <div class="proof-label">Measured, not estimated</div>
         <div class="proof-stat">2.5<span>&nbsp;mm</span></div>
         <p class="proof-desc"><strong>Single-wall thickness laid down in one pass.</strong> Our wide-nozzle process builds solid, load-bearing walls without infill &mdash; stronger parts, printed faster.</p>
