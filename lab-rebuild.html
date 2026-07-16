@@ -481,6 +481,62 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 .services-callout p + p { margin-top: 8px; }
 
+.services-proof {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) 1.1fr;
+  border: 3px solid var(--cobalt);
+  border-top: 0;
+  align-items: stretch;
+}
+@media (max-width: 600px) { .services-proof { grid-template-columns: 1fr; } }
+.services-proof figure {
+  margin: 0;
+  border-right: 3px solid var(--cobalt);
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .services-proof figure { border-right: 0; border-bottom: 3px solid var(--cobalt); }
+}
+.services-proof img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+}
+.services-proof .proof-body {
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.services-proof .proof-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 10px;
+}
+.services-proof .proof-stat {
+  font-size: clamp(48px, 9vw, 92px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: var(--black);
+}
+.services-proof .proof-stat span { font-size: 0.4em; font-weight: 600; }
+.services-proof .proof-desc {
+  margin-top: 14px;
+  font-family: var(--ff);
+  font-size: clamp(13px, 1.5vw, 15px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--black);
+  max-width: 34ch;
+}
+.services-proof .proof-desc strong { font-weight: 700; color: var(--cobalt); }
+
 /* Lab Pass membership tiers */
 .tiers-header {
   margin-bottom: 18px;
@@ -1081,6 +1137,16 @@ h1 em {
     <div class="services-callout">
       <p>3D Printed Parts Available</p>
       <p>For Same-Day Delivery</p>
+    </div>
+    <div class="services-proof">
+      <figure>
+        <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" loading="lazy" />
+      </figure>
+      <div class="proof-body">
+        <div class="proof-label">Measured, not estimated</div>
+        <div class="proof-stat">2.5<span>&nbsp;mm</span></div>
+        <p class="proof-desc"><strong>Single-wall thickness laid down in one pass.</strong> Our wide-nozzle process builds solid, load-bearing walls without infill &mdash; stronger parts, printed faster.</p>
+      </div>
     </div>
   </div>
 
