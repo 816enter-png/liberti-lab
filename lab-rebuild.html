@@ -285,6 +285,22 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   line-height: 1.5;
   color: rgba(0,0,0,0.65);
 }
+/* Process as full blue block, at top of services */
+.process-blue {
+  background: var(--cobalt);
+  color: var(--white);
+  padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 48px);
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+.process-blue .section-eyebrow { color: rgba(255,255,255,0.72); }
+.process-blue .section-h2 { color: var(--white); }
+.process-blue .process-step {
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.08);
+}
+.process-blue .process-num { color: rgba(255,255,255,0.62); }
+.process-blue .process-title { color: var(--white); }
+.process-blue .process-desc { color: rgba(255,255,255,0.82); }
 
 /* ===== Contact section ===== */
 .contact-info {
@@ -413,6 +429,32 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 /* Services section (rebuilt from Figma) */
 .services-block {
   margin-bottom: 8px;
+}
+.services-lead {
+  margin: 0;
+  border: 3px solid var(--cobalt);
+  border-bottom: 0;
+  overflow: hidden;
+  position: relative;
+}
+.services-lead img {
+  display: block;
+  width: 100%;
+  height: clamp(200px, 32vw, 320px);
+  object-fit: cover;
+  object-position: 50% 72%;
+}
+.services-lead figcaption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: var(--cobalt);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 7px 14px;
 }
 .services-grid {
   display: grid;
@@ -1116,9 +1158,40 @@ h1 em {
   </figure>
   <p class="lab-photo-caption">Inside the lab &middot; Jersey City</p>
 
+  <section class="process-blue" id="process">
+    <p class="section-eyebrow">How it works</p>
+    <h2 class="section-h2">From first call to finished part.</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <div class="process-title">Consult</div>
+        <p class="process-desc">Tell us what you&rsquo;re building &mdash; a 15-minute call or an email with sketches, photos, or a broken part.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <div class="process-title">Design</div>
+        <p class="process-desc">We model it in CAD and send renders for approval before anything gets printed.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <div class="process-title">Build</div>
+        <p class="process-desc">Printed and finished in-house. Small parts often same-day; large-format overnight.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <div class="process-title">Deliver</div>
+        <p class="process-desc">Pick up at the studio, or same-day local delivery in the Jersey City area.</p>
+      </div>
+    </div>
+  </section>
+
   <div class="services-block section" id="services">
     <p class="section-eyebrow">What we do</p>
     <h2 class="section-h2">Design + fabrication, under one roof.</h2>
+    <figure class="services-lead">
+      <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio &mdash; large-format printer and print rack with desktop printers and filament spools" loading="lazy" />
+      <figcaption>Inside the lab &middot; Jersey City</figcaption>
+    </figure>
     <div class="services-grid">
       <div class="services-col">
         <h3>Design Services</h3>
@@ -1159,33 +1232,6 @@ h1 em {
       </div>
     </div>
   </div>
-
-  <section class="partemis section">
-    <h2>Partemis 01</h2>
-    <p class="partemis-desc">Large-format additive manufacturing. 800&nbsp;mm build volume. From concept to physical object in hours, not weeks &mdash; the machine desktop printers can&rsquo;t compete with.</p>
-    <div class="partemis-photos">
-      <figure class="partemis-photo">
-        <img src="images/lab-partemis.jpg" alt="Partemis 01 &mdash; large-format 3D printer with 800mm build volume" loading="lazy" />
-      </figure>
-      <figure class="partemis-photo">
-        <img src="images/lab-largeformat.jpg" alt="Large-format 3D printer mid-print, extruding a tall translucent sculptural part" loading="lazy" />
-      </figure>
-    </div>
-    <div class="partemis-specs">
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">800&times;800&times;1000</div>
-        <div class="partemis-spec-label">Full build volume in mm. Print massive objects in a single run.</div>
-      </div>
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">2.4&nbsp;mm</div>
-        <div class="partemis-spec-label">Wide nozzle for rapid deposition. 10&times; faster than standard FDM.</div>
-      </div>
-      <div class="partemis-spec">
-        <div class="partemis-spec-value">48&nbsp;hr</div>
-        <div class="partemis-spec-label">Concept to physical prototype. Overnight builds for production deadlines.</div>
-      </div>
-    </div>
-  </section>
 
   <section class="work-section section" id="work">
     <div class="work-header">
@@ -1233,33 +1279,6 @@ h1 em {
           <p class="work-desc">Mixed-material production jig &mdash; steel for accuracy, printed soft jaws for grip.</p>
         </div>
       </article>
-    </div>
-  </section>
-
-  <section class="section" id="process">
-    <p class="section-eyebrow">How it works</p>
-    <h2 class="section-h2">From first call to finished part.</h2>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="process-num">01</div>
-        <div class="process-title">Consult</div>
-        <p class="process-desc">Tell us what you&rsquo;re building &mdash; a 15-minute call or an email with sketches, photos, or a broken part.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">02</div>
-        <div class="process-title">Design</div>
-        <p class="process-desc">We model it in CAD and send renders for approval before anything gets printed.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">03</div>
-        <div class="process-title">Build</div>
-        <p class="process-desc">Printed and finished in-house. Small parts often same-day; large-format overnight.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">04</div>
-        <div class="process-title">Deliver</div>
-        <p class="process-desc">Pick up at the studio, or same-day local delivery in the Jersey City area.</p>
-      </div>
     </div>
   </section>
 
