@@ -1243,23 +1243,54 @@ h1 em {
     </div>
   </header>
 
-  <figure class="lab-photo">
-    <div class="slideshow" id="labSlideshow">
-      <img class="slide active" src="images/lab-metalwork.jpg" alt="Hands-on metalwork at the Liberti Lab &mdash; using a vise and machinist tools at the lathe bench" />
-      <img class="slide" src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame &mdash; furniture prototype" loading="lazy" />
-      <img class="slide" src="images/lab-bench-detail.jpg" alt="Close-up detail of the 3D-printed clip-on geometry on the saddle seat" loading="lazy" />
-      <img class="slide" src="images/lab-light.jpg" alt="Pair of 3D-printed LED light bars &mdash; one off, one glowing blue" loading="lazy" />
-      <img class="slide" src="images/lab-light-wall.jpg" alt="3D-printed LED light bar wall-mounted, glowing teal" loading="lazy" />
-      <button class="slideshow-arrow prev" id="labSlideshowPrev" aria-label="Previous slide" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button class="slideshow-arrow next" id="labSlideshowNext" aria-label="Next slide" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <div class="slideshow-dots" id="labSlideshowDots"></div>
+  <section class="work-section section" id="work">
+    <div class="work-header">
+      <div>
+        <div class="work-eyebrow">Our work</div>
+        <h2>Projects we&rsquo;ve made.</h2>
+      </div>
+      <a href="mailto:hello@liberti-lab.com?subject=Tell%20me%20more%20about%20your%20past%20work" class="work-see-all">See more &rarr;</a>
     </div>
-  </figure>
-  <p class="lab-photo-caption">Inside the lab &middot; Jersey City</p>
+
+    <div class="work-grid">
+      <!-- TODO: swap title/desc + image when full case studies are ready -->
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Furniture</span><span class="work-tech">FDM</span></div>
+          <h3 class="work-title">Saddle Prototype for Modular Seating</h3>
+          <p class="work-desc">Snap-on 3D-printed seat for a tubular steel frame &mdash; rapid prototype, no tooling.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Lighting</span><span class="work-tech">FDM &middot; Translucent</span></div>
+          <h3 class="work-title">Wall-Mounted Ambient Light Fixture</h3>
+          <p class="work-desc">Custom LED bar housing in translucent PLA with diffuser channel and slim mount profile.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-electronics.jpg" alt="Custom electronics workbench with PCBs and microcontrollers" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Hardware</span><span class="work-tech">PCB + Enclosure</span></div>
+          <h3 class="work-title">Custom Hardware Prototyping</h3>
+          <p class="work-desc">Compact housing for an ESP32-based controller with snap-fit lid and USB cutout.</p>
+        </div>
+      </article>
+
+      <article class="work-card">
+        <div class="work-img"><img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" /></div>
+        <div class="work-body">
+          <div class="work-meta"><span class="work-cat">Tooling</span><span class="work-tech">Lathe + 3D Print</span></div>
+          <h3 class="work-title">Hybrid Steel + Polymer Jig</h3>
+          <p class="work-desc">Mixed-material production jig &mdash; steel for accuracy, printed soft jaws for grip.</p>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <section class="process-blue" id="process">
     <p class="section-eyebrow">How it works</p>
@@ -1390,55 +1421,6 @@ h1 em {
       <span class="mat-chip">TPU <em>&mdash; flexible</em></span>
       <span class="mat-chip">ABS</span>
       <span class="mat-chip">ASA <em>&mdash; outdoor</em></span>
-    </div>
-  </section>
-
-  <section class="work-section section" id="work">
-    <div class="work-header">
-      <div>
-        <div class="work-eyebrow">Our work</div>
-        <h2>Projects we&rsquo;ve made.</h2>
-      </div>
-      <a href="mailto:hello@liberti-lab.com?subject=Tell%20me%20more%20about%20your%20past%20work" class="work-see-all">See more &rarr;</a>
-    </div>
-
-    <div class="work-grid">
-      <!-- TODO: swap title/desc + image when full case studies are ready -->
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Furniture</span><span class="work-tech">FDM</span></div>
-          <h3 class="work-title">Saddle Prototype for Modular Seating</h3>
-          <p class="work-desc">Snap-on 3D-printed seat for a tubular steel frame &mdash; rapid prototype, no tooling.</p>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Lighting</span><span class="work-tech">FDM &middot; Translucent</span></div>
-          <h3 class="work-title">Wall-Mounted Ambient Light Fixture</h3>
-          <p class="work-desc">Custom LED bar housing in translucent PLA with diffuser channel and slim mount profile.</p>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-electronics.jpg" alt="Custom electronics workbench with PCBs and microcontrollers" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Hardware</span><span class="work-tech">PCB + Enclosure</span></div>
-          <h3 class="work-title">Custom Hardware Prototyping</h3>
-          <p class="work-desc">Compact housing for an ESP32-based controller with snap-fit lid and USB cutout.</p>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Tooling</span><span class="work-tech">Lathe + 3D Print</span></div>
-          <h3 class="work-title">Hybrid Steel + Polymer Jig</h3>
-          <p class="work-desc">Mixed-material production jig &mdash; steel for accuracy, printed soft jaws for grip.</p>
-        </div>
-      </article>
     </div>
   </section>
 
