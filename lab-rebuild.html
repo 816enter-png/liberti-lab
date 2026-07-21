@@ -64,6 +64,9 @@ body::before {
   z-index: 0;
   opacity: 1;
   will-change: transform;
+  /* Blur the wave layer directly (GPU-cached) instead of backdrop-blurring
+     the whole viewport every scroll frame — same look, no scroll jank */
+  filter: blur(18px) saturate(160%);
 }
 .bg-wave svg {
   width: 100%;
@@ -117,8 +120,6 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   z-index: 0;
   pointer-events: none; /* let cursor still reach wave shapes */
   background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
 }
 
 /* ===== Top nav (fixed glass bar) ===== */
