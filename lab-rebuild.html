@@ -589,6 +589,109 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 .services-proof .proof-desc strong { font-weight: 700; color: var(--cobalt); }
 
+/* ===== Makelab-style numbered service rows ===== */
+.svc-rows { border: 3px solid var(--cobalt); border-bottom: 0; margin-bottom: 0; }
+.svc-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px 18px;
+  padding: 26px 24px 24px;
+  border-bottom: 3px solid var(--cobalt);
+}
+.svc-num {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--cobalt);
+  padding-top: 4px;
+}
+.svc-main { min-width: 0; }
+.svc-title {
+  font-size: clamp(19px, 2.6vw, 27px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+.svc-desc {
+  font-size: clamp(13px, 1.5vw, 15px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.7);
+  max-width: 60ch;
+  margin-bottom: 14px;
+}
+.svc-specs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.svc-spec {
+  border: 1.5px solid var(--cobalt);
+  color: var(--cobalt);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.svc-apps {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(0,0,0,0.55);
+}
+.svc-apps strong { font-weight: 700; color: var(--black); text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; }
+@media (max-width: 560px) {
+  .svc-row { grid-template-columns: 1fr; padding: 20px 18px; }
+  .svc-num { padding-top: 0; }
+}
+
+/* ===== Capabilities spec table ===== */
+.cap-table { border: 3px solid var(--cobalt); margin-bottom: 8px; overflow-x: auto; }
+.cap-table table { width: 100%; border-collapse: collapse; min-width: 560px; }
+.cap-table th, .cap-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 2px solid rgba(33,15,234,0.25);
+  font-size: clamp(12px, 1.4vw, 14px);
+  vertical-align: top;
+}
+.cap-table tr:last-child th, .cap-table tr:last-child td { border-bottom: 0; }
+.cap-table thead th {
+  background: var(--cobalt);
+  color: var(--white);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: clamp(12px, 1.4vw, 14px);
+  border-bottom: 0;
+}
+.cap-table tbody th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  color: var(--cobalt);
+  white-space: nowrap;
+  width: 1%;
+  padding-right: 28px;
+}
+.cap-table td { font-weight: 500; color: var(--black); }
+
+/* ===== Materials strip ===== */
+.mat-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.mat-chip {
+  border: 2px solid var(--cobalt);
+  background: rgba(255,255,255,0.6);
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+}
+.mat-chip em { font-style: normal; font-weight: 500; color: rgba(0,0,0,0.55); }
+
 /* Lab Pass membership tiers */
 .tiers-header {
   margin-bottom: 18px;
@@ -1192,28 +1295,51 @@ h1 em {
       <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio &mdash; large-format printer and print rack with desktop printers and filament spools" loading="lazy" />
       <figcaption>Inside the lab &middot; Jersey City</figcaption>
     </figure>
-    <div class="services-grid">
-      <div class="services-col">
-        <h3>Design Services</h3>
-        <ul>
-          <li>3D Modeling</li>
-          <li>3D Product Rendering</li>
-          <li>Packaging Design</li>
-          <li>Product Design</li>
-          <li>Logo and Branding Design</li>
-        </ul>
+    <div class="svc-rows">
+      <div class="svc-row">
+        <div class="svc-num">01</div>
+        <div class="svc-main">
+          <div class="svc-title">Large Format 3D Printing</div>
+          <p class="svc-desc">Massive single-piece parts on the Partemis 01 &mdash; no seams, no glue-ups. The machine desktop printers can&rsquo;t compete with.</p>
+          <div class="svc-specs"><span class="svc-spec">Up to 800&times;800&times;1000&nbsp;mm</span><span class="svc-spec">2.4&nbsp;mm wide nozzle</span><span class="svc-spec">Overnight builds</span></div>
+          <p class="svc-apps"><strong>Applications:</strong> signage, event &amp; brand activations, furniture, trade show builds, props</p>
+        </div>
       </div>
-      <div class="services-col">
-        <h3>Fabrication Services</h3>
-        <ul>
-          <li>3D Printing &mdash; Small to Large</li>
-          <li>Custom Designed Parts</li>
-          <li>Functional Prototyping</li>
-          <li>3D Signage</li>
-          <li>Mold Making</li>
-          <li>Part Repairs / Re-creation</li>
-          <li>Low &ndash; Mid Volume Production</li>
-        </ul>
+      <div class="svc-row">
+        <div class="svc-num">02</div>
+        <div class="svc-main">
+          <div class="svc-title">Rapid Prototyping</div>
+          <p class="svc-desc">A 10-printer desktop fleet running around the clock. Small parts often same-day, with local delivery in the Jersey City area.</p>
+          <div class="svc-specs"><span class="svc-spec">10-printer fleet</span><span class="svc-spec">Running 24/7</span><span class="svc-spec">Same-day small parts</span></div>
+          <p class="svc-apps"><strong>Applications:</strong> hardware development, design verification, fit checks, investor samples</p>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">03</div>
+        <div class="svc-main">
+          <div class="svc-title">Design &amp; CAD</div>
+          <p class="svc-desc">From napkin sketch to production-ready model. Renders for approval before anything gets printed.</p>
+          <div class="svc-specs"><span class="svc-spec">3D modeling</span><span class="svc-spec">Product rendering</span><span class="svc-spec">Packaging &amp; branding</span></div>
+          <p class="svc-apps"><strong>Applications:</strong> product design, packaging design, logo &amp; brand identity, design for printing</p>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">04</div>
+        <div class="svc-main">
+          <div class="svc-title">Structural Fabrication</div>
+          <p class="svc-desc">Load-bearing parts built to hold up in the real world &mdash; solid single-pass walls, steel + polymer hybrids from our metal bench.</p>
+          <div class="svc-specs"><span class="svc-spec">2.5&nbsp;mm single-pass walls</span><span class="svc-spec">Metal + polymer hybrid</span></div>
+          <p class="svc-apps"><strong>Applications:</strong> mounts, jigs &amp; fixtures, tooling, part repairs &amp; re-creation</p>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-num">05</div>
+        <div class="svc-main">
+          <div class="svc-title">Product Development</div>
+          <p class="svc-desc">Full path from idea to working product &mdash; enclosures, electronics integration, molds, and low&ndash;mid volume runs.</p>
+          <div class="svc-specs"><span class="svc-spec">Electronics integration</span><span class="svc-spec">Mold making</span><span class="svc-spec">Low&ndash;mid volume</span></div>
+          <p class="svc-apps"><strong>Applications:</strong> custom lighting, enclosures, bridge manufacturing, small production runs</p>
+        </div>
       </div>
     </div>
     <div class="services-callout">
@@ -1232,6 +1358,35 @@ h1 em {
       </div>
     </div>
   </div>
+
+  <section class="section" id="capabilities">
+    <p class="section-eyebrow">Capabilities</p>
+    <h2 class="section-h2">Two technologies. One shop.</h2>
+    <div class="cap-table">
+      <table>
+        <thead>
+          <tr><th></th><th>Desktop FDM</th><th>Large-Format FDM</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Machines</th><td>10-printer fleet, running 24/7</td><td>Partemis 01</td></tr>
+          <tr><th>Max build size</th><td>Standard desktop format</td><td>800 &times; 800 &times; 1000&nbsp;mm single piece</td></tr>
+          <tr><th>Best for</th><td>Small parts, prototypes, batch runs</td><td>Signage, props, furniture-scale objects</td></tr>
+          <tr><th>Wall capability</th><td>Fine detail, standard walls</td><td>2.5&nbsp;mm solid single-pass walls</td></tr>
+          <tr><th>Turnaround</th><td>Often same-day</td><td>Overnight &mdash; 48&nbsp;hr</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mat-strip">
+      <span class="mat-chip">PLA</span>
+      <span class="mat-chip">Translucent PLA</span>
+      <span class="mat-chip">Matte &amp; Silk PLA</span>
+      <span class="mat-chip">PETG</span>
+      <span class="mat-chip">Recycled PETG</span>
+      <span class="mat-chip">TPU <em>&mdash; flexible</em></span>
+      <span class="mat-chip">ABS</span>
+      <span class="mat-chip">ASA <em>&mdash; outdoor</em></span>
+    </div>
+  </section>
 
   <section class="work-section section" id="work">
     <div class="work-header">
