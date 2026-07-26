@@ -208,6 +208,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   grid-template-columns: repeat(3, 1fr);
   border: 2px solid var(--cobalt);
   margin: clamp(28px, 4vw, 44px) 0 0;
+  background: rgba(255,255,255,0.86);
 }
 .fact { padding: 18px 20px; border-right: 2px solid var(--cobalt); }
 .fact:last-child { border-right: 0; }
@@ -511,6 +512,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 .services-callout {
   border: 3px solid var(--cobalt);
+  background: rgba(255,255,255,0.86);
   padding: 22px 22px;
   text-align: center;
 }
@@ -530,6 +532,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   border: 3px solid var(--cobalt);
   border-top: 0;
   align-items: stretch;
+  background: rgba(255,255,255,0.86);
 }
 @media (max-width: 600px) { .services-proof { grid-template-columns: 1fr; } }
 .services-proof figure {
@@ -590,7 +593,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 .services-proof .proof-desc strong { font-weight: 700; color: var(--cobalt); }
 
 /* ===== Makelab-style numbered service rows ===== */
-.svc-rows { border: 3px solid var(--cobalt); border-bottom: 0; margin-bottom: 0; }
+.svc-rows { border: 3px solid var(--cobalt); border-bottom: 0; margin-bottom: 0; background: rgba(255,255,255,0.86); }
 .svc-row {
   display: grid;
   grid-template-columns: 72px 1fr;
@@ -647,7 +650,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 }
 
 /* ===== Capabilities spec table ===== */
-.cap-table { border: 3px solid var(--cobalt); margin-bottom: 8px; overflow-x: auto; }
+.cap-table { border: 3px solid var(--cobalt); margin-bottom: 8px; overflow-x: auto; background: rgba(255,255,255,0.86); }
 .cap-table table { width: 100%; border-collapse: collapse; min-width: 560px; }
 .cap-table th, .cap-table td {
   padding: 14px 18px;
@@ -682,7 +685,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
 .mat-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 .mat-chip {
   border: 2px solid var(--cobalt);
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.9);
   color: var(--black);
   font-size: 12px;
   font-weight: 700;
@@ -896,7 +899,7 @@ main > * { pointer-events: auto; } /* re-enable on actual content */
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(0,0,0,0.12);
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.88);
   overflow: hidden;
   transition: border-color 0.25s, transform 0.25s;
 }
