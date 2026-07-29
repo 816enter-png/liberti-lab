@@ -113,6 +113,21 @@ main {
 }
 main > * { pointer-events: auto; } /* re-enable on actual content */
 
+/* Continuous white panel behind every section — top to bottom of the page.
+   Sits inside main's stacking context (z-index 1) so it covers the wave but
+   stays behind all content. Extends 28px past the 1180px content column. */
+main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: max(0px, calc((100% - 1180px) / 2 - 28px));
+  right: max(0px, calc((100% - 1180px) / 2 - 28px));
+  background: rgba(255, 255, 255, 0.5);
+  z-index: -1;
+  pointer-events: none;
+}
+
 /* Full-viewport frosted sheet — covers the entire page over the wave */
 .frost {
   position: fixed;
