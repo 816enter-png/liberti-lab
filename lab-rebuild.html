@@ -869,12 +869,13 @@ main::before {
   flex-wrap: wrap;
 }
 .work-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-size: clamp(20px, 2.8vw, 30px);
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--cobalt);
   margin-bottom: 8px;
+  line-height: 1.05;
 }
 .work-header h2 {
   font-size: clamp(28px, 4vw, 42px);
@@ -1255,7 +1256,6 @@ h1 em {
     <div class="work-header">
       <div>
         <div class="work-eyebrow">Our work</div>
-        <h2>Projects we&rsquo;ve made.</h2>
       </div>
       <a href="mailto:hello@liberti-lab.com?subject=Tell%20me%20more%20about%20your%20past%20work" class="work-see-all">See more &rarr;</a>
     </div>
