@@ -144,7 +144,7 @@ main {
   flex-direction: column;
   justify-content: center;
   /* Full-width frost band; content stays in a 1180px centered column via padding-calc */
-  padding-top: calc(clamp(40px, 5vw, 64px) + 54px); /* + fixed nav height */
+  padding-top: calc(clamp(40px, 5vw, 64px) + 92px); /* + fixed nav height */
   padding-bottom: clamp(40px, 5vw, 64px);
   padding-left: max(28px, calc((100% - 1180px) / 2));
   padding-right: max(28px, calc((100% - 1180px) / 2));
@@ -184,7 +184,10 @@ main::before {
 }
 
 /* ===== Top nav (fixed glass bar) ===== */
-.topnav {
+/* ===== Header — same component as the landing page =====
+   Identical geometry/type; ink is dark here because the page is light,
+   and a glass backing fades in once you scroll so content can't collide. */
+.top {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 50;
@@ -192,13 +195,20 @@ main::before {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 13px max(28px, calc((100% - 1180px) / 2));
+  padding: 26px clamp(24px, 4vw, 56px);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.25s, backdrop-filter 0.25s, padding 0.25s, border-color 0.25s;
+}
+.top.scrolled {
+  padding: 14px clamp(24px, 4vw, 56px);
   background: rgba(255,255,255,0.72);
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom-color: rgba(0,0,0,0.08);
 }
-.topnav-logo img { height: 28px; width: auto; display: block; }
+.brand img { height: 40px; width: auto; display: block; transition: height 0.25s; }
+.top.scrolled .brand img { height: 30px; }
 
 /* Hero masthead wordmark (retired — block logo lives in the nav) */
 
@@ -210,36 +220,35 @@ main::before {
   height: auto;
   display: block;
 }
-.topnav-links { display: flex; gap: 28px; }
-.topnav-links a {
-  font-size: 11px;
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 40px);
+}
+.nav a {
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--black);
+  color: rgba(10,10,10,0.85);
   text-decoration: none;
   transition: color 0.2s;
 }
-.topnav-links a:hover { color: var(--cobalt); }
-.topnav-cta {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-decoration: none;
+.nav a:hover { color: var(--cobalt); }
+.nav .book {
   color: var(--white);
   background: var(--cobalt);
   padding: 11px 20px;
   transition: background 0.2s, transform 0.2s;
   white-space: nowrap;
 }
-.topnav-cta:hover { background: #3D2EF5; transform: translateY(-1px); }
-@media (max-width: 760px) {
-  .topnav-links { display: none; }
+.nav .book:hover { background: #3D2EF5; transform: translateY(-1px); }
+@media (max-width: 720px) {
+  .nav a:not(.book) { display: none; }
 }
 
 /* Anchor offsets under fixed nav */
-#services, #work, #lab-pass, #contact { scroll-margin-top: 76px; }
+#services, #work, #lab-pass, #contact { scroll-margin-top: 84px; }
 
 /* ===== Hero ===== */
 .hero { padding: clamp(20px, 4vw, 48px) 0 clamp(16px, 3vw, 32px); }
@@ -1249,15 +1258,14 @@ h1 em {
 <!-- Full-viewport frosted sheet over the animated wave -->
 <div class="frost" aria-hidden="true"></div>
 
-<nav class="topnav" aria-label="Main">
-  <a href="home.html" class="topnav-logo" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
-  <div class="topnav-links">
-    <a href="home.html">Home</a>
+<header class="top" id="topbar">
+  <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <nav class="nav" aria-label="Main">
     <a href="#services">Services</a>
     <a href="#contact">Contact</a>
-  </div>
-  <a class="topnav-cta" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
-</nav>
+    <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+</header>
 
 <main id="top">
   <!-- HERO -->
@@ -1617,5 +1625,27 @@ h1 em {
 })();
 </script>
 
+<script>
+// Header: transparent like the landing page at rest, glass backing once scrolled.
+// NOTE: on this page <body> is the scroll container (html/body are height:100%
+// with overflow auto), so window.scrollY stays 0 - read every candidate.
+(function () {
+  var bar = document.getElementById('topbar');
+  if (!bar) return;
+  var tick = false;
+  function offset() {
+    return Math.max(
+      window.scrollY || 0,
+      document.body ? document.body.scrollTop : 0,
+      document.documentElement ? document.documentElement.scrollTop : 0
+    );
+  }
+  function update() { bar.classList.toggle('scrolled', offset() > 24); tick = false; }
+  function onScroll() { if (!tick) { tick = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+  update();
+})();
+</script>
 </body>
 </html>
