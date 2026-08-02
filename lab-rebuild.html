@@ -183,10 +183,10 @@ main::before {
   background: rgba(255, 255, 255, 0.55);
 }
 
-/* ===== Top nav (fixed glass bar) ===== */
-/* ===== Header — same component as the landing page =====
-   Identical geometry/type; ink is dark here because the page is light,
-   and a glass backing fades in once you scroll so content can't collide. */
+
+/* ===== Header — identical to the landing page =====
+   Same geometry, padding and type. Only difference: the logo/links are dark
+   here (the page is light) instead of knocked out to white over photos. */
 .top {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -196,19 +196,8 @@ main::before {
   justify-content: space-between;
   gap: 24px;
   padding: 26px clamp(24px, 4vw, 56px);
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background 0.25s, backdrop-filter 0.25s, padding 0.25s, border-color 0.25s;
 }
-.top.scrolled {
-  padding: 14px clamp(24px, 4vw, 56px);
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-bottom-color: rgba(0,0,0,0.08);
-}
-.brand img { height: 40px; width: auto; display: block; transition: height 0.25s; }
-.top.scrolled .brand img { height: 30px; }
+.brand img { height: 40px; width: auto; display: block; }
 
 /* Hero masthead wordmark (retired — block logo lives in the nav) */
 
@@ -1258,7 +1247,7 @@ h1 em {
 <!-- Full-viewport frosted sheet over the animated wave -->
 <div class="frost" aria-hidden="true"></div>
 
-<header class="top" id="topbar">
+<header class="top">
   <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
   <nav class="nav" aria-label="Main">
     <a href="#services">Services</a>
@@ -1625,27 +1614,5 @@ h1 em {
 })();
 </script>
 
-<script>
-// Header: transparent like the landing page at rest, glass backing once scrolled.
-// NOTE: on this page <body> is the scroll container (html/body are height:100%
-// with overflow auto), so window.scrollY stays 0 - read every candidate.
-(function () {
-  var bar = document.getElementById('topbar');
-  if (!bar) return;
-  var tick = false;
-  function offset() {
-    return Math.max(
-      window.scrollY || 0,
-      document.body ? document.body.scrollTop : 0,
-      document.documentElement ? document.documentElement.scrollTop : 0
-    );
-  }
-  function update() { bar.classList.toggle('scrolled', offset() > 24); tick = false; }
-  function onScroll() { if (!tick) { tick = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
-  update();
-})();
-</script>
 </body>
 </html>
