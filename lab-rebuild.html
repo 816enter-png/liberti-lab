@@ -184,9 +184,10 @@ main::before {
 }
 
 
-/* ===== Header — identical to the landing page =====
-   Same geometry, padding and type. Only difference: the logo/links are dark
-   here (the page is light) instead of knocked out to white over photos. */
+/* ===== Header — same geometry as the landing page =====
+   Identical size, padding and type. Differences on interior pages:
+   a permanent frosted bar (the landing page is transparent over photos)
+   and dark logo/links instead of white. No scroll behaviour. */
 .top {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -196,6 +197,10 @@ main::before {
   justify-content: space-between;
   gap: 24px;
   padding: 26px clamp(24px, 4vw, 56px);
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 .brand img { height: 40px; width: auto; display: block; }
 
