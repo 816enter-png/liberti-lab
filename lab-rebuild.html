@@ -953,13 +953,14 @@ main::before {
 .work-card {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0,0,0,0.12);
+  /* 3px to match the stroke weight used by the services / capabilities blocks */
+  border: 3px solid var(--cobalt);
   background: rgba(255,255,255,0.5);
   overflow: hidden;
   transition: border-color 0.25s, transform 0.25s;
 }
 .work-card:hover {
-  border-color: var(--cobalt);
+  border-color: var(--black);
   transform: translateY(-2px);
 }
 .work-img {
