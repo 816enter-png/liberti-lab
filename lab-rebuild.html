@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liberti Lab — Design + Prototyping Studio | Jersey City, NJ</title>
-<meta name="description" content="Liberti Lab is a design + fabrication studio in Jersey City. Custom CAD, functional prototypes, large-format 3D printing up to 800×800×1000mm, and same-day parts. Lab Pass membership for makers and hardware founders.">
+<title>Liberti Lab — Design + Fabrication Studio | Jersey City, NJ</title>
+<meta name="description" content="Liberti Lab is a design and fabrication studio in Jersey City. Custom CAD, functional prototypes, and large-format 3D printing up to 800×800×1000 mm.">
 <link rel="canonical" href="https://liberti-lab.com/lab-rebuild.html">
-<meta property="og:title" content="Liberti Lab — Design + Prototyping Studio, Jersey City">
-<meta property="og:description" content="Concept to physical part — fast. Custom CAD, prototyping, and large-format 3D printing in Jersey City.">
+<meta property="og:title" content="3D Design &amp; Prototyping Studio - Large FDM">
+<meta property="og:description" content="Concept to part — fast. Custom CAD, prototyping, and large-format 3D printing in Jersey City.">
 <meta property="og:type" content="website">
 <script type="application/ld+json">
 {
@@ -41,1573 +41,415 @@
     { "@type": "City", "name": "New York" },
     { "@type": "AdministrativeArea", "name": "New Jersey" }
   ],
-  "knowsAbout": ["3D printing","Large-format FDM","Rapid prototyping","CAD modeling","Product design","Custom signage"],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Design + fabrication services",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Large Format 3D Printing", "description": "Single-piece parts up to 800 × 800 × 1000 mm — no seams or glue-ups." } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rapid Prototyping", "description": "Standard-size prints up to 260 × 260 × 260 mm on a 10-printer desktop fleet." } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design & CAD", "description": "3D modeling, product rendering, packaging and branding design." } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Structural Fabrication", "description": "Load-bearing parts, mounts, and metal + polymer hybrid assemblies." } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Product Development", "description": "Design for manufacturing, iterative prototype rounds, and pre-production samples." } }
-    ]
-  }
+  "knowsAbout": ["3D printing","Large-format FDM","Rapid prototyping","CAD modeling","Product design","Custom signage"]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --black: #0A0A0A;
-  --white: #FFFFFF;
-  --cobalt: #210FEA;
-  --ff: 'Space Grotesk', sans-serif;
+/* ===== D-DIN, self-hosted (SIL OFL) ===== */
+@font-face {
+  font-family: 'D-DIN';
+  src: url('fonts/d-din-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'D-DIN';
+  src: url('fonts/d-din-700.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
 }
 
-html, body {
-  height: 100%;
+/* ===== Tokens — 7 colours, mirroring Snøhetta's restraint ===== */
+:root {
+  --fg:      #0A0A0A;   /* all primary text */
+  --bg:      #FFFFFF;
+  --grey-1:  #757575;   /* secondary: taglines, meta, year */
+  --grey-2:  #949494;   /* tertiary */
+  --stroke:  #DFDFDF;   /* hairline rules — replaces every box */
+  --area:    #F3F3F3;   /* tinted panel */
+  --accent:  #210FEA;   /* cobalt — used rarely, like Snøhetta's green */
+
+  --ff: 'D-DIN', 'Space Grotesk', Arial, sans-serif;
+
+  /* type scale */
+  --t-hero:  clamp(40px, 7.0vw, 92px);
+  --t-open:  clamp(30px, 4.2vw, 56px);
+  --t-large: clamp(26px, 3.2vw, 44px);
+  --t-lead:  clamp(21px, 2.3vw, 30px);
+  --t-body:  clamp(17px, 1.5vw, 21px);
+  --t-small: 17px;
+  --t-meta:  15px;
+
+  /* grid */
+  --gutter: 24px;
+  --col: 1180px;
+  --pad: max(24px, calc((100% - var(--col)) / 2));
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+body {
   font-family: var(--ff);
-  background: var(--white);
-  color: var(--black);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-height: 100vh;
-  position: relative;
-}
-main {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
 
-/* Subtle gradient atmosphere */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(33,15,234,0.05) 0%, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(33,15,234,0.04) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: 0;
-}
+.wrap { padding-left: var(--pad); padding-right: var(--pad); }
 
-/* Wave background — Figma SVG, per-shape hover */
-.bg-wave {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
-  will-change: transform;
-  /* Blur the wave layer directly (GPU-cached) instead of backdrop-blurring
-     the whole viewport every scroll frame — same look, no scroll jank */
-  filter: blur(18px) saturate(160%);
-}
-.bg-wave svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: auto;
-}
-.bg-wave path {
-  fill: #0000FF;
-  pointer-events: auto;
-  transition: fill 0.25s ease, opacity 0.25s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transform-box: fill-box;
-  transform-origin: center;
-  cursor: pointer;
-}
-.bg-wave path:hover {
-  fill: #0A0A0A;
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bg-wave { opacity: 0.35; }
-  .bg-wave path { transition: fill 0.25s ease, opacity 0.25s ease; }
-}
-
-main {
-  flex: 0 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* Full-width frost band; content stays in a 1180px centered column via padding-calc */
-  padding-top: calc(clamp(40px, 5vw, 64px) + 92px); /* + fixed nav height */
-  padding-bottom: clamp(40px, 5vw, 64px);
-  padding-left: max(28px, calc((100% - 1180px) / 2));
-  padding-right: max(28px, calc((100% - 1180px) / 2));
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  pointer-events: none; /* let hover pass through to wave shapes */
-  background: transparent; /* frost handled by full-viewport .frost layer */
-  border: none;
-}
-main > * { pointer-events: auto; } /* re-enable on actual content */
-
-/* Continuous white panel behind every section — top to bottom of the page.
-   Sits inside main's stacking context (z-index 1) so it covers the wave but
-   stays behind all content. Extends 28px past the 1180px content column. */
-main::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: max(0px, calc((100% - 1180px) / 2 - 28px));
-  right: max(0px, calc((100% - 1180px) / 2 - 28px));
-  background: rgba(255, 255, 255, 0.65);
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Full-viewport frosted sheet — covers the entire page over the wave */
-.frost {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none; /* let cursor still reach wave shapes */
-  background: rgba(255, 255, 255, 0.55);
-}
-
-
-/* ===== Header — same geometry as the landing page =====
-   Identical size, padding and type. Differences on interior pages:
-   a permanent frosted bar (the landing page is transparent over photos)
-   and dark logo/links instead of white. No scroll behaviour. */
+/* ===== Header — sentence case, no bar, no frost ===== */
 .top {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
   gap: 24px;
-  padding: 26px clamp(24px, 4vw, 56px);
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding: 22px var(--pad);
+  background: var(--bg);
+  border-bottom: 1px solid var(--stroke);
 }
-.brand img { height: 40px; width: auto; display: block; }
+.brand img { height: 34px; width: auto; }
+.nav { display: flex; align-items: center; gap: clamp(18px, 2.2vw, 36px); }
+.nav a { font-size: var(--t-small); color: var(--fg); transition: color .2s; }
+.nav a:hover { color: var(--accent); }
+/* the one uppercase element besides the logo */
+.book {
+  font-size: var(--t-meta); font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: var(--accent);
+  padding: 11px 18px; white-space: nowrap;
+  transition: background .2s;
+}
+.book:hover { background: #3D2EF5; }
+@media (max-width: 760px) { .nav a:not(.book) { display: none; } }
 
-/* Hero masthead wordmark (retired — block logo lives in the nav) */
-
-/* Hero masthead wordmark */
-.hero-masthead { margin-bottom: clamp(22px, 3vw, 40px); }
-.hero-masthead img {
-  width: 100%;
-  max-width: 620px;
-  height: auto;
-  display: block;
+/* ===== Section rhythm — whitespace, not boxes ===== */
+section { padding: clamp(64px, 9vw, 132px) 0; border-top: 1px solid var(--stroke); }
+section:first-of-type { border-top: 0; }
+.eyebrow {
+  font-size: var(--t-meta);
+  color: var(--grey-1);
+  margin-bottom: clamp(28px, 4vw, 56px);
 }
-.nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(18px, 2.4vw, 40px);
-}
-.nav a {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(10,10,10,0.85);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.nav a:hover { color: var(--cobalt); }
-.nav .book {
-  color: var(--white);
-  background: var(--cobalt);
-  padding: 11px 20px;
-  transition: background 0.2s, transform 0.2s;
-  white-space: nowrap;
-}
-.nav .book:hover { background: #3D2EF5; transform: translateY(-1px); }
-@media (max-width: 720px) {
-  .nav a:not(.book) { display: none; }
-}
-
-/* Anchor offsets under fixed nav */
-#services, #work, #lab-pass, #contact { scroll-margin-top: 84px; }
 
 /* ===== Hero ===== */
-.hero { padding: clamp(20px, 4vw, 48px) 0 clamp(16px, 3vw, 32px); }
-.hero-eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  margin-bottom: 20px;
+.hero { padding-top: clamp(56px, 8vw, 110px); padding-bottom: clamp(48px, 7vw, 96px); }
+.hero h1 {
+  font-size: var(--t-hero);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 19ch;
 }
-.hero-sub {
-  font-size: clamp(16px, 1.8vw, 19px);
-  font-weight: 300;
-  line-height: 1.6;
-  color: rgba(0,0,0,0.7);
-  max-width: 620px;
-  margin: 22px 0 32px;
+.hero .sub {
+  font-size: var(--t-lead);
+  color: var(--grey-1);
+  line-height: 1.38;
+  max-width: 46ch;
+  margin-top: clamp(24px, 3vw, 40px);
 }
-.hero-sub strong { font-weight: 600; color: var(--black); }
-.hero .ctas { margin-bottom: 26px; }
-.hero .status { margin-bottom: 8px; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: clamp(32px, 4vw, 52px); }
+.link-arrow { font-size: var(--t-body); border-bottom: 1px solid var(--stroke); padding-bottom: 3px; transition: border-color .2s, color .2s; }
+.link-arrow:hover { color: var(--accent); border-color: var(--accent); }
 
-/* ===== Quick facts strip ===== */
+/* facts — hairline row, no border box */
 .facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 2px solid var(--cobalt);
-  margin: clamp(28px, 4vw, 44px) 0 0;
-  background: rgba(255,255,255,0.5);
-}
-.fact { padding: 18px 20px; border-right: 2px solid var(--cobalt); }
-.fact:last-child { border-right: 0; }
-@media (max-width: 640px) {
-  .facts { grid-template-columns: 1fr; }
-  .fact { border-right: 0; border-bottom: 2px solid var(--cobalt); }
-  .fact:last-child { border-bottom: 0; }
-}
-.fact-value {
-  font-size: clamp(18px, 2.2vw, 26px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-.fact-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(0,0,0,0.6);
-  margin-top: 5px;
-}
-
-/* ===== Section rhythm ===== */
-.section {
-  margin-top: clamp(56px, 7vw, 88px);
-  padding-top: clamp(36px, 5vw, 56px);
-  border-top: 1px solid rgba(0,0,0,0.10);
-}
-.section-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  margin-bottom: 8px;
-}
-.section-h2 {
-  font-size: clamp(26px, 3.6vw, 40px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 1.05;
-  color: var(--black);
-  margin-bottom: 22px;
-}
-
-/* ===== Process strip ===== */
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-@media (max-width: 860px) { .process-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 520px) { .process-grid { grid-template-columns: 1fr; } }
-.process-step {
-  border: 1px solid rgba(0,0,0,0.12);
-  background: rgba(255,255,255,0.6);
-  padding: 22px 20px;
-}
-.process-num {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--cobalt);
-  margin-bottom: 12px;
-}
-.process-title {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-}
-.process-desc {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: rgba(0,0,0,0.65);
-}
-/* Process as full blue block, at top of services */
-.process-blue {
-  background: var(--cobalt);
-  color: var(--white);
-  padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 48px);
-  margin-bottom: clamp(40px, 6vw, 64px);
-}
-.process-blue .section-eyebrow { color: rgba(255,255,255,0.72); }
-.process-blue .section-h2 { color: var(--white); }
-.process-blue .process-step {
-  border-color: rgba(255,255,255,0.28);
-  background: rgba(255,255,255,0.08);
-}
-.process-blue .process-num { color: rgba(255,255,255,0.62); }
-.process-blue .process-title { color: var(--white); }
-.process-blue .process-desc { color: rgba(255,255,255,0.82); }
-
-/* ===== Contact section ===== */
-.contact-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 32px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: rgba(0,0,0,0.7);
-  margin-top: 22px;
-}
-
-/* Lab logo lockup */
-.logo {
-  display: flex;
-  align-items: center;
-  margin-bottom: 64px;
-}
-.logo img,
-.logo svg {
-  height: 44px;
-  width: auto;
-  display: block;
-}
-
-/* Lab studio photo */
-.lab-photo {
-  margin: 28px 0 36px;
-  border: 0;
-  overflow: hidden;
-}
-.lab-photo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.lab-photo-caption {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  text-align: center;
-  margin-top: 10px;
-}
-
-/* Slideshow (replaces single image in figure) */
-.slideshow {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  max-height: 62vh;
-  overflow: hidden;
-  background: #0A0A0A;
-}
-.slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-.slide.active { opacity: 1; }
-.slideshow-dots {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 2;
-}
-.slideshow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  border: 1px solid rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: background 0.25s, transform 0.25s;
-  padding: 0;
-}
-.slideshow-dot.active {
-  background: var(--cobalt);
-  transform: scale(1.2);
-}
-.slideshow-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--black);
-  padding: 0;
-  opacity: 0.55;
-  transition: opacity 0.25s, background 0.25s, color 0.25s, transform 0.25s;
-}
-.slideshow:hover .slideshow-arrow { opacity: 1; }
-.slideshow-arrow:hover {
-  background: var(--cobalt);
-  color: var(--white);
-  border-color: var(--cobalt);
-}
-.slideshow-arrow.prev { left: 14px; }
-.slideshow-arrow.next { right: 14px; }
-.slideshow-arrow svg {
-  width: 16px;
-  height: 16px;
-  display: block;
-}
-
-/* Services section (rebuilt from Figma) */
-.services-block {
-  margin-bottom: 8px;
-}
-.services-lead {
-  margin: 0;
-  border: 3px solid var(--cobalt);
-  border-bottom: 0;
-  overflow: hidden;
-  position: relative;
-}
-.services-lead img {
-  display: block;
-  width: 100%;
-  height: auto;          /* full frame - no crop */
-}
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 3px solid var(--cobalt);
-  border-bottom: 0;
-}
-@media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
-.services-col {
-  padding: 24px 22px 28px;
-  border-right: 3px solid var(--cobalt);
-}
-.services-col:last-child { border-right: 0; }
-@media (max-width: 600px) {
-  .services-col { border-right: 0; border-bottom: 3px solid var(--cobalt); }
-  .services-col:last-child { border-bottom: 0; }
-}
-.services-col h3 {
-  font-size: clamp(18px, 2.6vw, 26px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  color: var(--black);
-  line-height: 1;
-}
-.services-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
-}
-.services-col li {
-  font-family: var(--ff);
-  font-size: clamp(11px, 1.3vw, 13px);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--black);
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  gap: 8px;
-  align-items: start;
-  line-height: 1.3;
-}
-.services-col li::before {
-  content: '+';
-  color: var(--cobalt);
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1;
-}
-.services-callout {
-  border: 3px solid var(--cobalt);
-  background: rgba(255,255,255,0.5);
-  padding: 22px 22px;
-  text-align: center;
-}
-.services-callout p {
-  font-size: clamp(20px, 3vw, 30px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  line-height: 1;
-  color: var(--black);
-}
-.services-callout p + p { margin-top: 8px; }
-
-.services-proof {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) 1.1fr;
-  border: 3px solid var(--cobalt);
-  border-top: 0;
-  align-items: stretch;
-  background: rgba(255,255,255,0.5);
-}
-@media (max-width: 600px) { .services-proof { grid-template-columns: 1fr; } }
-.services-proof figure {
-  margin: 0;
-  border-right: 3px solid var(--cobalt);
-  overflow: hidden;
-}
-@media (max-width: 600px) {
-  .services-proof figure { border-right: 0; border-bottom: 3px solid var(--cobalt); }
-}
-.services-proof img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 220px;
-  object-fit: cover;
-}
-.services-proof .proof-body {
-  padding: 26px 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.services-proof .proof-title {
-  font-size: clamp(40px, 7vw, 76px);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-  line-height: 0.92;
-  color: var(--black);
-  margin-bottom: 16px;
-}
-.services-proof .proof-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  margin-bottom: 10px;
-}
-.services-proof .proof-stat {
-  font-size: clamp(22px, 3.4vw, 34px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--black);
-}
-.services-proof .proof-stat span { font-size: 0.55em; font-weight: 600; }
-.services-proof .proof-desc {
-  margin-top: 14px;
-  font-family: var(--ff);
-  font-size: clamp(13px, 1.5vw, 15px);
-  font-weight: 500;
-  line-height: 1.4;
-  color: var(--black);
-  max-width: 34ch;
-}
-.services-proof .proof-desc strong { font-weight: 700; color: var(--cobalt); }
-
-/* ===== Makelab-style numbered service rows ===== */
-.svc-rows { border: 3px solid var(--cobalt); border-bottom: 0; margin-bottom: 0; background: rgba(255,255,255,0.5); }
-.svc-row {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 8px 18px;
-  padding: 26px 24px 24px;
-  border-bottom: 3px solid var(--cobalt);
-}
-.svc-row:last-child { border-bottom: 0; }
-.svc-num {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--cobalt);
-  padding-top: 4px;
-}
-.svc-main { min-width: 0; }
-.svc-title {
-  font-size: clamp(19px, 2.6vw, 27px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 1.05;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-.svc-desc {
-  font-size: clamp(13px, 1.5vw, 15px);
-  font-weight: 400;
-  line-height: 1.5;
-  color: rgba(0,0,0,0.7);
-  max-width: 60ch;
-  margin-bottom: 14px;
-}
-.svc-specs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.svc-spec {
-  border: 1.5px solid var(--cobalt);
-  color: var(--cobalt);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  white-space: nowrap;
-}
-.svc-apps {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: rgba(0,0,0,0.55);
-}
-.svc-apps strong { font-weight: 700; color: var(--black); text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; }
-@media (max-width: 560px) {
-  .svc-row { grid-template-columns: 1fr; padding: 20px 18px; }
-  .svc-num { padding-top: 0; }
-}
-
-/* ===== Capabilities spec table ===== */
-.cap-table { border: 3px solid var(--cobalt); margin-bottom: 8px; overflow-x: auto; background: rgba(255,255,255,0.5); }
-.cap-table table { width: 100%; border-collapse: collapse; min-width: 560px; }
-.cap-table th, .cap-table td {
-  padding: 14px 18px;
-  text-align: left;
-  border-bottom: 2px solid rgba(33,15,234,0.25);
-  font-size: clamp(12px, 1.4vw, 14px);
-  vertical-align: top;
-}
-.cap-table tr:last-child th, .cap-table tr:last-child td { border-bottom: 0; }
-.cap-table thead th {
-  background: var(--cobalt);
-  color: var(--white);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: clamp(12px, 1.4vw, 14px);
-  border-bottom: 0;
-}
-.cap-table tbody th {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 11px;
-  color: var(--cobalt);
-  white-space: nowrap;
-  width: 1%;
-  padding-right: 28px;
-}
-.cap-table td { font-weight: 500; color: var(--black); }
-
-/* ===== Materials strip ===== */
-.mat-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-.mat-chip {
-  border: 2px solid var(--cobalt);
-  background: rgba(255,255,255,0.5);
-  color: var(--black);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 8px 14px;
-}
-.mat-chip em { font-style: normal; font-weight: 500; color: rgba(0,0,0,0.55); }
-#materials { padding-bottom: clamp(256px, 32vw, 352px); }
-
-/* Lab Pass membership tiers */
-.tiers-header {
-  margin-bottom: 18px;
-  text-align: center;
-}
-.tiers-header .label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  margin-bottom: 8px;
-}
-.tiers-header h2 {
-  font-size: clamp(22px, 3vw, 30px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 1.05;
-  color: var(--black);
-}
-.tiers-header h2 em { font-style: normal; font-weight: 300; color: rgba(0,0,0,0.45); }
-.tiers-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 40px;
-}
-@media (max-width: 720px) { .tiers-grid { grid-template-columns: 1fr; } }
-.tier-card {
-  border: 2px solid var(--cobalt);
-  padding: 22px 18px 24px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background: rgba(255,255,255,0.5);
-}
-.tier-card.featured {
-  background: var(--cobalt);
-  color: var(--white);
-}
-.tier-flag {
-  position: absolute;
-  top: -1px;
-  right: 14px;
-  background: var(--white);
-  color: var(--cobalt);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 4px 9px;
-}
-.tier-name {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  color: inherit;
-  line-height: 1;
-}
-.tier-price {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin-bottom: 14px;
-}
-.tier-price-num {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: inherit;
-}
-.tier-price-unit {
-  font-size: 11px;
-  font-weight: 500;
-  opacity: 0.6;
-  letter-spacing: 0.04em;
-}
-.tier-best-for {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px dashed currentColor;
-  opacity: 0.55;
-  line-height: 1.3;
-}
-.tier-tag {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.4;
-  margin-bottom: 18px;
-  color: inherit;
-  opacity: 0.85;
-  min-height: 34px;
-}
-.tier-features {
-  list-style: none;
-  margin: 0 0 22px 0;
-  padding: 14px 0 0;
-  border-top: 1px solid currentColor;
-  display: grid;
-  gap: 8px;
-  flex-grow: 1;
-}
-.tier-features li {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  line-height: 1.4;
-  display: grid;
-  grid-template-columns: 12px 1fr;
-  gap: 6px;
-}
-.tier-features li::before {
-  content: '+';
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 1.3;
-}
-.tier-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 16px;
-  font-family: var(--ff);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1.5px solid currentColor;
-  color: inherit;
-  transition: all 0.25s;
-  background: transparent;
-}
-.tier-card:not(.featured) .tier-cta:hover {
-  background: var(--cobalt);
-  color: var(--white);
-  border-color: var(--cobalt);
-}
-.tier-card.featured .tier-cta {
-  background: var(--white);
-  color: var(--cobalt);
-  border-color: var(--white);
-}
-.tier-card.featured .tier-cta:hover {
-  background: var(--black);
-  color: var(--white);
-  border-color: var(--black);
-}
-
-/* Work / Projects grid */
-.work-section { margin-bottom: 8px; }
-.work-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.work-eyebrow {
-  font-size: clamp(20px, 2.8vw, 30px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--black);
-  margin-bottom: 8px;
-  line-height: 1.05;
-}
-.work-header h2 {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  color: var(--black);
-}
-.work-see-all {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.work-see-all:hover { color: var(--black); }
-
-.work-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-@media (max-width: 700px) { .work-grid { grid-template-columns: 1fr; } }
-.work-card {
-  display: flex;
-  flex-direction: column;
-  /* 3px to match the stroke weight used by the services / capabilities blocks */
-  border: 3px solid var(--cobalt);
-  background: rgba(255,255,255,0.5);
-  overflow: hidden;
-  transition: border-color 0.25s, transform 0.25s;
-}
-.work-card:hover {
-  border-color: var(--black);
-  transform: translateY(-2px);
-}
-.work-img {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  background: #0A0A0A;
-  overflow: hidden;
-}
-.work-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.work-body { padding: 18px 18px 22px; }
-.work-meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.55);
-  padding-bottom: 10px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-.work-cat { color: var(--black); }
-.work-tech { color: var(--cobalt); }
-.work-title {
-  font-size: clamp(15px, 1.6vw, 18px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--black);
-  margin-bottom: 6px;
-  line-height: 1.25;
-}
-.work-desc {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.45;
-  color: rgba(0,0,0,0.65);
-}
-
-/* Partemis 01 — large-format capability showcase */
-.partemis {
-  margin-bottom: 8px;
-}
-.partemis-photos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-@media (max-width: 640px) { .partemis-photos { grid-template-columns: 1fr; } }
-.partemis-photo {
-  border: 0;
-  overflow: hidden;
-  margin: 0;
-  aspect-ratio: 1 / 1;
-}
-.partemis-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-.partemis-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  margin-bottom: 8px;
-}
-.partemis h2 {
-  font-size: clamp(34px, 6vw, 56px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  line-height: 0.95;
-  color: var(--black);
-  margin-bottom: 14px;
-}
-.partemis-desc {
-  font-size: clamp(14px, 1.6vw, 17px);
-  font-weight: 300;
-  line-height: 1.6;
-  color: rgba(0,0,0,0.65);
-  max-width: 520px;
-  margin-bottom: 28px;
-}
-.partemis-specs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 2px solid var(--cobalt);
-}
-@media (max-width: 600px) { .partemis-specs { grid-template-columns: 1fr; } }
-.partemis-spec {
-  padding: 24px 20px;
-  border-right: 2px solid var(--cobalt);
-}
-.partemis-spec:last-child { border-right: 0; }
-@media (max-width: 600px) {
-  .partemis-spec { border-right: 0; border-bottom: 2px solid var(--cobalt); }
-  .partemis-spec:last-child { border-bottom: 0; }
-}
-.partemis-spec-value {
-  font-size: clamp(24px, 3.2vw, 38px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--black);
-  margin-bottom: 8px;
-  line-height: 1;
-}
-.partemis-spec-label {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.45;
-  color: rgba(0,0,0,0.6);
-}
-
-/* Tag */
-.tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--cobalt);
-  border: 1px solid rgba(33,15,234,0.4);
-  padding: 6px 14px;
-  margin-bottom: 32px;
-  background: rgba(33,15,234,0.06);
-  width: max-content;
-}
-
-/* Headline */
-h1 {
-  font-size: clamp(48px, 8vw, 104px);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  margin-bottom: 32px;
-  text-transform: uppercase;
-  color: var(--black);
-}
-h1 em {
-  font-style: normal;
-  font-weight: 300;
-  color: var(--black);
-}
-
-/* Body */
-.lede {
-  font-size: clamp(16px, 1.6vw, 19px);
-  font-weight: 300;
-  line-height: 1.65;
-  color: var(--black);
-  max-width: 580px;
-  margin-bottom: 48px;
-}
-.lede strong {
-  font-weight: 500;
-  color: var(--black);
-}
-
-/* CTAs */
-.ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 64px;
-}
-.cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 24px;
-  font-family: var(--ff);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--black);
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0,0,0,0.18);
-  transition: all 0.25s;
-}
-.cta:hover {
-  background: var(--cobalt);
-  border-color: var(--cobalt);
-  color: var(--white);
-  transform: translateY(-1px);
-}
-.cta.primary {
-  background: var(--cobalt);
-  border-color: var(--cobalt);
-  color: var(--white);
-}
-.cta.primary:hover {
-  background: #3D2EF5;
-}
-.cta svg { width: 16px; height: 16px; }
-
-/* Status line */
-.status {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--black);
-}
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #4ADE80;
-  box-shadow: 0 0 12px rgba(74,222,128,0.6);
-  animation: dotPulse 2s ease-in-out infinite;
-}
-@keyframes dotPulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.45; }
-}
-
-/* Card footer (inside the frosted tile) */
-.card-footer {
-  margin-top: 48px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--gutter);
+  margin-top: clamp(48px, 7vw, 96px);
   padding-top: 28px;
-  border-top: 1px solid rgba(0,0,0,0.12);
+  border-top: 1px solid var(--stroke);
 }
-.footer-row {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--black);
-}
-.card-footer a { color: var(--black); text-decoration: none; transition: color 0.25s; }
-.card-footer a:hover { color: var(--cobalt); }
+@media (max-width: 720px) { .facts { grid-template-columns: 1fr; gap: 28px; } }
+.fact-value { font-size: var(--t-lead); line-height: 1.15; }
+.fact-label { font-size: var(--t-small); color: var(--grey-1); margin-top: 8px; max-width: 30ch; }
 
-@media (max-width: 540px) {
-  .logo { margin-bottom: 56px; }
-  .ctas { flex-direction: column; align-items: flex-start; }
-  .cta { width: 100%; justify-content: center; }
-  .footer-row { flex-direction: column; align-items: flex-start; }
+/* ===== Work index — image + 4 lines, hierarchy by colour only ===== */
+.work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 72px) var(--gutter); }
+@media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+.work-item img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.work-item .t { font-size: var(--t-body); margin-top: 18px; }
+.work-item .m { font-size: var(--t-body); color: var(--grey-1); }
+.work-item:hover .t { color: var(--accent); }
+
+/* ===== What we do — numbered editorial rows ===== */
+.do-row {
+  display: grid; grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px var(--gutter);
+  padding: clamp(28px, 3.4vw, 44px) 0;
+  border-top: 1px solid var(--stroke);
 }
+.do-row:last-child { border-bottom: 1px solid var(--stroke); }
+@media (max-width: 860px) { .do-row { grid-template-columns: 48px 1fr; } .do-row .desc { grid-column: 2; } }
+.do-num { font-size: var(--t-meta); color: var(--grey-2); padding-top: .5em; }
+.do-title { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+.do-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 46ch; }
+.do-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
+
+/* ===== Capabilities — hairline table, no frame ===== */
+.cap { width: 100%; border-collapse: collapse; }
+.cap th, .cap td {
+  text-align: left; vertical-align: top;
+  padding: 18px 20px 18px 0;
+  border-bottom: 1px solid var(--stroke);
+  font-weight: 400; font-size: var(--t-small);
+}
+.cap thead th { color: var(--grey-1); font-size: var(--t-meta); padding-bottom: 14px; }
+.cap tbody th { color: var(--grey-1); width: 26%; }
+.cap-scroll { overflow-x: auto; }
+@media (max-width: 680px) { .cap { min-width: 560px; } }
+
+/* ===== Materials — plain list, no chips ===== */
+.mats { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: var(--t-body); }
+.mats span { color: var(--fg); }
+.mats em { font-style: normal; color: var(--grey-2); }
+
+/* ===== Studio ===== */
+.studio { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+@media (max-width: 860px) { .studio { grid-template-columns: 1fr; } }
+.studio p + p { margin-top: 1.1em; }
+.studio .body { font-size: var(--t-body); color: var(--grey-1); max-width: 52ch; }
+.studio figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.caption { font-size: var(--t-meta); color: var(--grey-2); margin-top: 10px; }
+
+/* ===== Contact ===== */
+.contact h2 { font-size: var(--t-open); font-weight: 400; line-height: 1.08; letter-spacing: -0.015em; max-width: 16ch; }
+.contact-rows { margin-top: clamp(36px, 5vw, 64px); }
+.c-row {
+  display: flex; flex-wrap: wrap; gap: 6px 24px;
+  padding: 18px 0; border-top: 1px solid var(--stroke);
+  font-size: var(--t-body);
+}
+.c-row:last-child { border-bottom: 1px solid var(--stroke); }
+.c-row .k { color: var(--grey-1); min-width: 120px; }
+.c-row a:hover { color: var(--accent); }
+
+/* ===== Footer ===== */
+.foot {
+  display: flex; flex-wrap: wrap; gap: 10px 32px;
+  padding: 40px var(--pad) 56px;
+  font-size: var(--t-meta); color: var(--grey-1);
+  border-top: 1px solid var(--stroke);
+}
+.foot a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 
-<!-- Cobalt wave background — Figma artwork, per-shape hover -->
-<div class="bg-wave" aria-hidden="true">
-  <svg viewBox="0 0 816 948" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <filter id="liquid-warp" x="-15%" y="-15%" width="130%" height="130%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.0025 0.004" numOctaves="1" seed="3" result="noise">
-          <animate attributeName="baseFrequency"
-                   values="0.0025 0.004; 0.004 0.003; 0.0022 0.0055; 0.0035 0.0035; 0.0025 0.004"
-                   dur="22s"
-                   repeatCount="indefinite" />
-        </feTurbulence>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="60" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-    <g id="wave-grid"></g>
-  </svg>
-</div>
-
-<!-- Full-viewport frosted sheet over the animated wave -->
-<div class="frost" aria-hidden="true"></div>
-
 <header class="top">
   <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
   <nav class="nav" aria-label="Main">
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
+    <a href="#work">Work</a>
+    <a href="#what-we-do">What we do</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#studio">Studio</a>
     <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
   </nav>
 </header>
 
-<main id="top">
+<main>
+
   <!-- HERO -->
-  <header class="hero">
-    <p class="hero-eyebrow">Design / Prototype / Fabrication</p>
-    <h1>End to End<br><em>Design and Fabrication</em></h1>
-    <p class="hero-sub">
-      Liberti Lab is a design + fabrication studio in Jersey City. Custom CAD, functional prototypes, and large-format 3D printing &mdash; from napkin sketch to physical part, with <strong>same-day turnaround</strong> on standard-size prints.
-    </p>
-    <div class="ctas">
-      <a class="cta primary" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Book a call
-      </a>
-      <a class="cta" href="mailto:hello@liberti-lab.com?subject=Project%20inquiry%20%E2%80%94%20liberti-lab.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Email the lab
-      </a>
+  <section class="hero wrap">
+    <h1>Liberti Lab is a design and fabrication studio in Jersey City.</h1>
+    <p class="sub">We take an idea from first sketch to finished part — CAD, functional prototypes, and large-format 3D printing, all under one roof.</p>
+    <div class="actions">
+      <a class="link-arrow" href="#work">See the work →</a>
+      <a class="link-arrow" href="mailto:hello@liberti-lab.com?subject=Project%20inquiry%20%E2%80%94%20liberti-lab.com">Start a project →</a>
     </div>
-    <div class="status">
-      <span class="dot" aria-hidden="true"></span>
-      <span>Studio open &middot; 9am&ndash;6pm Mon&ndash;Fri &middot; 98 Forrest St, Jersey City</span>
-    </div>
-
     <div class="facts">
-      <div class="fact">
-        <div class="fact-value">800&times;800&times;1000&nbsp;mm</div>
-        <div class="fact-label">Large-format build volume &mdash; the Partemis 01</div>
-      </div>
-      <div class="fact">
-        <div class="fact-value">Fast Delivery</div>
-        <div class="fact-label">Same-day available on standard parts</div>
-      </div>
-      <div class="fact">
-        <div class="fact-value">End To End Development</div>
-        <div class="fact-label">CAD &middot; prototype &middot; low-volume production</div>
-      </div>
-    </div>
-  </header>
-
-  <section class="work-section section" id="work">
-    <div class="work-header">
       <div>
-        <div class="work-eyebrow">Our work</div>
+        <div class="fact-value">800 × 800 × 1000 mm</div>
+        <div class="fact-label">Large-format build volume, printed as a single piece</div>
       </div>
-      <a href="mailto:hello@liberti-lab.com?subject=Tell%20me%20more%20about%20your%20past%20work" class="work-see-all">See more &rarr;</a>
+      <div>
+        <div class="fact-value">Same-day</div>
+        <div class="fact-label">Turnaround available on standard-size parts</div>
+      </div>
+      <div>
+        <div class="fact-value">End to end</div>
+        <div class="fact-label">Design, prototype and low-volume production in-house</div>
+      </div>
     </div>
+  </section>
 
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <p class="eyebrow">Work</p>
     <div class="work-grid">
-      <!-- TODO: swap title/desc + image when full case studies are ready -->
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a metal frame" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Furniture</span><span class="work-tech">FDM</span></div>
-          <h3 class="work-title">Saddle Prototype for Modular Seating</h3>
-          <p class="work-desc">Snap-on 3D-printed seat for a tubular steel frame &mdash; rapid prototype, no tooling.</p>
-        </div>
-      </article>
 
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Lighting</span><span class="work-tech">FDM &middot; Translucent</span></div>
-          <h3 class="work-title">Wall-Mounted Ambient Light Fixture</h3>
-          <p class="work-desc">Custom LED bar housing in translucent PLA with diffuser channel and slim mount profile.</p>
-        </div>
-      </article>
+      <a class="work-item" href="project-partemis.html">
+        <img src="images/lab-partemis.jpg" alt="Partemis 01 large-format 3D printer in the Liberti Lab studio" loading="lazy" />
+        <div class="t">Partemis 01</div>
+        <div class="m">Large-format printing at furniture scale</div>
+        <div class="m">Large Format FDM</div>
+        <div class="m">2026</div>
+      </a>
 
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-electronics.jpg" alt="Custom electronics workbench with PCBs and microcontrollers" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Hardware</span><span class="work-tech">PCB + Enclosure</span></div>
-          <h3 class="work-title">Custom Hardware Prototyping</h3>
-          <p class="work-desc">Compact housing for an ESP32-based controller with snap-fit lid and USB cutout.</p>
-        </div>
-      </article>
+      <div class="work-item">
+        <img src="images/lab-architectural.jpg" alt="Translucent undulating 3D-printed lattice panels" loading="lazy" />
+        <div class="t">Sculptural Forms</div>
+        <div class="m">Translucent lattice panels, printed in single runs</div>
+        <div class="m">Large Format FDM</div>
+        <div class="m">2026</div>
+      </div>
 
-      <article class="work-card">
-        <div class="work-img"><img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" /></div>
-        <div class="work-body">
-          <div class="work-meta"><span class="work-cat">Tooling</span><span class="work-tech">Lathe + 3D Print</span></div>
-          <h3 class="work-title">Hybrid Steel + Polymer Jig</h3>
-          <p class="work-desc">Mixed-material production jig &mdash; steel for accuracy, printed soft jaws for grip.</p>
-        </div>
-      </article>
+      <div class="work-item">
+        <img src="images/lab-brand-activation.jpg" alt="3D-printed World Cup trophy on a brand activation cart in Jersey City" loading="lazy" />
+        <div class="t">Event &amp; Brand Activations</div>
+        <div class="m">Hero props and branded builds for live events</div>
+        <div class="m">Large Format FDM · Finishing</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a tubular steel frame" loading="lazy" />
+        <div class="t">Modular Seating Prototype</div>
+        <div class="m">Snap-on printed seat for a steel frame — no tooling</div>
+        <div class="m">Product Design · FDM</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar glowing teal" loading="lazy" />
+        <div class="t">Ambient Light Fixture</div>
+        <div class="m">Translucent housing with integrated diffuser channel</div>
+        <div class="m">Product Design · Electronics</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" />
+        <div class="t">Hybrid Steel + Polymer Jig</div>
+        <div class="m">Steel for accuracy, printed soft jaws for grip</div>
+        <div class="m">Structural Fabrication</div>
+        <div class="m">2026</div>
+      </div>
+
     </div>
   </section>
 
-  <section class="process-blue" id="process">
-    <p class="section-eyebrow">How it works</p>
-    <h2 class="section-h2">From first call to finished part.</h2>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="process-num">01</div>
-        <div class="process-title">Consult</div>
-        <p class="process-desc">Tell us what you&rsquo;re building &mdash; a 15-minute call or an email with sketches, photos, or a broken part.</p>
+  <!-- WHAT WE DO -->
+  <!-- #services kept as an alias: the live home page still links to lab-rebuild.html#services -->
+  <span id="services" aria-hidden="true"></span>
+  <section id="what-we-do" class="wrap">
+    <p class="eyebrow">What we do</p>
+
+    <div class="do-row">
+      <div class="do-num">01</div>
+      <div class="do-title">Large Format 3D Printing</div>
+      <div class="do-desc desc">Massive single-piece parts on the Partemis 01 — no seams, no glue-ups.
+        <div class="do-specs">Up to 800 × 800 × 1000 mm · Single-pass structural walls · No tooling, no minimums</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">02</div>
-        <div class="process-title">Design</div>
-        <p class="process-desc">We model it in CAD and send renders for approval before anything gets printed.</p>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">02</div>
+      <div class="do-title">Rapid Prototyping</div>
+      <div class="do-desc desc">A ten-printer desktop fleet running around the clock, with local delivery in the Jersey City area.
+        <div class="do-specs">Standard size 260 × 260 × 260 mm · 10-printer fleet · Often same-day</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">03</div>
-        <div class="process-title">Build</div>
-        <p class="process-desc">Printed and finished in-house. Standard-size prints often same-day; large-format overnight.</p>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">03</div>
+      <div class="do-title">Design &amp; CAD</div>
+      <div class="do-desc desc">From napkin sketch to production-ready model, with renders for approval before anything is printed.
+        <div class="do-specs">3D modeling · Product rendering · Packaging and branding</div>
       </div>
-      <div class="process-step">
-        <div class="process-num">04</div>
-        <div class="process-title">Deliver</div>
-        <p class="process-desc">Pick up at the studio, or same-day local delivery in the Jersey City area.</p>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">04</div>
+      <div class="do-title">Structural Fabrication</div>
+      <div class="do-desc desc">Load-bearing parts built to hold up in the real world — solid walls, and steel-and-polymer hybrids from the metal bench.
+        <div class="do-specs">Reverse-engineered replacements · Metal + polymer hybrid</div>
+      </div>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">05</div>
+      <div class="do-title">Product Development</div>
+      <div class="do-desc desc">The full path from idea to working product — enclosures, electronics integration, molds, and low-to-mid volume runs.
+        <div class="do-specs">Design for manufacturing · Iterative prototype rounds · Pre-production samples</div>
       </div>
     </div>
   </section>
 
-  <div class="services-block section" id="services">
-    <p class="section-eyebrow">What we do</p>
-    <h2 class="section-h2">Design + fabrication, under one roof.</h2>
-    <figure class="services-lead">
-      <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio &mdash; large-format printer and print rack with desktop printers and filament spools" loading="lazy" />
-    </figure>
-    <div class="svc-rows">
-      <div class="svc-row">
-        <div class="svc-num">01</div>
-        <div class="svc-main">
-          <div class="svc-title">Large Format 3D Printing</div>
-          <p class="svc-desc">Massive single-piece parts on the Partemis 01 &mdash; no seams, no glue-ups. The machine desktop printers can&rsquo;t compete with.</p>
-          <div class="svc-specs"><span class="svc-spec">Up to 800&times;800&times;1000&nbsp;mm</span><span class="svc-spec">Single-pass structural walls</span><span class="svc-spec">No tooling, no minimums</span></div>
-          <p class="svc-apps"><strong>Applications:</strong> signage, event &amp; brand activations, furniture, trade show builds, props</p>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div class="svc-num">02</div>
-        <div class="svc-main">
-          <div class="svc-title">Rapid Prototyping</div>
-          <p class="svc-desc">A 10-printer desktop fleet running around the clock. Standard-size prints often same-day, with local delivery in the Jersey City area.</p>
-          <div class="svc-specs"><span class="svc-spec">Standard size 260&times;260&times;260&nbsp;mm</span><span class="svc-spec">10-printer fleet</span></div>
-          <p class="svc-apps"><strong>Applications:</strong> hardware development, design verification, fit checks, investor samples</p>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div class="svc-num">03</div>
-        <div class="svc-main">
-          <div class="svc-title">Design &amp; CAD</div>
-          <p class="svc-desc">From napkin sketch to production-ready model. Renders for approval before anything gets printed.</p>
-          <div class="svc-specs"><span class="svc-spec">3D modeling</span><span class="svc-spec">Product rendering</span><span class="svc-spec">Packaging &amp; branding</span></div>
-          <p class="svc-apps"><strong>Applications:</strong> product design, packaging design, logo &amp; brand identity, design for printing</p>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div class="svc-num">04</div>
-        <div class="svc-main">
-          <div class="svc-title">Structural Fabrication</div>
-          <p class="svc-desc">Load-bearing parts built to hold up in the real world &mdash; solid single-pass walls, steel + polymer hybrids from our metal bench.</p>
-          <div class="svc-specs"><span class="svc-spec">Reverse-engineered replacements</span><span class="svc-spec">Metal + polymer hybrid</span></div>
-          <p class="svc-apps"><strong>Applications:</strong> mounts, jigs &amp; fixtures, tooling, part repairs &amp; re-creation</p>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div class="svc-num">05</div>
-        <div class="svc-main">
-          <div class="svc-title">Product Development</div>
-          <p class="svc-desc">Full path from idea to working product &mdash; enclosures, electronics integration, molds, and low&ndash;mid volume runs.</p>
-          <div class="svc-specs"><span class="svc-spec">Design for manufacturing</span><span class="svc-spec">Iterative prototype rounds</span><span class="svc-spec">Pre-production samples</span></div>
-          <p class="svc-apps"><strong>Applications:</strong> custom lighting, enclosures, bridge manufacturing, small production runs</p>
-        </div>
-      </div>
-    </div>
-    <div class="services-callout">
-      <p>3D Printed Parts Available</p>
-      <p>For Same-Day Delivery</p>
-    </div>
-    <div class="services-proof">
-      <figure>
-        <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" loading="lazy" />
-      </figure>
-      <div class="proof-body">
-        <h3 class="proof-title">Functional Large-Format Prints</h3>
-        <div class="proof-label">Measured, not estimated</div>
-        <div class="proof-stat">2.5<span>&nbsp;mm</span></div>
-        <p class="proof-desc"><strong>Single-wall thickness laid down in one pass.</strong> Our wide-nozzle process builds solid, load-bearing walls without infill &mdash; stronger parts, printed faster.</p>
-      </div>
-    </div>
-  </div>
-
-  <section class="section" id="capabilities">
-    <p class="section-eyebrow">Capabilities</p>
-    <h2 class="section-h2">Design and build at any scale.</h2>
-    <div class="cap-table">
-      <table>
+  <!-- CAPABILITIES -->
+  <section id="capabilities" class="wrap">
+    <p class="eyebrow">Capabilities</p>
+    <div class="cap-scroll">
+      <table class="cap">
         <thead>
-          <tr><th></th><th>Desktop FDM</th><th>Large-Format FDM</th></tr>
+          <tr><th></th><th>Desktop FDM</th><th>Large-format FDM</th></tr>
         </thead>
         <tbody>
-          <tr><th>Machines</th><td>10-printer fleet, running 24/7</td><td>Partemis 01</td></tr>
-          <tr><th>Max build size</th><td>260 &times; 260 &times; 260&nbsp;mm</td><td>800 &times; 800 &times; 1000&nbsp;mm single piece</td></tr>
+          <tr><th>Machines</th><td>Ten-printer fleet, running continuously</td><td>Partemis 01</td></tr>
+          <tr><th>Max build size</th><td>260 × 260 × 260 mm</td><td>800 × 800 × 1000 mm, single piece</td></tr>
           <tr><th>Best for</th><td>Standard-size parts, prototypes, batch runs</td><td>Signage, props, furniture-scale objects</td></tr>
-          <tr><th>Wall capability</th><td>Fine detail, standard walls</td><td>2.5&nbsp;mm solid single-pass walls</td></tr>
-          <tr><th>Turnaround</th><td>Often same-day</td><td>Overnight &mdash; 48&nbsp;hr</td></tr>
+          <tr><th>Wall capability</th><td>Fine detail, standard walls</td><td>2.5 mm solid single-pass walls</td></tr>
+          <tr><th>Turnaround</th><td>Often same-day</td><td>Overnight to 48 hours</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
 
-  <section class="section" id="materials">
-    <p class="section-eyebrow">Materials</p>
-    <h2 class="section-h2">Stocked and ready to run.</h2>
-    <div class="mat-strip">
-      <span class="mat-chip">PLA</span>
-      <span class="mat-chip">Translucent PLA</span>
-      <span class="mat-chip">Matte &amp; Silk PLA</span>
-      <span class="mat-chip">PETG</span>
-      <span class="mat-chip">Recycled PETG</span>
-      <span class="mat-chip">TPU <em>&mdash; flexible</em></span>
-      <span class="mat-chip">ABS</span>
-      <span class="mat-chip">ASA <em>&mdash; outdoor</em></span>
+    <p class="eyebrow" style="margin-top: clamp(48px,6vw,80px)">Materials, stocked and ready to run</p>
+    <div class="mats">
+      <span>PLA</span>
+      <span>Translucent PLA</span>
+      <span>Matte &amp; Silk PLA</span>
+      <span>PETG</span>
+      <span>Recycled PETG</span>
+      <span>TPU <em>— flexible</em></span>
+      <span>ABS</span>
+      <span>ASA <em>— outdoor</em></span>
     </div>
   </section>
 
-  <section class="section" id="contact">
-    <p class="section-eyebrow">Contact</p>
-    <h2 class="section-h2">Let&rsquo;s build it.</h2>
-    <div class="ctas">
-      <a class="cta primary" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Book a call
-      </a>
-      <a class="cta" href="mailto:hello@liberti-lab.com?subject=Project%20inquiry%20%E2%80%94%20liberti-lab.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      Email the lab
-    </a>
-    <a class="cta" href="tel:+15512336933">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      551-233-6933
-    </a>
-    <a class="cta" href="https://instagram.com/libertilab" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      Instagram
-    </a>
+  <!-- STUDIO -->
+  <section id="studio" class="wrap">
+    <p class="eyebrow">Studio</p>
+    <div class="studio">
+      <div>
+        <div class="body">
+          <p>Liberti Lab works out of a studio in Bergen-Lafayette, Jersey City — a single room holding a ten-printer desktop fleet, the large-format Partemis 01, and a metal bench for the work that printing alone can't finish.</p>
+          <p>Having design and fabrication in the same place is the point. A part can be modeled, printed, measured, corrected and reprinted in a day, without a quote cycle or a shipment in between. That shortens the distance between an idea and something you can hold.</p>
+          <p>The studio serves Jersey City, Hoboken and the wider New York metro, with pickup at the studio or same-day local delivery.</p>
+        </div>
+      </div>
+      <figure>
+        <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio — large-format printer and print rack with desktop printers and filament spools" loading="lazy" />
+        <figcaption class="caption">The studio floor, Bergen-Lafayette, Jersey City</figcaption>
+      </figure>
     </div>
   </section>
 
-  <div class="card-footer">
-    <div class="footer-row">
-      <span>&copy; 2026 Liberti Lab</span>
-      <span>98 Forrest St, Jersey City, NJ</span>
-      <span><a href="tel:+15512336933">551-233-6933</a></span>
-      <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
+  <!-- CONTACT -->
+  <section id="contact" class="wrap contact">
+    <p class="eyebrow">Contact</p>
+    <h2>Tell us what you're building.</h2>
+    <div class="contact-rows">
+      <div class="c-row"><span class="k">Email</span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></div>
+      <div class="c-row"><span class="k">Phone</span><a href="tel:+15512336933">551-233-6933</a></div>
+      <div class="c-row"><span class="k">Studio</span><span>98 Forrest St, Jersey City, NJ 07304</span></div>
+      <div class="c-row"><span class="k">Hours</span><span>9:00–18:00, daily</span></div>
+      <div class="c-row"><span class="k">Book a call</span><a href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">30 minutes, on Cal.com →</a></div>
     </div>
-  </div>
+  </section>
+
 </main>
 
-<script>
-// Load the Figma SVG, split its compound path, wire cursor-tracking rotation
-(function () {
-  const g = document.getElementById('wave-grid');
-  const svg = document.querySelector('.bg-wave svg');
-  if (!g || !svg) return;
-  const svgNS = 'http://www.w3.org/2000/svg';
-
-  fetch('images/disruptive-lines.svg')
-    .then(r => r.text())
-    .then(text => {
-      const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
-      const sourcePath = doc.querySelector('path');
-      if (!sourcePath) return;
-
-      const d = sourcePath.getAttribute('d') || '';
-      const subpaths = d.match(/M[^M]+/g) || [];
-
-      const frag = document.createDocumentFragment();
-      subpaths.forEach((sub, i) => {
-        const p = document.createElementNS(svgNS, 'path');
-        p.setAttribute('d', sub.trim());
-        p.dataset.index = i;
-        frag.appendChild(p);
-      });
-      g.appendChild(frag);
-
-      // After paint, cache each path's center and wire cursor tracking
-      requestAnimationFrame(initFieldTracking);
-    })
-    .catch(err => console.warn('Wave SVG load failed:', err));
-
-  function initFieldTracking() {
-    const paths = Array.from(g.querySelectorAll('path'));
-    const data = paths.map(p => {
-      const b = p.getBBox();
-      return { el: p, cx: b.x + b.width / 2, cy: b.y + b.height / 2 };
-    });
-
-    let mx = 0, my = 0, rafId = null, active = false;
-    const vb = svg.viewBox.baseVal;
-
-    function update() {
-      data.forEach(({ el, cx, cy }) => {
-        const angle = Math.atan2(my - cy, mx - cx) * 180 / Math.PI + 90;
-        el.style.transform = `rotate(${angle}deg)`;
-      });
-      rafId = null;
-    }
-
-    function onMove(e) {
-      const rect = svg.getBoundingClientRect();
-      mx = ((e.clientX - rect.left) / rect.width) * vb.width;
-      my = ((e.clientY - rect.top) / rect.height) * vb.height;
-      active = true;
-      if (!rafId) rafId = requestAnimationFrame(update);
-    }
-
-    window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('touchmove', e => {
-      if (e.touches[0]) onMove(e.touches[0]);
-    }, { passive: true });
-  }
-})();
-
-// Lab slideshow — auto-advance with fade, pause on hover, clickable dots
-(function () {
-  const root = document.getElementById('labSlideshow');
-  const dotsHost = document.getElementById('labSlideshowDots');
-  if (!root || !dotsHost) return;
-  const slides = root.querySelectorAll('.slide');
-  if (slides.length < 2) return;
-
-  let idx = 0;
-  let paused = false;
-  const INTERVAL = 4000;
-
-  // Build dot indicators
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Show slide ${i + 1}`);
-    dot.addEventListener('click', () => go(i));
-    dotsHost.appendChild(dot);
-  });
-  const dots = dotsHost.querySelectorAll('.slideshow-dot');
-
-  function go(next) {
-    slides[idx].classList.remove('active');
-    dots[idx].classList.remove('active');
-    idx = (next + slides.length) % slides.length;
-    slides[idx].classList.add('active');
-    dots[idx].classList.add('active');
-  }
-
-  setInterval(() => { if (!paused) go(idx + 1); }, INTERVAL);
-
-  root.addEventListener('mouseenter', () => paused = true);
-  root.addEventListener('mouseleave', () => paused = false);
-
-  // Arrow controls
-  document.getElementById('labSlideshowPrev')?.addEventListener('click', () => go(idx - 1));
-  document.getElementById('labSlideshowNext')?.addEventListener('click', () => go(idx + 1));
-})();
-</script>
+<div class="foot">
+  <span>© 2026 Liberti Lab</span>
+  <span>98 Forrest St, Jersey City, NJ</span>
+  <span><a href="tel:+15512336933">551-233-6933</a></span>
+  <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
+</div>
 
 </body>
 </html>
