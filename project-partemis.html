@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partemis 01 — Liberti Lab</title>
+<meta name="description" content="Large-format additive manufacturing at Liberti Lab: 800 × 800 × 1000 mm single-piece parts with 2.5 mm solid single-pass walls.">
+<link rel="canonical" href="https://liberti-lab.com/project-partemis.html">
+<meta property="og:title" content="Partemis 01 — Large-format printing at furniture scale">
+<meta property="og:description" content="800 × 800 × 1000 mm, printed as a single piece. No seams, no glue-ups.">
+<meta property="og:type" content="article">
+<style>
+/* ===== D-DIN, self-hosted (SIL OFL) ===== */
+@font-face { font-family:'D-DIN'; src:url('fonts/d-din-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'D-DIN'; src:url('fonts/d-din-700.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+
+:root {
+  --fg:#0A0A0A; --bg:#FFFFFF;
+  --grey-1:#757575; --grey-2:#949494;
+  --stroke:#DFDFDF; --area:#F3F3F3; --accent:#210FEA;
+  --ff:'D-DIN','Space Grotesk',Arial,sans-serif;
+
+  --t-hero: clamp(40px, 7.4vw, 96px);
+  --t-lead: clamp(22px, 2.6vw, 32px);
+  --t-body: clamp(17px, 1.5vw, 21px);
+  --t-small:17px;
+  --t-meta: 15px;
+
+  --gutter:24px; --col:1180px;
+  --pad: max(24px, calc((100% - var(--col)) / 2));
+  /* narrower measure for reading copy */
+  --read: max(24px, calc((100% - 760px) / 2));
+}
+
+/* ===== Dark mode — the same seven tokens, inverted ===== */
+:root { color-scheme: light; }
+[data-theme="dark"] {
+  color-scheme: dark;
+  --fg:      #F2F2F2;
+  --bg:      #0A0A0A;
+  --grey-1:  #9A9A9A;            /* lifted so it still reads on black */
+  --grey-2:  #828282;
+  --stroke:  rgba(255,255,255,0.16);
+  --area:    #161616;
+  --accent:  #210FEA;            /* same cobalt as light mode — white on it = 9.05:1 */
+  --accent-ink: #8678FF;         /* accent as text on black = 5.79:1 */
+}
+body { transition: background-color .25s ease, color .25s ease; }
+[data-theme="dark"] .top { background: rgba(10,10,10,0.62); border-bottom-color: rgba(255,255,255,0.14); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme="dark"] .top { background: rgba(10,10,10,0.94); }
+}
+/* the logo is dark artwork — knock it out to white on black */
+[data-theme="dark"] .brand img { filter: brightness(0) invert(1); }
+
+/* toggle button */
+.theme {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--fg); width: 34px; height: 34px;
+  display: grid; place-items: center;
+  transition: color .2s;
+}
+.theme:hover { color: var(--accent-ink); }
+.theme svg { width: 18px; height: 18px; display: block; }
+.theme .i-sun { display: none; }
+[data-theme="dark"] .theme .i-moon { display: none; }
+[data-theme="dark"] .theme .i-sun  { display: block; }
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:var(--ff); font-weight:400; font-size:var(--t-body); line-height:1.5;
+  color:var(--fg); background:var(--bg); -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img { display:block; max-width:100%; }
+a { color:inherit; text-decoration:none; }
+.wrap { padding-left:var(--pad); padding-right:var(--pad); }
+.read { padding-left:var(--read); padding-right:var(--read); }
+
+/* Header — identical to the index page */
+.top {
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+  padding:22px var(--pad);
+  background: rgba(255,255,255,0.62);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(10,10,10,0.08);
+}
+/* if the browser can't blur the backdrop, fall back to near-opaque so text stays legible */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .top { background: rgba(255,255,255,0.94); }
+}
+.brand img { height:34px; width:auto; }
+.nav { display:flex; align-items:center; gap:clamp(18px,2.2vw,36px); }
+.nav a { font-size:var(--t-small); transition:color .2s; }
+.nav a:hover { color:var(--accent-ink); }
+.nav a.book {
+  font-size:var(--t-meta); font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; background:var(--accent); padding:11px 18px; white-space:nowrap; transition:background .2s;
+}
+.nav a.book:hover { background:#3D2EF5; }
+@media (max-width:760px){ .nav a:not(.book){ display:none; } }
+
+/* Title block */
+.titleblock { padding-top:clamp(48px,7vw,104px); padding-bottom:clamp(32px,4vw,56px); }
+.titleblock h1 {
+  font-size:var(--t-hero); font-weight:400; line-height:1.0; letter-spacing:-0.02em; max-width:16ch;
+}
+.titleblock .tag { font-size:var(--t-lead); color:var(--grey-1); line-height:1.3; max-width:38ch; margin-top:clamp(18px,2.4vw,30px); }
+.titleblock .year { font-size:var(--t-body); color:var(--grey-1); margin-top:clamp(20px,2.6vw,34px); }
+
+/* Figures — only 4:3, 3:2 and 3:4 */
+figure { margin:clamp(40px,5.5vw,88px) 0; }
+.f-wide img { width:100%; aspect-ratio:4/3; object-fit:cover; }
+.f-32 img  { width:100%; aspect-ratio:3/2; object-fit:cover; }
+.f-pair { display:grid; grid-template-columns:1fr 1fr; gap:var(--gutter); }
+.f-pair img { width:100%; aspect-ratio:3/4; object-fit:cover; }
+@media (max-width:680px){ .f-pair { grid-template-columns:1fr; } }
+figcaption { font-size:var(--t-meta); color:var(--grey-2); margin-top:10px; }
+
+/* Lead paragraphs — the 32px standfirst */
+.lead { font-size:var(--t-lead); line-height:1.35; max-width:30ch; }
+.lead p + p { margin-top:.8em; }
+.leadwrap { padding-top:clamp(16px,2vw,28px); padding-bottom:clamp(24px,3vw,40px); }
+
+/* Body sections — H2 at body size, separated by space not scale */
+.sec { padding-top:clamp(28px,4vw,56px); padding-bottom:clamp(28px,4vw,56px); }
+.sec h2 { font-size:var(--t-body); font-weight:400; color:var(--grey-1); margin-bottom:1em; }
+.sec p { max-width:66ch; }
+.sec p + p { margin-top:1.1em; }
+
+/* Spec list */
+.specs { border-top:1px solid var(--stroke); margin-top:clamp(32px,4vw,56px); }
+.s-row { display:flex; flex-wrap:wrap; gap:6px 24px; padding:16px 0; border-bottom:1px solid var(--stroke); font-size:var(--t-small); }
+.s-row .k { color:var(--grey-1); min-width:190px; }
+
+/* Next / back */
+.pager { display:flex; flex-wrap:wrap; gap:16px 32px; padding:clamp(48px,6vw,88px) var(--pad); border-top:1px solid var(--stroke); font-size:var(--t-body); }
+.pager a { border-bottom:1px solid var(--stroke); padding-bottom:3px; transition:color .2s,border-color .2s; }
+.pager a:hover { color:var(--accent-ink); border-color:var(--accent-ink); }
+
+.foot { display:flex; flex-wrap:wrap; gap:10px 32px; padding:40px var(--pad) 56px; font-size:var(--t-meta); color:var(--grey-1); border-top:1px solid var(--stroke); }
+.foot a:hover { color:var(--accent-ink); }
+</style>
+<script>
+// Theme: set before paint so there's no flash. Honours the OS setting until the
+// visitor chooses, then remembers their choice.
+(function () {
+  var root = document.documentElement, KEY = 'll-theme', saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var dark = saved ? saved === 'dark'
+                   : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(d) {
+    root.setAttribute('data-theme', d ? 'dark' : 'light');
+    var b = document.getElementById('theme');
+    if (b) {
+      b.setAttribute('aria-pressed', d ? 'true' : 'false');
+      b.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+  }
+  apply(dark);
+  document.addEventListener('DOMContentLoaded', function () { apply(root.getAttribute('data-theme') === 'dark'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('#theme');
+    if (!b) return;
+    var d = root.getAttribute('data-theme') !== 'dark';
+    apply(d);
+    try { localStorage.setItem(KEY, d ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+</script>
+</head>
+<body>
+
+<header class="top">
+  <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <nav class="nav" aria-label="Main">
+    <a href="lab-rebuild.html#work">Work</a>
+    <a href="lab-rebuild.html#what-we-do">What we do</a>
+    <a href="lab-rebuild.html#capabilities">Capabilities</a>
+    <a href="lab-rebuild.html#studio">Studio</a>
+    <button class="theme" id="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark mode">
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    </button>
+    <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+</header>
+
+<main>
+
+  <div class="titleblock wrap">
+    <h1>Partemis 01</h1>
+    <p class="tag">Large-format printing at furniture scale</p>
+    <p class="year">Large Format FDM · In service since 2026</p>
+  </div>
+
+  <figure class="f-wide wrap">
+    <img src="images/lab-partemis.jpg" alt="Partemis 01 — large-format 3D printer with an 800 mm build volume" />
+    <figcaption>Partemis 01 on the studio floor, Jersey City</figcaption>
+  </figure>
+
+  <div class="leadwrap read">
+    <div class="lead">
+      <p>Most 3D printing is small. Parts come off a desktop machine at palm size, and anything larger gets cut into pieces and glued back together.</p>
+      <p>Partemis 01 removes that step. At 800 × 800 × 1000 mm it prints furniture-scale objects in a single run — no seams, no glue-ups, no hidden joints to fail later.</p>
+    </div>
+  </div>
+
+  <figure class="f-32 wrap">
+    <img src="images/lab-largeformat.jpg" alt="Large-format 3D printer mid-print, extruding a tall translucent sculptural part" />
+    <figcaption>Mid-print: a translucent sculptural part laid down in continuous passes</figcaption>
+  </figure>
+
+  <div class="sec read">
+    <h2>Why single-piece matters</h2>
+    <p>A glued assembly is only as strong as its weakest joint, and the joint is almost always where it breaks. For signage, props and furniture — things that get carried, mounted, leaned on and knocked — that seam is a liability as much as a cosmetic problem.</p>
+    <p>Printing the whole object at once means the part has continuous material throughout. Nothing to delaminate, nothing to realign during assembly, and no filler-and-sand cycle before finishing.</p>
+  </div>
+
+  <figure class="f-pair wrap">
+    <img src="images/lab-architectural.jpg" alt="Translucent undulating 3D-printed lattice panels" />
+    <img src="images/lab-signage.png" alt="3D-printed RGB-lit infinity sculpture glowing in rainbow colours" />
+    <figcaption>Sculptural lattice panels and an illuminated signage piece, both printed large-format</figcaption>
+  </figure>
+
+  <div class="sec read">
+    <h2>Structural walls, not shells</h2>
+    <p>The machine runs a wide nozzle that lays down a 2.5 mm wall in a single pass. That is wide enough to be structural on its own, so parts don't depend on internal infill to carry load.</p>
+    <p>The practical effect is fewer passes, less material, shorter print time, and a part that behaves like a solid object rather than a hollow shell with a lattice inside it.</p>
+  </div>
+
+  <figure class="f-pair wrap">
+    <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" />
+    <img src="images/infill-frame-libertilab.jpg" alt="Close detail of printed infill and frame structure" />
+    <figcaption>Measured, not estimated: 2.50 mm off the calipers</figcaption>
+  </figure>
+
+  <div class="sec read">
+    <h2>What it's for</h2>
+    <p>Trade-show and retail builds, illuminated signage, event and brand activation props, furniture-scale prototypes, and architectural mockups — work that is too large for a desktop machine and too bespoke to justify tooling.</p>
+    <p>Because there's no mold and no minimum order, a one-off costs what a one-off should. The first part is the deliverable, not a prototype on the way to a production run.</p>
+
+    <div class="specs">
+      <div class="s-row"><span class="k">Build volume</span><span>800 × 800 × 1000 mm</span></div>
+      <div class="s-row"><span class="k">Wall thickness</span><span>2.5 mm, solid, single pass</span></div>
+      <div class="s-row"><span class="k">Nozzle</span><span>2.4 mm wide-deposition</span></div>
+      <div class="s-row"><span class="k">Typical turnaround</span><span>Overnight to 48 hours</span></div>
+      <div class="s-row"><span class="k">Tooling required</span><span>None — no molds, no minimums</span></div>
+    </div>
+  </div>
+
+</main>
+
+<div class="pager">
+  <a href="lab-rebuild.html#work">← All work</a>
+  <a href="mailto:hello@liberti-lab.com?subject=Large-format%20project%20%E2%80%94%20liberti-lab.com">Start a large-format project →</a>
+</div>
+
+<div class="foot">
+  <span>© 2026 Liberti Lab</span>
+  <span>98 Forrest St, Jersey City, NJ</span>
+  <span><a href="tel:+15512336933">551-233-6933</a></span>
+  <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
+</div>
+
+</body>
+</html>
