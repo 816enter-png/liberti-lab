@@ -232,6 +232,19 @@ section:first-of-type { border-top: 0; }
 .do-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 46ch; }
 .do-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
 
+/* ===== Capabilities: the machine, then the specs ===== */
+.machine {
+  display: grid; grid-template-columns: 1fr 1.05fr;
+  gap: clamp(28px, 4vw, 56px); align-items: center;
+  margin-bottom: clamp(44px, 6vw, 80px);
+}
+@media (max-width: 860px) { .machine { grid-template-columns: 1fr; } }
+.machine figure img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.machine-name { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+.machine-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 44ch; margin-top: 14px; }
+.machine-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
+.machine .link-arrow { display: inline-block; margin-top: 20px; }
+
 /* ===== Capabilities — hairline table, no frame ===== */
 .cap { width: 100%; border-collapse: collapse; }
 .cap th, .cap td {
@@ -363,13 +376,6 @@ section:first-of-type { border-top: 0; }
     <p class="eyebrow">Work</p>
     <div class="work-grid">
 
-      <a class="work-item" href="project-partemis.html">
-        <img src="images/lab-partemis.jpg" alt="Partemis 01 large-format 3D printer in the Liberti Lab studio" loading="lazy" />
-        <div class="t">Partemis 01</div>
-        <div class="m">Large-format printing at furniture scale</div>
-        <div class="m">Large Format FDM</div>
-        <div class="m">2026</div>
-      </a>
 
       <div class="work-item">
         <img src="images/lab-architectural.jpg" alt="Translucent undulating 3D-printed lattice panels" loading="lazy" />
@@ -464,6 +470,19 @@ section:first-of-type { border-top: 0; }
   <!-- CAPABILITIES -->
   <section id="capabilities" class="wrap">
     <p class="eyebrow">Capabilities</p>
+
+    <div class="machine">
+      <figure>
+        <img src="images/lab-partemis.jpg" alt="Partemis 01 — large-format 3D printer in the Liberti Lab studio" loading="lazy" />
+      </figure>
+      <div>
+        <h3 class="machine-name">Partemis 01</h3>
+        <p class="machine-desc">The large-format machine. Objects at furniture scale produced in a single run — no seams, no glue-ups, no hidden joints.</p>
+        <div class="machine-specs">800 × 800 × 1000 mm · 2.5 mm solid single-pass walls</div>
+        <a class="link-arrow" href="project-partemis.html">How it works →</a>
+      </div>
+    </div>
+
     <div class="cap-scroll">
       <table class="cap">
         <thead>
