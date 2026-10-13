@@ -81,7 +81,9 @@
 
   /* grid */
   --gutter: 24px;
-  --col: 1180px;
+  /* fluid: fills the screen on large displays, capped so it never sprawls.
+     Reading measures are held by per-element ch max-widths, as Snohetta does. */
+  --col: min(2000px, 92vw);
   --pad: max(24px, calc((100% - var(--col)) / 2));
 }
 

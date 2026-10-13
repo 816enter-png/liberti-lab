@@ -26,10 +26,10 @@
   --t-small:17px;
   --t-meta: 15px;
 
-  --gutter:24px; --col:1180px;
+  --gutter:24px; --col: min(1480px, 92vw);
   --pad: max(24px, calc((100% - var(--col)) / 2));
   /* narrower measure for reading copy */
-  --read: max(24px, calc((100% - 760px) / 2));
+  --read: max(24px, calc((100% - min(820px, 92vw)) / 2));
 }
 
 /* ===== Dark mode — the same seven tokens, inverted ===== */
