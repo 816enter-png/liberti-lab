@@ -268,20 +268,23 @@ section:first-of-type { border-top: 0; }
 
 /* ===== Capabilities: the machine, then the specs ===== */
 .machine {
-  display: grid; grid-template-columns: 0.85fr 1fr;
-  max-width: 1280px;
+  display: grid;
+  /* image track tracks the image's own cap, so no dead gap opens
+     up beside it on a wide display */
+  grid-template-columns: minmax(0, min(46%, 600px)) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 56px); align-items: center;
   margin-bottom: clamp(44px, 6vw, 80px);
 }
 @media (max-width: 860px) { .machine { grid-template-columns: 1fr; } }
 .machine figure img {
   width: 100%;
-  /* source is portrait (1047x1503) - a landscape crop would lose the print head */
-  aspect-ratio: 4 / 5;
-  max-height: 620px;
+  /* native ratio of the source (1047x1503) - nothing is cropped away.
+     capped on WIDTH, not height: a max-height would squash the box back
+     into a landscape crop once the column gets wide on a large display. */
+  aspect-ratio: 1047 / 1503;
   object-fit: cover;
-  object-position: 50% 42%;
 }
+.machine > div { max-width: 56ch; }
 .machine-name { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
 .machine-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 44ch; margin-top: 14px; }
 .machine-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
