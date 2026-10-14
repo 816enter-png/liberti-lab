@@ -26,8 +26,9 @@
   --t-small:17px;
   --t-meta: 15px;
 
-  --gutter:24px; --col: min(1480px, 92vw);
-  --pad: max(24px, calc((100% - var(--col)) / 2));
+  --gutter:24px;
+  /* side margin = the landing page's header rule; no column cap */
+  --pad: clamp(24px, 4vw, 56px);
   /* narrower measure for reading copy */
   --read: max(24px, calc((100% - min(820px, 92vw)) / 2));
 }

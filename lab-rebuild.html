@@ -81,10 +81,10 @@
 
   /* grid */
   --gutter: 24px;
-  /* fluid: fills the screen on large displays, capped so it never sprawls.
+  /* side margin = the landing page's header rule, so nav and content line up
+     across pages. No column cap: a cap left ~330px dead margins at 2670px.
      Reading measures are held by per-element ch max-widths, as Snohetta does. */
-  --col: min(2000px, 92vw);
-  --pad: max(24px, calc((100% - var(--col)) / 2));
+  --pad: clamp(24px, 4vw, 56px);
 }
 
 /* ===== Dark mode — the same seven tokens, inverted ===== */
@@ -269,9 +269,9 @@ section:first-of-type { border-top: 0; }
 /* ===== Capabilities: the machine, then the specs ===== */
 .machine {
   display: grid;
-  /* image track tracks the shots' own cap, so no dead gap opens
-     up beside them on a wide display */
-  grid-template-columns: minmax(0, min(58%, 780px)) minmax(0, 1fr);
+  /* shots grow with the page; capped by viewport HEIGHT (each 3:4 shot is
+     then <= ~80vh tall) so the pair always fits on screen on wide displays */
+  grid-template-columns: minmax(0, min(58%, 120vh)) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 56px); align-items: center;
   margin-bottom: clamp(44px, 6vw, 80px);
 }
