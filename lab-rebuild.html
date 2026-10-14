@@ -269,22 +269,28 @@ section:first-of-type { border-top: 0; }
 /* ===== Capabilities: the machine, then the specs ===== */
 .machine {
   display: grid;
-  /* image track tracks the image's own cap, so no dead gap opens
-     up beside it on a wide display */
-  grid-template-columns: minmax(0, min(46%, 600px)) minmax(0, 1fr);
+  /* image track tracks the shots' own cap, so no dead gap opens
+     up beside them on a wide display */
+  grid-template-columns: minmax(0, min(58%, 780px)) minmax(0, 1fr);
   gap: clamp(28px, 4vw, 56px); align-items: center;
   margin-bottom: clamp(44px, 6vw, 80px);
 }
 @media (max-width: 860px) { .machine { grid-template-columns: 1fr; } }
+/* the machine, then the proof of what it puts down */
+.machine-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.machine-shots figure { margin: 0; }
 .machine figure img {
   width: 100%;
-  /* native ratio of the source (1047x1503) - nothing is cropped away.
-     capped on WIDTH, not height: a max-height would squash the box back
-     into a landscape crop once the column gets wide on a large display. */
-  aspect-ratio: 1047 / 1503;
+  /* one shared ratio so the pair bottoms out level. 3/4 is native for the
+     calipers (960x1280); the machine shot (1047x1503) gives up 7% of its
+     height, biased off the BOTTOM so the print head stays in frame. */
+  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
-.machine > div { max-width: 56ch; }
+.machine-shots figure:first-child img { object-position: 50% 18%; }
+@media (max-width: 460px) { .machine-shots { grid-template-columns: 1fr; gap: 20px; } }
+/* text block only - .machine-shots is a div too and must not be clamped */
+.machine > div:not(.machine-shots) { max-width: 56ch; }
 .machine-name { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
 .machine-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 44ch; margin-top: 14px; }
 .machine-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
@@ -430,9 +436,14 @@ section:first-of-type { border-top: 0; }
     <p class="eyebrow">Capabilities</p>
 
     <div class="machine">
-      <figure>
-        <img src="images/lab-largeformat.jpg" alt="Partemis 01 mid-print — the head extruding a tall translucent sculptural part" loading="lazy" />
-      </figure>
+      <div class="machine-shots">
+        <figure>
+          <img src="images/lab-largeformat.jpg" alt="Partemis 01 mid-print — the head extruding a tall translucent sculptural part" loading="lazy" />
+        </figure>
+        <figure>
+          <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" loading="lazy" />
+        </figure>
+      </div>
       <div>
         <h3 class="machine-name">Partemis 01</h3>
         <p class="machine-desc">The large-format machine. Objects at furniture scale produced in a single run — no seams, no glue-ups, no hidden joints.</p>
