@@ -108,6 +108,34 @@ body { transition: background-color .25s ease, color .25s ease; }
 /* the logo is dark artwork — knock it out to white on black */
 [data-theme="dark"] .brand img { filter: brightness(0) invert(1); }
 
+/* ===== Mobile menu — the inline links are hidden under 760px ===== */
+.menu-btn {
+  display: none; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--fg); width: 34px; height: 34px; place-items: center;
+}
+.menu-btn svg { width: 20px; height: 20px; display: block; }
+.menu-btn .i-close { display: none; }
+.menu-btn[aria-expanded="true"] .i-open  { display: none; }
+.menu-btn[aria-expanded="true"] .i-close { display: block; }
+.mobile-menu { display: none; }
+@media (max-width: 760px) {
+  .menu-btn { display: grid; }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu:not([hidden]) { display: flex; }
+  .mobile-menu {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    background: var(--bg);
+    border-bottom: 1px solid var(--stroke);
+    padding: 0 var(--pad) 14px;
+  }
+  .mobile-menu a {
+    font-size: var(--t-body); color: var(--fg); text-decoration: none;
+    padding: 16px 0; border-top: 1px solid var(--stroke);
+  }
+  .mobile-menu a:active { color: var(--accent-ink); }
+}
+
 /* toggle button */
 .theme {
   background: none; border: 0; padding: 0; cursor: pointer;
@@ -170,6 +198,10 @@ a { color: inherit; text-decoration: none; }
 }
 .nav a.book:hover { background: #3D2EF5; }
 @media (max-width: 760px) { .nav a:not(.book) { display: none; } }
+
+/* anchor targets must clear the sticky header, or the section heading
+   lands underneath it when you follow a nav link */
+section[id], span[id] { scroll-margin-top: 104px; }
 
 /* ===== Section rhythm — whitespace, not boxes ===== */
 section { padding: clamp(64px, 9vw, 132px) 0; border-top: 1px solid var(--stroke); }
@@ -339,12 +371,22 @@ section:first-of-type { border-top: 0; }
     <a href="#work">Work</a>
     <a href="#what-we-do">What we do</a>
     <a href="#studio">Studio</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
     <button class="theme" id="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark mode">
       <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
     </button>
     <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
   </nav>
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#work">Work</a>
+    <a href="#what-we-do">What we do</a>
+    <a href="#studio">Studio</a>
+  </div>
 </header>
 
 <main>
@@ -556,5 +598,28 @@ section:first-of-type { border-top: 0; }
   <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
 </div>
 
+<script>
+// Mobile menu: the inline links are display:none under 760px, so phones get this panel.
+(function () {
+  var btn = document.getElementById('menuBtn'), panel = document.getElementById('mobileMenu');
+  if (!btn || !panel) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    panel.hidden = !open;
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    set(btn.getAttribute('aria-expanded') !== 'true');
+  });
+  panel.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) set(false);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  // if the viewport grows past the breakpoint, drop the panel
+  window.addEventListener('resize', function () { if (window.innerWidth > 760) set(false); }, { passive: true });
+})();
+</script>
 </body>
 </html>
