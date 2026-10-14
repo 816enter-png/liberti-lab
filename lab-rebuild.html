@@ -325,7 +325,12 @@ section:first-of-type { border-top: 0; }
 .studio { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
 @media (max-width: 860px) { .studio { grid-template-columns: 1fr; } }
 .studio p + p { margin-top: 1.1em; }
-.studio .body { font-size: var(--t-body); color: var(--grey-1); max-width: 52ch; }
+.studio .body {
+  /* same 1.5vw slope as --t-body, but a higher ceiling: at 21px the copy
+     sat in a third of its column on wide displays */
+  font-size: clamp(17px, 1.5vw, 40px); line-height: 1.4;
+  color: var(--grey-1); max-width: 52ch;
+}
 .studio figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .caption { font-size: var(--t-meta); color: var(--grey-2); margin-top: 10px; }
 
