@@ -1,5 +1,9 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/lab-rebuild", "destination": "/capabilities", "permanent": true },
+    { "source": "/lab-rebuild.html", "destination": "/capabilities", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/home" }
   ]
