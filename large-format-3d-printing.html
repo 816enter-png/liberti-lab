@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Large-Format 3D Printing &amp; Prototyping in NJ / NYC | Liberti Lab</title>
+<meta name="description" content="Liberti Lab is a design and fabrication studio in Jersey City. Custom CAD, functional prototypes, and large-format 3D printing up to 800×800×1000 mm.">
+<link rel="canonical" href="https://liberti-lab.com/large-format-3d-printing">
+<meta property="og:title" content="Large-Format 3D Printing &amp; Prototyping | Liberti Lab">
+<meta property="og:description" content="Design and fabrication under one roof. Custom CAD, prototyping, and large-format 3D printing in Jersey City.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://liberti-lab.com/#business",
+  "name": "Liberti Lab",
+  "description": "Design + fabrication studio in Jersey City, NJ. Custom CAD, functional prototypes, and large-format 3D printing — from concept to finished part.",
+  "url": "https://liberti-lab.com",
+  "logo": "https://liberti-lab.com/images/lab-logo.png",
+  "image": "https://liberti-lab.com/images/lab-studio.jpg",
+  "telephone": "+1-551-233-6933",
+  "email": "hello@liberti-lab.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "98 Forrest St",
+    "addressLocality": "Jersey City",
+    "addressRegion": "NJ",
+    "postalCode": "07304",
+    "addressCountry": "US"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "09:00",
+    "closes": "18:00"
+  }],
+  "areaServed": [
+    { "@type": "City", "name": "Jersey City" },
+    { "@type": "City", "name": "Hoboken" },
+    { "@type": "City", "name": "New York" },
+    { "@type": "AdministrativeArea", "name": "New Jersey" }
+  ],
+  "knowsAbout": ["3D printing","Large-format FDM","Rapid prototyping","CAD modeling","Product design","Custom signage"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://liberti-lab.com/large-format-3d-printing#service",
+  "name": "Large-format 3D printing and prototyping",
+  "serviceType": "Large-format FDM 3D printing, CAD modeling and rapid prototyping",
+  "url": "https://liberti-lab.com/large-format-3d-printing",
+  "provider": { "@id": "https://liberti-lab.com/#business" },
+  "areaServed": ["New Jersey", "New York City"],
+  "description": "Large-format FDM printing up to 800 × 800 × 1000 mm, with CAD development and functional prototyping from Liberti Lab in Jersey City."
+}
+</script>
+<style>
+#printing-questions h3 { margin: 32px 0 12px; font-size: 22px; line-height: 1.3; }
+#printing-questions p { max-width: 72ch; line-height: 1.6; }
+/* ===== D-DIN, self-hosted (SIL OFL) ===== */
+@font-face {
+  font-family: 'D-DIN';
+  src: url('fonts/d-din-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'D-DIN';
+  src: url('fonts/d-din-700.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ===== Tokens — 7 colours, mirroring Snøhetta's restraint ===== */
+:root {
+  --fg:      #0A0A0A;   /* all primary text */
+  --bg:      #FFFFFF;
+  --grey-1:  #757575;   /* secondary: taglines, meta, year */
+  --grey-2:  #949494;   /* tertiary */
+  --stroke:  #DFDFDF;   /* hairline rules — replaces every box */
+  --area:    #F3F3F3;   /* tinted panel */
+  --accent:  #210FEA;   /* cobalt — used rarely, like Snøhetta's green */
+  --accent-ink: #210FEA; /* accent used as TEXT (hover) */
+
+  --ff: 'D-DIN', 'Space Grotesk', Arial, sans-serif;
+
+  /* type scale */
+  --t-hero:  clamp(40px, 7.0vw, 92px);
+  --t-open:  clamp(30px, 4.2vw, 56px);
+  --t-large: clamp(26px, 3.2vw, 44px);
+  --t-lead:  clamp(21px, 2.3vw, 30px);
+  --t-body:  clamp(17px, 1.5vw, 21px);
+  --t-small: 17px;
+  --t-meta:  15px;
+
+  /* grid */
+  --gutter: 24px;
+  /* side margin = the landing page's header rule, so nav and content line up
+     across pages. No column cap: a cap left ~330px dead margins at 2670px.
+     Reading measures are held by per-element ch max-widths, as Snohetta does. */
+  --pad: clamp(24px, 4vw, 56px);
+}
+
+/* ===== Dark mode — the same seven tokens, inverted ===== */
+:root { color-scheme: light; }
+[data-theme="dark"] {
+  color-scheme: dark;
+  --fg:      #F2F2F2;
+  --bg:      #0A0A0A;
+  --grey-1:  #9A9A9A;            /* lifted so it still reads on black */
+  --grey-2:  #828282;
+  --stroke:  rgba(255,255,255,0.16);
+  --area:    #161616;
+  --accent:  #210FEA;            /* same cobalt as light mode — white on it = 9.05:1 */
+  --accent-ink: #8678FF;         /* accent as text on black = 5.79:1 */
+}
+body { transition: background-color .25s ease, color .25s ease; }
+[data-theme="dark"] .top { background: rgba(10,10,10,0.62); border-bottom-color: rgba(255,255,255,0.14); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme="dark"] .top { background: rgba(10,10,10,0.94); }
+}
+/* the logo is dark artwork — knock it out to white on black */
+[data-theme="dark"] .brand img { filter: brightness(0) invert(1); }
+
+/* ===== Mobile menu — the inline links are hidden under 760px ===== */
+.menu-btn {
+  display: none; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--fg); width: 34px; height: 34px; place-items: center;
+}
+.menu-btn svg { width: 20px; height: 20px; display: block; }
+.menu-btn .i-close { display: none; }
+.menu-btn[aria-expanded="true"] .i-open  { display: none; }
+.menu-btn[aria-expanded="true"] .i-close { display: block; }
+.mobile-menu { display: none; }
+@media (max-width: 760px) {
+  .menu-btn { display: grid; }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu:not([hidden]) { display: flex; }
+  .mobile-menu {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    background: var(--bg);
+    border-bottom: 1px solid var(--stroke);
+    padding: 0 var(--pad) 14px;
+  }
+  .mobile-menu a {
+    font-size: var(--t-body); color: var(--fg); text-decoration: none;
+    padding: 16px 0; border-top: 1px solid var(--stroke);
+  }
+  .mobile-menu a:active { color: var(--accent-ink); }
+}
+
+/* toggle button */
+.theme {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--fg); width: 34px; height: 34px;
+  display: grid; place-items: center;
+  transition: color .2s;
+}
+.theme:hover { color: var(--accent-ink); }
+.theme svg { width: 18px; height: 18px; display: block; }
+.theme .i-sun { display: none; }
+[data-theme="dark"] .theme .i-moon { display: none; }
+[data-theme="dark"] .theme .i-sun  { display: block; }
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.wrap { padding-left: var(--pad); padding-right: var(--pad); }
+
+/* ===== Header — sentence case, no bar, no frost ===== */
+.top {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+  padding: 22px var(--pad);
+  background: rgba(255,255,255,0.62);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(10,10,10,0.08);
+}
+/* if the browser can't blur the backdrop, fall back to near-opaque so text stays legible */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .top { background: rgba(255,255,255,0.94); }
+}
+.brand img { height: 34px; width: auto; }
+.nav { display: flex; align-items: center; gap: clamp(18px, 2.2vw, 36px); }
+.nav a { font-size: var(--t-small); color: var(--fg); transition: color .2s; }
+.nav a:hover { color: var(--accent-ink); }
+/* the one uppercase element besides the logo */
+.nav a.book {
+  font-size: var(--t-meta); font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: var(--accent);
+  padding: 11px 18px; white-space: nowrap;
+  transition: background .2s;
+}
+.nav a.book:hover { background: #3D2EF5; }
+@media (max-width: 760px) { .nav a:not(.book) { display: none; } }
+
+/* anchor targets must clear the sticky header, or the section heading
+   lands underneath it when you follow a nav link */
+section[id], span[id] { scroll-margin-top: 104px; }
+
+/* ===== Section rhythm — whitespace, not boxes ===== */
+section { padding: clamp(64px, 9vw, 132px) 0; border-top: 1px solid var(--stroke); }
+section:first-of-type { border-top: 0; }
+.eyebrow {
+  font-size: var(--t-meta);
+  color: var(--grey-1);
+  margin-bottom: clamp(28px, 4vw, 56px);
+}
+
+/* ===== Hero ===== */
+.hero { padding-top: clamp(56px, 8vw, 110px); padding-bottom: clamp(48px, 7vw, 96px); }
+.hero h1 {
+  font-size: var(--t-hero);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 19ch;
+}
+.hero .sub {
+  font-size: var(--t-lead);
+  color: var(--grey-1);
+  line-height: 1.38;
+  max-width: 46ch;
+  margin-top: clamp(24px, 3vw, 40px);
+}
+.hero .actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: clamp(32px, 4vw, 52px); }
+.link-arrow { font-size: var(--t-body); border-bottom: 1px solid var(--stroke); padding-bottom: 3px; transition: border-color .2s, color .2s; }
+.link-arrow:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+
+/* facts — hairline row, no border box */
+.facts {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--gutter);
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: 28px;
+  border-top: 1px solid var(--stroke);
+}
+@media (max-width: 720px) { .facts { grid-template-columns: 1fr; gap: 28px; } }
+.fact-value { font-size: var(--t-lead); line-height: 1.15; }
+.fact-label { font-size: var(--t-small); color: var(--grey-1); margin-top: 8px; max-width: 30ch; }
+
+/* ===== Work index — image + 4 lines, hierarchy by colour only ===== */
+.work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px, 5vw, 72px) var(--gutter); }
+@media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+.work-item img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.work-item .t { font-size: var(--t-body); margin-top: 18px; }
+.work-item .m { font-size: var(--t-body); color: var(--grey-1); }
+.work-item:hover .t { color: var(--accent-ink); }
+
+/* ===== What we do — numbered editorial rows ===== */
+.do-row {
+  display: grid; grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px var(--gutter);
+  padding: clamp(28px, 3.4vw, 44px) 0;
+  border-top: 1px solid var(--stroke);
+}
+.do-row:last-child { border-bottom: 1px solid var(--stroke); }
+@media (max-width: 860px) { .do-row { grid-template-columns: 48px 1fr; } .do-row .desc { grid-column: 2; } }
+.do-num { font-size: var(--t-meta); color: var(--grey-2); padding-top: .5em; }
+.do-title { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+.do-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 46ch; }
+.do-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
+
+/* ===== Capabilities: the machine, then the specs ===== */
+.machine {
+  display: grid;
+  /* shots grow with the page; capped by viewport HEIGHT (each 3:4 shot is
+     then <= ~80vh tall) so the pair always fits on screen on wide displays */
+  grid-template-columns: minmax(0, min(58%, 120vh)) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px); align-items: center;
+  margin-bottom: clamp(44px, 6vw, 80px);
+}
+@media (max-width: 860px) { .machine { grid-template-columns: 1fr; } }
+/* the machine, then the proof of what it puts down */
+.machine-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.machine-shots figure { margin: 0; }
+.machine figure img {
+  width: 100%;
+  /* one shared ratio so the pair bottoms out level. 3/4 is native for the
+     calipers (960x1280); the machine shot (1047x1503) gives up 7% of its
+     height, biased off the BOTTOM so the print head stays in frame. */
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.machine-shots figure:first-child img { object-position: 50% 18%; }
+@media (max-width: 460px) { .machine-shots { grid-template-columns: 1fr; gap: 20px; } }
+/* text block only - .machine-shots is a div too and must not be clamped */
+.machine > div:not(.machine-shots) { max-width: 56ch; }
+.machine-name { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+.machine-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 44ch; margin-top: 14px; }
+.machine-specs { font-size: var(--t-small); color: var(--grey-2); margin-top: 14px; }
+
+/* ===== Capabilities — hairline table, no frame ===== */
+.cap { width: 100%; border-collapse: collapse; }
+.cap th, .cap td {
+  text-align: left; vertical-align: top;
+  padding: 18px 20px 18px 0;
+  border-bottom: 1px solid var(--stroke);
+  font-weight: 400; font-size: var(--t-small);
+}
+.cap thead th { color: var(--grey-1); font-size: var(--t-meta); padding-bottom: 14px; }
+.cap tbody th { color: var(--grey-1); width: 26%; }
+.cap-scroll { overflow-x: auto; }
+@media (max-width: 680px) { .cap { min-width: 560px; } }
+
+/* ===== Materials — two groups, hairline rows, no chips ===== */
+.mat-group {
+  display: grid; grid-template-columns: 200px minmax(0, 1fr);
+  gap: 8px 24px; padding: 18px 0;
+  border-top: 1px solid var(--stroke);
+}
+.mat-group:last-of-type { border-bottom: 1px solid var(--stroke); }
+@media (max-width: 680px) { .mat-group { grid-template-columns: 1fr; } }
+.mat-label { font-size: var(--t-small); color: var(--grey-1); }
+.mats { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: var(--t-body); }
+.mats span { color: var(--fg); }
+.mats em { font-style: normal; color: var(--grey-2); }
+
+/* ===== Studio ===== */
+.studio { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+@media (max-width: 860px) { .studio { grid-template-columns: 1fr; } }
+.studio p + p { margin-top: 1.1em; }
+.studio .body {
+  /* same 1.5vw slope as --t-body, but a higher ceiling: at 21px the copy
+     sat in a third of its column on wide displays */
+  font-size: clamp(17px, 1.5vw, 40px); line-height: 1.4;
+  color: var(--grey-1); max-width: 52ch;
+}
+.studio figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.caption { font-size: var(--t-meta); color: var(--grey-2); margin-top: 10px; }
+
+/* ===== Contact ===== */
+.contact h2 { font-size: var(--t-open); font-weight: 400; line-height: 1.08; letter-spacing: -0.015em; max-width: 16ch; }
+.contact-rows { margin-top: clamp(36px, 5vw, 64px); }
+.c-row {
+  display: flex; flex-wrap: wrap; gap: 6px 24px;
+  padding: 18px 0; border-top: 1px solid var(--stroke);
+  font-size: var(--t-body);
+}
+.c-row:last-child { border-bottom: 1px solid var(--stroke); }
+.c-row .k { color: var(--grey-1); min-width: 120px; }
+.c-row a:hover { color: var(--accent-ink); }
+
+/* ===== Footer ===== */
+.foot {
+  display: flex; flex-wrap: wrap; gap: 10px 32px;
+  padding: 40px var(--pad) 56px;
+  font-size: var(--t-meta); color: var(--grey-1);
+  border-top: 1px solid var(--stroke);
+}
+.foot a:hover { color: var(--accent-ink); }
+</style>
+<script>
+// Theme: set before paint so there's no flash. Honours the OS setting until the
+// visitor chooses, then remembers their choice.
+(function () {
+  var root = document.documentElement, KEY = 'll-theme', saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var dark = saved ? saved === 'dark'
+                   : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(d) {
+    root.setAttribute('data-theme', d ? 'dark' : 'light');
+    var b = document.getElementById('theme');
+    if (b) {
+      b.setAttribute('aria-pressed', d ? 'true' : 'false');
+      b.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+  }
+  apply(dark);
+  document.addEventListener('DOMContentLoaded', function () { apply(root.getAttribute('data-theme') === 'dark'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('#theme');
+    if (!b) return;
+    var d = root.getAttribute('data-theme') !== 'dark';
+    apply(d);
+    try { localStorage.setItem(KEY, d ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+</script>
+</head>
+<body>
+
+<header class="top">
+  <a href="home.html" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <nav class="nav" aria-label="Main">
+    <a href="#capabilities">Capabilities</a>
+    <a href="#work">Work</a>
+    <a href="#what-we-do">What we do</a>
+    <a href="#studio">Studio</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <button class="theme" id="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark mode">
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    </button>
+    <a class="book" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#work">Work</a>
+    <a href="#what-we-do">What we do</a>
+    <a href="#studio">Studio</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <h1>Large-format 3D printing and prototyping in Jersey City.</h1>
+    <p class="sub">Liberti Lab designs and fabricates large FDM parts up to 800 × 800 × 1000 mm in a single piece. We work with designers, engineers, architects, and businesses across New Jersey and New York City, from CAD development to functional prototypes and finished builds.</p>
+    <div class="actions">
+      <a class="link-arrow" href="#work">See the work →</a>
+      <a class="link-arrow" href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">Start a project →</a>
+    </div>
+    <div class="facts">
+      <div>
+        <div class="fact-value">Any scale</div>
+        <div class="fact-label">Palm-size components to furniture-scale objects, printed in a single piece</div>
+      </div>
+      <div>
+        <div class="fact-value">No tooling</div>
+        <div class="fact-label">One-off and low-volume work, without molds or minimums</div>
+      </div>
+      <div>
+        <div class="fact-value">End to end</div>
+        <div class="fact-label">Design, prototype and low-volume production in-house</div>
+      </div>
+    </div>
+  </section>
+  <!-- CAPABILITIES -->
+  <section id="capabilities" class="wrap">
+    <p class="eyebrow">Capabilities</p>
+
+    <div class="machine">
+      <div class="machine-shots">
+        <figure>
+          <img src="images/lab-largeformat.jpg" alt="Partemis 01 mid-print — the head extruding a tall translucent sculptural part" loading="lazy" />
+        </figure>
+        <figure>
+          <img src="images/lab-calipers.jpg" alt="Digital calipers measuring a printed wall at 2.50 mm" loading="lazy" />
+        </figure>
+      </div>
+      <div>
+        <h3 class="machine-name">Partemis 01</h3>
+        <p class="machine-desc">Large Format Additive Manufacturing. Objects at furniture scale produced in a single run — no seams, no glue-ups, no hidden joints.</p>
+        <div class="machine-specs">800 × 800 × 1000 mm · 2.5 mm solid single-pass walls</div>
+      </div>
+    </div>
+
+    <div class="cap-scroll">
+      <table class="cap">
+        <thead>
+          <tr><th></th><th>Desktop FDM</th><th>Large-format FDM</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Build volume</th><td>260 × 260 × 260 mm</td><td>800 × 800 × 1000 mm, single piece</td></tr>
+          <tr><th>Best for</th><td>Standard-size parts, prototypes, batch runs</td><td>Signage, props, furniture-scale objects</td></tr>
+          <tr><th>Wall capability</th><td>Fine detail, standard walls</td><td>2.5 mm solid single-pass walls</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="eyebrow" style="margin-top: clamp(48px,6vw,80px)">Materials, stocked and ready to run</p>
+    <div class="mat-group">
+      <div class="mat-label">General Use</div>
+      <div class="mats">
+        <span>PLA <em>— rigid, fine detail</em></span>
+        <span>PETG <em>— tough, impact resistant</em></span>
+      </div>
+    </div>
+    <div class="mat-group">
+      <div class="mat-label">Engineering Grade</div>
+      <div class="mats">
+        <span>ABS <em>— heat resistant</em></span>
+        <span>ASA <em>— UV stable, outdoor</em></span>
+        <span>TPU <em>— flexible</em></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <p class="eyebrow">Work</p>
+    <div class="work-grid">
+
+
+      <div class="work-item">
+        <img src="images/lab-architectural.jpg" alt="Translucent undulating 3D-printed lattice panels" loading="lazy" />
+        <div class="t">Sculptural Forms</div>
+        <div class="m">Translucent lattice panels, printed in single runs</div>
+        <div class="m">Large Format FDM</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-brand-activation.jpg" alt="3D-printed World Cup trophy on a brand activation cart in Jersey City" loading="lazy" />
+        <div class="t">Event &amp; Brand Activations</div>
+        <div class="m">Hero props and branded builds for live events</div>
+        <div class="m">Large Format FDM · Finishing</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-robotic-parts.png" alt="3D-printed robotic torso and limb parts on the printer bed" loading="lazy" style="object-position:50% 78%" />
+        <div class="t">Robotic Parts</div>
+        <div class="m">3D-printed torso and limb shells</div>
+        <div class="m">FDM</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-bench.jpg" alt="3D-printed saddle seat clipped onto a tubular steel frame" loading="lazy" />
+        <div class="t">Modular Seating Prototype</div>
+        <div class="m">Snap-on printed seat for a steel frame — no tooling</div>
+        <div class="m">Product Design · FDM</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed LED light bar glowing teal" loading="lazy" />
+        <div class="t">Ambient Light Fixture</div>
+        <div class="m">Translucent housing with integrated diffuser channel</div>
+        <div class="m">Product Design · Electronics</div>
+        <div class="m">2026</div>
+      </div>
+
+      <div class="work-item">
+        <img src="images/lab-metalwork.jpg" alt="Machining a part on a metal lathe with a vise and dies" loading="lazy" />
+        <div class="t">Hybrid Steel + Polymer Jig</div>
+        <div class="m">Steel for accuracy, printed soft jaws for grip</div>
+        <div class="m">Structural Fabrication</div>
+        <div class="m">2026</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <!-- #services kept as an alias: the live home page still links to lab-rebuild.html#services -->
+  <span id="services" aria-hidden="true"></span>
+  <section id="what-we-do" class="wrap">
+    <p class="eyebrow">What we do</p>
+
+    <div class="do-row">
+      <div class="do-num">01</div>
+      <div class="do-title">Large Format 3D Printing</div>
+      <div class="do-desc desc">Massive single-piece parts on the Partemis 01 — no seams, no glue-ups.
+        <div class="do-specs">Up to 800 × 800 × 1000 mm · Single-pass structural walls · No tooling, no minimums</div>
+      </div>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">02</div>
+      <div class="do-title">Rapid Prototyping</div>
+      <div class="do-desc desc">Dimensional parts for fit, function and design review, iterated in-house as the design develops.
+        <div class="do-specs">Standard size 260 × 260 × 260 mm · Iterative revisions</div>
+      </div>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">03</div>
+      <div class="do-title">Design &amp; CAD</div>
+      <div class="do-desc desc">From napkin sketch to production-ready model, with renders for approval before anything is printed.
+        <div class="do-specs">3D modeling · Product rendering · Packaging and branding</div>
+      </div>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">04</div>
+      <div class="do-title">Structural Fabrication</div>
+      <div class="do-desc desc">Load-bearing parts built to hold up in the real world — solid walls, and steel-and-polymer hybrids from the metal bench.
+        <div class="do-specs">Reverse-engineered replacements · Metal + polymer hybrid</div>
+      </div>
+    </div>
+
+    <div class="do-row">
+      <div class="do-num">05</div>
+      <div class="do-title">Product Development</div>
+      <div class="do-desc desc">The full path from idea to working product — enclosures, electronics integration, molds, and low-to-mid volume runs.
+        <div class="do-specs">Design for manufacturing · Iterative prototype rounds · Pre-production samples</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STUDIO -->
+  <section id="studio" class="wrap">
+    <p class="eyebrow">Studio</p>
+    <div class="studio">
+      <div>
+        <div class="body">
+          <p>Built to turn concepts into reality. Modeling, full-scale printing and hand finishing share one room in Jersey City, across the Hudson from Lower Manhattan.</p>
+          <p>Make it, hold it, push it further. Every round happens under one roof — no handoffs, no outside vendors, nothing lost between the first sketch and the finished object.</p>
+          <p>Liberti Additive Build works with architects, designers, engineers and everyone in between, realizing conceptual ideas in physical form.</p>
+        </div>
+      </div>
+      <figure>
+        <img src="images/lab-studio.jpg" alt="Inside the Liberti Lab studio — large-format printer and print rack with desktop printers and filament spools" loading="lazy" />
+        <figcaption class="caption">The studio floor, Jersey City</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap" id="printing-questions" aria-labelledby="printing-questions-title">
+    <p class="eyebrow">Project questions</p>
+    <h2 id="printing-questions-title">Plan your large-format print.</h2>
+    <div class="contact-rows">
+      <h3>How large can you print in one piece?</h3>
+      <p>Our large-format FDM build volume is 800 × 800 × 1000 mm. Standard-size printing supports parts up to 260 × 260 × 260 mm. We review the geometry and intended use to choose the appropriate process.</p>
+      <h3>Can you help develop a prototype without a finished CAD model?</h3>
+      <p>Yes. Liberti Lab provides CAD modeling and product development as well as printing. Share your sketch, reference images, dimensions, and what the part needs to do.</p>
+      <h3>What do you make?</h3>
+      <p>Projects include robotic torso and limb shells, sculptural forms, custom signage, furniture prototypes, housings, and functional parts. See the Work section above for examples made in the studio.</p>
+      <h3>Which materials are available?</h3>
+      <p>Available materials include PLA, PETG, ABS, ASA, and flexible TPU. Material and machine suitability depend on the size, environment, and mechanical requirements of your project.</p>
+      <h3>How do I request a quote?</h3>
+      <p>Email <a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a> with your model or reference images, dimensions, quantity, intended use, and deadline. We review feasibility, material, finishing, and timing before quoting.</p>
+      <h3>Where is Liberti Lab?</h3>
+      <p>The studio is at 98 Forrest St, Jersey City, NJ 07304. Business hours are 9 am to 6 pm daily. We serve the New Jersey and NYC area; contact us to coordinate your project or a studio visit.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="wrap contact">
+    <p class="eyebrow">Contact</p>
+    <h2>Tell us what you're building.</h2>
+    <div class="contact-rows">
+      <div class="c-row"><span class="k">Email</span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></div>
+      <div class="c-row"><span class="k">Phone</span><a href="tel:+15512336933">551-233-6933</a></div>
+      <div class="c-row"><span class="k">Studio</span><span>98 Forrest St, Jersey City, NJ 07304</span></div>
+      <div class="c-row"><span class="k">Hours</span><span>9:00–18:00, daily</span></div>
+      <div class="c-row"><span class="k">Book a call</span><a href="https://cal.com/liberti-lab/30min" target="_blank" rel="noopener">30 minutes, on Cal.com →</a></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="foot">
+  <span>© 2026 Liberti Lab</span>
+  <span>98 Forrest St, Jersey City, NJ</span>
+  <span><a href="tel:+15512336933">551-233-6933</a></span>
+  <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
+</div>
+
+<script>
+// Mobile menu: the inline links are display:none under 760px, so phones get this panel.
+(function () {
+  var btn = document.getElementById('menuBtn'), panel = document.getElementById('mobileMenu');
+  if (!btn || !panel) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    panel.hidden = !open;
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    set(btn.getAttribute('aria-expanded') !== 'true');
+  });
+  panel.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) set(false);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  // if the viewport grows past the breakpoint, drop the panel
+  window.addEventListener('resize', function () { if (window.innerWidth > 760) set(false); }, { passive: true });
+})();
+</script>
+</body>
+</html>
