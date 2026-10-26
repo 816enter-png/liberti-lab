@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom 3D Signs for Businesses in Jersey City, Hoboken &amp; NYC | Liberti Lab</title>
+<meta name="description" content="Dimensional, illuminated, and event signs 3D-printed in Jersey City. Send your logo and get a free mockup with a price within one business day.">
+<link rel="canonical" href="https://liberti-lab.com/custom-signs">
+<meta property="og:title" content="Custom 3D Signs, Made in Jersey City | Liberti Lab">
+<meta property="og:description" content="Send your logo. Get a free mockup of your sign, with a price, within one business day.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://liberti-lab.com/custom-signs">
+<meta property="og:image" content="https://liberti-lab.com/images/signs-hero-8.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://liberti-lab.com/custom-signs#service",
+  "name": "Custom 3D-printed signs",
+  "serviceType": "Custom dimensional, illuminated, and event signage",
+  "url": "https://liberti-lab.com/custom-signs",
+  "provider": {
+    "@type": "LocalBusiness",
+    "@id": "https://liberti-lab.com/#business",
+    "name": "Liberti Lab",
+    "telephone": "+1-551-233-6933",
+    "email": "hello@liberti-lab.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "98 Forrest St",
+      "addressLocality": "Jersey City",
+      "addressRegion": "NJ",
+      "postalCode": "07304",
+      "addressCountry": "US"
+    }
+  },
+  "areaServed": ["Jersey City", "Hoboken", "New Jersey", "New York City"],
+  "description": "Dimensional logo signs, LED-illuminated signs, and event pieces, 3D-printed and finished in Jersey City. Free mockup within one business day."
+}
+</script>
+<style>
+/* ===== D-DIN, self-hosted (SIL OFL) — same as the rest of liberti-lab.com ===== */
+@font-face { font-family: 'D-DIN'; src: url('fonts/d-din-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'D-DIN'; src: url('fonts/d-din-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* ===== Tokens — identical to large-format-3d-printing.html ===== */
+:root {
+  --fg: #0A0A0A; --bg: #FFFFFF;
+  --grey-1: #757575; --grey-2: #949494;
+  --stroke: #DFDFDF; --area: #F3F3F3;
+  --accent: #210FEA; --accent-ink: #210FEA;
+  --ff: 'D-DIN', 'Space Grotesk', Arial, sans-serif;
+  --t-hero:  clamp(40px, 6.4vw, 88px);
+  --t-open:  clamp(30px, 4.2vw, 56px);
+  --t-large: clamp(26px, 3.2vw, 44px);
+  --t-lead:  clamp(21px, 2.3vw, 30px);
+  --t-body:  clamp(17px, 1.5vw, 21px);
+  --t-small: 17px;
+  --t-meta:  15px;
+  --gutter: 24px;
+  --pad: clamp(24px, 4vw, 56px);
+}
+:root { color-scheme: light; }
+[data-theme="dark"] {
+  color-scheme: dark;
+  --fg: #F2F2F2; --bg: #0A0A0A;
+  --grey-1: #9A9A9A; --grey-2: #828282;
+  --stroke: rgba(255,255,255,0.16); --area: #161616;
+  --accent: #210FEA; --accent-ink: #8678FF;
+}
+body { transition: background-color .25s ease, color .25s ease; }
+[data-theme="dark"] .top { background: rgba(10,10,10,0.62); border-bottom-color: rgba(255,255,255,0.14); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme="dark"] .top { background: rgba(10,10,10,0.94); }
+}
+[data-theme="dark"] .brand img { filter: brightness(0) invert(1); }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff); font-weight: 400; font-size: var(--t-body); line-height: 1.5;
+  color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+.wrap { padding-left: var(--pad); padding-right: var(--pad); }
+
+/* ===== Header — logo, one action, theme. No exits on a landing page. ===== */
+.top {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 18px var(--pad);
+  background: rgba(255,255,255,0.62);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(10,10,10,0.08);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .top { background: rgba(255,255,255,0.94); } }
+.brand img { height: 34px; width: auto; }
+.top-actions { display: flex; align-items: center; gap: 18px; }
+.theme {
+  background: none; border: 0; padding: 0; cursor: pointer; color: var(--fg);
+  width: 34px; height: 34px; display: grid; place-items: center; transition: color .2s;
+}
+.theme:hover { color: var(--accent-ink); }
+.theme svg { width: 18px; height: 18px; display: block; }
+.theme .i-sun { display: none; }
+[data-theme="dark"] .theme .i-moon { display: none; }
+[data-theme="dark"] .theme .i-sun  { display: block; }
+
+/* the one solid element — same treatment as "Book a call" site-wide */
+.btn {
+  display: inline-block;
+  font-family: var(--ff); font-size: var(--t-meta); font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: var(--accent); border: 0; cursor: pointer;
+  padding: 11px 18px; white-space: nowrap; transition: background .2s;
+}
+.btn:hover { background: #3D2EF5; }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn-lg { padding: 18px 28px; font-size: var(--t-meta); }
+
+section[id] { scroll-margin-top: 90px; }
+section { padding: clamp(64px, 9vw, 128px) 0; border-top: 1px solid var(--stroke); }
+section:first-of-type { border-top: 0; }
+.eyebrow { font-size: var(--t-meta); color: var(--grey-1); margin-bottom: clamp(28px, 4vw, 56px); }
+h2.big { font-size: var(--t-open); font-weight: 400; line-height: 1.08; letter-spacing: -0.015em; max-width: 18ch; }
+.lead-copy { font-size: var(--t-lead); color: var(--grey-1); line-height: 1.38; max-width: 46ch; margin-top: 20px; }
+
+/* ===== Hero — copy left, the lit sign right ===== */
+.hero { padding-top: clamp(40px, 6vw, 88px); padding-bottom: clamp(48px, 7vw, 96px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+.hero h1 { font-size: var(--t-hero); font-weight: 400; line-height: 1.02; letter-spacing: -0.015em; max-width: 14ch; }
+.hero .sub { font-size: var(--t-lead); color: var(--grey-1); line-height: 1.38; max-width: 40ch; margin-top: clamp(20px, 2.6vw, 34px); }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; margin-top: clamp(28px, 3.6vw, 44px); }
+.hero figure img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 55%; }
+.caption { font-size: var(--t-meta); color: var(--grey-2); margin-top: 10px; }
+.link-arrow { font-size: var(--t-body); border-bottom: 1px solid var(--stroke); padding-bottom: 3px; transition: border-color .2s, color .2s; }
+.link-arrow:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+
+.facts {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter);
+  margin-top: clamp(48px, 7vw, 88px); padding-top: 28px; border-top: 1px solid var(--stroke);
+}
+@media (max-width: 720px) { .facts { grid-template-columns: 1fr; gap: 26px; } }
+.fact-value { font-size: var(--t-lead); line-height: 1.15; }
+.fact-label { font-size: var(--t-small); color: var(--grey-1); margin-top: 8px; max-width: 30ch; }
+
+/* ===== Work ===== */
+.work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4vw, 56px) var(--gutter); }
+@media (max-width: 900px) { .work-grid { grid-template-columns: 1fr; } }
+.work-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.work-item .t { font-size: var(--t-body); margin-top: 18px; }
+.work-item .m { font-size: var(--t-body); color: var(--grey-1); }
+
+/* ===== Numbered rows (how it works / what we make) ===== */
+.do-row {
+  display: grid; grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px var(--gutter); padding: clamp(26px, 3.2vw, 40px) 0; border-top: 1px solid var(--stroke);
+}
+.do-row:last-child { border-bottom: 1px solid var(--stroke); }
+@media (max-width: 860px) { .do-row { grid-template-columns: 48px 1fr; } .do-row .desc { grid-column: 2; } }
+.do-num { font-size: var(--t-meta); color: var(--grey-2); padding-top: .5em; }
+.do-title { font-size: var(--t-large); font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+.do-desc { font-size: var(--t-body); color: var(--grey-1); max-width: 46ch; }
+
+.kinds { margin-top: clamp(48px, 6vw, 80px); }
+.kind {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 6px 24px;
+  padding: 18px 0; border-top: 1px solid var(--stroke);
+}
+.kind:last-child { border-bottom: 1px solid var(--stroke); }
+@media (max-width: 680px) { .kind { grid-template-columns: 1fr; } }
+.kind .k { font-size: var(--t-body); }
+.kind .v { font-size: var(--t-body); color: var(--grey-1); }
+
+/* ===== Form ===== */
+.form-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(36px, 5vw, 80px); align-items: start; }
+@media (max-width: 900px) { .form-grid { grid-template-columns: 1fr; } }
+.promise { margin-top: clamp(28px, 3.5vw, 44px); }
+.promise div { padding: 14px 0; border-top: 1px solid var(--stroke); font-size: var(--t-small); color: var(--grey-1); }
+.promise div:last-child { border-bottom: 1px solid var(--stroke); }
+.promise b { color: var(--fg); font-weight: 400; }
+
+form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--gutter); }
+@media (max-width: 560px) { form .row2 { grid-template-columns: 1fr; } }
+.field { margin-bottom: 22px; }
+.field label { display: block; font-size: var(--t-meta); color: var(--grey-1); margin-bottom: 8px; }
+.field label .opt { color: var(--grey-2); }
+.field input, .field select, .field textarea {
+  width: 100%; font-family: var(--ff); font-size: var(--t-small); color: var(--fg);
+  background: var(--bg); border: 1px solid var(--stroke); border-radius: 0;
+  padding: 14px 14px; outline: none; transition: border-color .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.field select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--grey-1) 50%), linear-gradient(135deg, var(--grey-1) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+  background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px;
+}
+.field textarea { min-height: 120px; resize: vertical; line-height: 1.45; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent-ink); }
+.botcheck { display: none; }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin-top: 8px; }
+@media (max-width: 560px) { .form-foot .btn { width: 100%; text-align: center; } }
+.status { font-size: var(--t-meta); color: var(--grey-1); min-height: 1.4em; }
+.status.is-error { color: #C62828; }
+[data-theme="dark"] .status.is-error { color: #FF8A80; }
+.privacy { font-size: var(--t-meta); color: var(--grey-2); margin-top: 18px; max-width: 60ch; }
+.done h3 { font-size: var(--t-large); font-weight: 400; line-height: 1.2; }
+.done p { color: var(--grey-1); margin-top: 14px; max-width: 46ch; }
+.done a { border-bottom: 1px solid var(--stroke); }
+
+/* ===== FAQ ===== */
+.faq h3 { margin: 32px 0 10px; font-size: 22px; font-weight: 400; line-height: 1.3; }
+.faq p { max-width: 68ch; line-height: 1.6; color: var(--grey-1); }
+
+/* ===== Footer ===== */
+.foot {
+  display: flex; flex-wrap: wrap; gap: 10px 32px;
+  padding: 40px var(--pad) 56px; font-size: var(--t-meta); color: var(--grey-1);
+  border-top: 1px solid var(--stroke);
+}
+.foot a:hover { color: var(--accent-ink); }
+</style>
+<script>
+// Theme before paint — same behaviour and storage key as the rest of the site.
+(function () {
+  var root = document.documentElement, KEY = 'll-theme', saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var dark = saved ? saved === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function apply(d) {
+    root.setAttribute('data-theme', d ? 'dark' : 'light');
+    var b = document.getElementById('theme');
+    if (b) { b.setAttribute('aria-pressed', d ? 'true' : 'false'); b.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode'); }
+  }
+  apply(dark);
+  document.addEventListener('DOMContentLoaded', function () { apply(root.getAttribute('data-theme') === 'dark'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('#theme');
+    if (!b) return;
+    var d = root.getAttribute('data-theme') !== 'dark';
+    apply(d);
+    try { localStorage.setItem(KEY, d ? 'dark' : 'light'); } catch (e) {}
+  });
+})();
+</script>
+<script>
+/* ===== AD TRACKING — fill these in once the ad accounts exist =====
+   Nothing loads while they are empty, so the page is clean until then.
+   GOOGLE_TAG_ID      Google Ads tag, looks like 'AW-123456789'
+   GOOGLE_ADS_SEND_TO the lead conversion, looks like 'AW-123456789/AbCdEfGhIjK'
+   META_PIXEL_ID      Meta pixel, a 15–16 digit number as a string            */
+var GOOGLE_TAG_ID      = '';
+var GOOGLE_ADS_SEND_TO = '';
+var META_PIXEL_ID      = '';
+
+(function () {
+  if (GOOGLE_TAG_ID) {
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GOOGLE_TAG_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GOOGLE_TAG_ID);
+  }
+  if (META_PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init', META_PIXEL_ID);
+    window.fbq('track', 'PageView');
+  }
+})();
+</script>
+</head>
+<body>
+
+<header class="top">
+  <a href="/" class="brand" aria-label="Liberti Lab home"><img src="images/lab-logo.svg" alt="Liberti Lab" /></a>
+  <div class="top-actions">
+    <button class="theme" id="theme" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark mode">
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    </button>
+    <a class="btn" href="#mockup">Free mockup</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Custom signs, 3D-printed in Jersey City.</h1>
+        <p class="sub">Dimensional logos, lit signs, and event pieces for businesses across New Jersey and New York City. Send us your logo and we'll send back a free mockup of your sign, with a price, within one business day. Signs start at $300.</p>
+        <div class="actions">
+          <a class="btn btn-lg" href="#mockup">Get a free mockup</a>
+          <a class="link-arrow" href="#work">See the work →</a>
+        </div>
+      </div>
+      <figure>
+        <img src="images/signs-hero-8.jpg" alt="A tall 3D-printed figure-eight sign glowing in shifting colors in front of a dark studio window" width="1400" height="1068" fetchpriority="high" />
+        <figcaption class="caption">Printed in translucent material and lit from inside, Jersey City studio</figcaption>
+      </figure>
+    </div>
+    <div class="facts">
+      <div>
+        <div class="fact-value">Free mockup</div>
+        <div class="fact-label">See your sign, with a price, before you commit to anything</div>
+      </div>
+      <div>
+        <div class="fact-value">Up to 1 m in one piece</div>
+        <div class="fact-label">Single-piece prints up to 800 × 800 × 1000 mm, with no seams</div>
+      </div>
+      <div>
+        <div class="fact-value">Made locally</div>
+        <div class="fact-label">Designed, printed, lit, and finished in one Jersey City studio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <p class="eyebrow">Work</p>
+    <div class="work-grid">
+      <div class="work-item">
+        <img src="images/signs-event-trophy.jpg" alt="A large 3D-printed gold trophy replica on a bar at a crowded Jersey City street party" loading="lazy" style="object-position: 50% 30%" />
+        <div class="t">Event centerpiece</div>
+        <div class="m">Trophy replica for a Jersey City watch party</div>
+        <div class="m">Large-format print · Finishing</div>
+      </div>
+      <div class="work-item">
+        <img src="images/lab-light-wall.jpg" alt="Wall-mounted 3D-printed light bar glowing teal" loading="lazy" />
+        <div class="t">Lit fixture</div>
+        <div class="m">Translucent housing with a built-in LED channel</div>
+        <div class="m">Design · Electronics</div>
+      </div>
+      <div class="work-item">
+        <img src="images/lab-largeformat.jpg" alt="The large-format printer mid-print on a tall translucent part" loading="lazy" style="object-position: 50% 20%" />
+        <div class="t">Single-piece printing</div>
+        <div class="m">Tall parts printed whole, with no glue-ups</div>
+        <div class="m">Partemis 01 · 800 × 800 × 1000 mm</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="wrap">
+    <p class="eyebrow">How it works</p>
+    <div class="do-row">
+      <div class="do-num">01</div>
+      <div class="do-title">Send your logo</div>
+      <div class="do-desc desc">Fill out the short form below. A link to your website or Instagram is enough. We'll take your logo from there.</div>
+    </div>
+    <div class="do-row">
+      <div class="do-num">02</div>
+      <div class="do-title">Get a free mockup</div>
+      <div class="do-desc desc">Within one business day you'll get a render of your sign at real scale, with a price and a timeline.</div>
+    </div>
+    <div class="do-row">
+      <div class="do-num">03</div>
+      <div class="do-title">Approve it and we build it</div>
+      <div class="do-desc desc">We print, light, and finish your sign in our Jersey City studio, then deliver it anywhere in New Jersey or New York City.</div>
+    </div>
+
+    <div class="kinds">
+      <p class="eyebrow">What we make</p>
+      <div class="kind"><div class="k">Storefront and wall signs</div><div class="v">Dimensional logos and lettering, indoor or outdoor</div></div>
+      <div class="kind"><div class="k">Illuminated signs</div><div class="v">Printed in translucent material, lit from inside with LEDs</div></div>
+      <div class="kind"><div class="k">Event and brand pieces</div><div class="v">Props, centerpieces, and displays for activations and launches</div></div>
+      <div class="kind"><div class="k">Lobby and office signs</div><div class="v">Reception logos and wayfinding</div></div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section id="mockup" class="wrap">
+    <div class="form-grid">
+      <div>
+        <p class="eyebrow">Free mockup</p>
+        <h2 class="big">See your sign before you spend anything.</h2>
+        <p class="lead-copy">Tell us what you need. We'll reply within one business day with a mockup and a price.</p>
+        <div class="promise">
+          <div><b>No cost, no commitment.</b> The mockup is yours either way.</div>
+          <div><b>Signs start at $300.</b> Size, material, and lighting set the final price.</div>
+          <div><b>A real person replies.</b> The designer who builds your sign.</div>
+          <div><b>Prefer to talk?</b> Call <a href="tel:+15512336933">551-233-6933</a>.</div>
+        </div>
+      </div>
+
+      <div id="formWrap">
+        <form id="signForm" novalidate>
+          <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="row2">
+            <div class="field">
+              <label for="f-name">Your name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="f-biz">Business name</label>
+              <input id="f-biz" name="business" type="text" autocomplete="organization" required>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone <span class="opt">(optional)</span></label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-site">Website or Instagram <span class="opt">(so we can pull your logo)</span></label>
+            <input id="f-site" name="website" type="text" placeholder="yourbusiness.com or @yourbusiness" autocomplete="url">
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-type">What do you need?</label>
+              <select id="f-type" name="sign_type" required>
+                <option value="">Choose one</option>
+                <option>Storefront or wall sign</option>
+                <option>Illuminated sign</option>
+                <option>Event or brand piece</option>
+                <option>Lobby or office sign</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-when">When do you need it? <span class="opt">(optional)</span></label>
+              <select id="f-when" name="timeline">
+                <option value="">Choose one</option>
+                <option>As soon as possible</option>
+                <option>Within 2 weeks</option>
+                <option>Within a month</option>
+                <option>Just exploring</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-budget">Budget</label>
+              <select id="f-budget" name="budget" required>
+                <option value="">Choose one</option>
+                <option>$300 – $500</option>
+                <option>$500 – $1,000</option>
+                <option>$1,000 – $2,500</option>
+                <option>$2,500 – $5,000</option>
+                <option>$5,000 – $10,000</option>
+                <option>$10,000+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-size">Rough size <span class="opt">(optional)</span></label>
+              <input id="f-size" name="size" type="text" placeholder="About 36 inches wide">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-msg">Anything else? <span class="opt">(optional)</span></label>
+            <textarea id="f-msg" name="message" placeholder="Where it goes, indoor or outdoor, colors, lighting…"></textarea>
+          </div>
+          <div class="form-foot">
+            <button class="btn btn-lg" type="submit">Get my free mockup</button>
+            <p class="status" id="signStatus" role="status" aria-live="polite"></p>
+          </div>
+          <p class="privacy" id="privacyNote">We use your details only to reply about your sign. We don't share or sell them.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="questions" class="wrap faq">
+    <p class="eyebrow">Questions</p>
+    <h3>What does a sign cost?</h3>
+    <p>Signs start at $300. The final price depends on size, material, and lighting, and you'll get it with your mockup, before you commit to anything.</p>
+    <h3>Can it go outside?</h3>
+    <p>Yes. Outdoor signs are printed in ASA, a UV-stable material made to hold up to sun and weather.</p>
+    <h3>Can it light up?</h3>
+    <p>Yes. We build lighting into the print itself: LED channels, color-changing light, and hidden wiring.</p>
+    <h3>How big can you go?</h3>
+    <p>Up to 800 × 800 × 1000 mm in a single piece, with no seams. For anything larger, send the size and we'll work out the approach.</p>
+    <h3>Do I need a logo file?</h3>
+    <p>No. A link to your website or Instagram is enough. If you have a logo file or a photo of your current sign, email it to <a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a>.</p>
+    <h3>How long does it take?</h3>
+    <p>It depends on the size and finish. Your mockup comes with a timeline, so you'll know before you approve.</p>
+    <h3>Where are you?</h3>
+    <p>98 Forrest St, Jersey City, NJ 07304. We deliver across New Jersey and New York City.</p>
+  </section>
+
+</main>
+
+<div class="foot">
+  <span>© 2026 Liberti Lab</span>
+  <span>98 Forrest St, Jersey City, NJ</span>
+  <span><a href="tel:+15512336933">551-233-6933</a></span>
+  <span><a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a></span>
+</div>
+
+<script>
+/* Mockup requests go to the studio inbox through Web3Forms (same service as
+   origenobjects.com; the access key is public by design). Ad-click IDs and UTM
+   tags ride along so every lead email says which ad it came from. */
+(function () {
+  var KEY = '0823f172-a3ee-4a29-9a88-ccbbf0ed0247';
+  var form = document.getElementById('signForm');
+  var status = document.getElementById('signStatus');
+  var button = form.querySelector('button[type="submit"]');
+
+  // capture the ad source once, on arrival
+  var q = new URLSearchParams(location.search);
+  var source = {};
+  ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'].forEach(function (k) {
+    if (q.get(k)) source[k] = q.get(k);
+  });
+
+  if (GOOGLE_TAG_ID || META_PIXEL_ID) {
+    document.getElementById('privacyNote').textContent +=
+      ' This page uses Google and Meta advertising cookies to measure our ads.';
+  }
+
+  function say(msg, isError) {
+    status.textContent = msg;
+    status.classList.toggle('is-error', !!isError);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    if (data.get('botcheck')) return;
+    if (!data.get('name') || !data.get('business')) { say('Add your name and business name.', true); return; }
+    var email = document.getElementById('f-email');
+    if (!email.value || !email.checkValidity()) { say('Add a valid email so we can send your mockup.', true); return; }
+    if (!data.get('sign_type')) { say('Choose what kind of sign you need.', true); return; }
+    if (!data.get('budget')) { say('Choose a budget range, or "Not sure yet".', true); return; }
+
+    button.disabled = true;
+    say('Sending…');
+    var payload = {
+      access_key: KEY,
+      subject: 'Sign mockup request: ' + data.get('business') + ' (' + data.get('budget') + ', ' + data.get('sign_type') + ')',
+      from_name: 'Liberti Lab custom signs page',
+      name: data.get('name'),
+      business: data.get('business'),
+      email: data.get('email'),
+      phone: data.get('phone') || '',
+      website: data.get('website') || '',
+      sign_type: data.get('sign_type'),
+      budget: data.get('budget'),
+      timeline: data.get('timeline') || '',
+      size: data.get('size') || '',
+      message: data.get('message') || '',
+      ad_source: Object.keys(source).length ? JSON.stringify(source) : 'none (direct or organic)',
+      page: location.origin + location.pathname,
+      botcheck: false
+    };
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, json: j }; }); })
+    .then(function (res) {
+      if (res.ok && res.json && res.json.success) {
+        // conversion events for the ad platforms (no-ops until IDs are set)
+        if (window.gtag) {
+          window.gtag('event', 'generate_lead');
+          if (GOOGLE_ADS_SEND_TO) window.gtag('event', 'conversion', { send_to: GOOGLE_ADS_SEND_TO });
+        }
+        if (window.fbq) window.fbq('track', 'Lead');
+        document.getElementById('formWrap').innerHTML =
+          '<div class="done"><h3>Got it. Your mockup is on the way.</h3>' +
+          '<p>You’ll hear back within one business day with a render of your sign and a price. ' +
+          'Have a logo file? Email it to <a href="mailto:hello@liberti-lab.com">hello@liberti-lab.com</a>. ' +
+          'If it’s urgent, call <a href="tel:+15512336933">551-233-6933</a>.</p></div>';
+      } else {
+        button.disabled = false;
+        say('That didn’t send. Try again, or email hello@liberti-lab.com.', true);
+      }
+    })
+    .catch(function () {
+      button.disabled = false;
+      say('That didn’t send. Try again, or email hello@liberti-lab.com.', true);
+    });
+  });
+})();
+</script>
+</body>
+</html>
