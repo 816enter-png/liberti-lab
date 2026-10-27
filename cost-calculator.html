@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cost Calculator — Liberti Lab</title>
+<meta name="description" content="3D printing cost calculator for Liberti Lab. Material, machine time, electricity, labor, failure premium, and markup — instant quote.">
+<link rel="canonical" href="https://liberti-lab.com/cost-calculator">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- jsPDF for branded PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Three.js import map for STL viewer (glass material + orbit + env lighting) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --gray-100: #F5F5F5;
+  --gray-200: #E8E8E8;
+  --gray-400: #A0A0A0;
+  --gray-600: #5A5A5A;
+  --gray-800: #1A1A1A;
+  --cobalt: #210FEA;
+  --cobalt-glow: rgba(33,15,234,0.15);
+  --ff: 'Space Grotesk', sans-serif;
+  --max: 1200px;
+  --pad: clamp(24px, 5vw, 80px);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff);
+  background: var(--black);
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.nav-logo { text-decoration: none; color: var(--white); font-family: 'Bungee Hairline', sans-serif; font-size: 22px; letter-spacing: 0.04em; }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+  text-decoration: none; transition: color 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* HERO STRIP */
+.calc-hero {
+  padding: clamp(48px, 8vw, 96px) 0 clamp(32px, 4vw, 56px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.calc-tag {
+  display: inline-block; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--cobalt);
+  margin-bottom: 24px; border: 1px solid rgba(33,15,234,0.3); padding: 6px 14px;
+}
+.calc-h1 {
+  font-size: clamp(40px, 7vw, 88px);
+  font-weight: 700; line-height: 0.95; letter-spacing: -0.04em;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.calc-h1 em { font-style: normal; font-weight: 300; letter-spacing: -0.02em; }
+.calc-sub { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55); max-width: 560px; }
+
+/* LAYOUT */
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(40px, 6vw, 80px) 0 120px;
+}
+@media (max-width: 900px) { .calc-grid { grid-template-columns: 1fr; } }
+
+/* INPUT PANEL */
+.panel {
+  background: var(--gray-800);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: clamp(24px, 3vw, 40px);
+}
+.panel-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cobalt); margin-bottom: 24px;
+}
+.field-group { margin-bottom: 28px; }
+.field-group:last-child { margin-bottom: 0; }
+.field-group h3 {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  margin-bottom: 16px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.field {
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: 12px; padding: 10px 0;
+}
+.field label {
+  font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.75);
+}
+.field .hint {
+  display: block; font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px;
+}
+.field input[type="text"], .field input[type="number"], .field select {
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  font-family: var(--ff);
+  font-size: 14px;
+  padding: 8px 12px;
+  width: 120px;
+  text-align: right;
+  transition: border-color 0.2s;
+}
+.field input[type="text"] { text-align: left; width: 180px; }
+.field select { text-align: left; width: 180px; }
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--cobalt);
+  box-shadow: 0 0 0 3px var(--cobalt-glow);
+}
+.field-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 0;
+}
+.field-row > div { display: flex; flex-direction: column; gap: 6px; }
+.field-row label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.field-row input {
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white); font-family: var(--ff);
+  font-size: 14px; padding: 8px 12px;
+}
+.field-row input:focus { outline: none; border-color: var(--cobalt); }
+
+textarea#specialNotes {
+  width: 100%;
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  font-family: var(--ff);
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s;
+}
+textarea#specialNotes::placeholder { color: rgba(255,255,255,0.3); }
+textarea#specialNotes:focus {
+  outline: none; border-color: var(--cobalt);
+  box-shadow: 0 0 0 3px var(--cobalt-glow);
+}
+
+/* TOGGLE */
+.toggle {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 10px 0; user-select: none;
+}
+.toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.toggle .switch {
+  width: 36px; height: 20px; background: rgba(255,255,255,0.12);
+  border-radius: 10px; position: relative; transition: background 0.2s;
+}
+.toggle .switch::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; background: var(--white);
+  border-radius: 50%; transition: transform 0.2s;
+}
+.toggle input:checked ~ .switch { background: var(--cobalt); }
+.toggle input:checked ~ .switch::after { transform: translateX(16px); }
+.toggle span.lbl { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+/* LED config rows */
+.led-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+}
+.led-row-label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); flex: 0 0 90px;
+}
+.led-btns { display: flex; gap: 4px; flex: 1; }
+.led-btn {
+  flex: 1;
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--ff);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 8px 6px; cursor: pointer;
+  transition: all 0.2s;
+}
+.led-btn:hover { border-color: var(--cobalt); color: var(--white); }
+.led-btn.active {
+  background: var(--cobalt); color: var(--white); border-color: var(--cobalt);
+}
+.led-summary {
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+.led-summary .line { padding: 4px 0; font-size: 12px; }
+
+/* Parts list */
+.parts-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.part-card {
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 12px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s;
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.part-card:hover { border-color: rgba(33,15,234,0.5); }
+.part-card.active {
+  border-color: var(--cobalt);
+  background: rgba(33,15,234,0.08);
+}
+.part-card-num {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  color: var(--cobalt); text-transform: uppercase;
+}
+.part-card.active .part-card-num { color: var(--white); }
+.part-card-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.part-card-name {
+  font-size: 13px; color: var(--white); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.part-card-meta {
+  font-size: 11px; color: rgba(255,255,255,0.45);
+  font-variant-numeric: tabular-nums;
+}
+.part-card-cost {
+  font-size: 13px; color: var(--white);
+  font-variant-numeric: tabular-nums; font-weight: 600;
+}
+.part-remove {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5);
+  width: 24px; height: 24px;
+  font-family: var(--ff); font-size: 14px; line-height: 1;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: all 0.15s;
+}
+.part-remove:hover { color: var(--white); border-color: #ff4444; background: rgba(255,68,68,0.15); }
+.add-part-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed rgba(33,15,234,0.5);
+  color: var(--cobalt);
+  font-family: var(--ff);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.add-part-btn:hover {
+  background: rgba(33,15,234,0.1);
+  border-color: var(--cobalt);
+  color: var(--white);
+}
+
+/* RESULT PANEL */
+.result {
+  position: sticky; top: 96px;
+  align-self: start;
+}
+.result-card {
+  background: var(--cobalt);
+  padding: clamp(28px, 3.5vw, 48px);
+  border: 1px solid var(--cobalt);
+}
+.result-card .label {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.7); margin-bottom: 12px;
+}
+.result-card .quote {
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 700; letter-spacing: -0.04em; line-height: 1;
+  color: var(--white); margin-bottom: 24px;
+}
+.result-card .quote-cents { font-size: 0.4em; opacity: 0.7; vertical-align: super; }
+.result-card .tier-select {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px;
+}
+.tier-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--white);
+  font-family: var(--ff);
+  padding: 8px 14px; cursor: pointer;
+  transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  text-align: left;
+}
+.tier-btn-main {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.tier-btn-sub {
+  font-size: 9px; font-weight: 400;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+.tier-btn.active .tier-btn-sub { opacity: 0.85; }
+.tier-btn:hover { background: rgba(255,255,255,0.2); }
+.tier-btn.active {
+  background: var(--white); color: var(--cobalt);
+  border-color: var(--white);
+}
+.breakdown {
+  background: var(--black);
+  padding: clamp(20px, 2.5vw, 32px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-top: none;
+}
+.breakdown h4 {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-bottom: 16px;
+}
+.line {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed rgba(255,255,255,0.06);
+}
+.line:last-child { border-bottom: none; }
+.line .k { color: rgba(255,255,255,0.55); }
+.line .v { color: var(--white); font-variant-numeric: tabular-nums; }
+.line.total { padding-top: 14px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.15); border-bottom: none; }
+.line.total .k { color: var(--white); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+.line.total .v { font-weight: 700; font-size: 16px; }
+
+/* COPY BTN */
+.copy-row { display: flex; gap: 12px; margin-top: 20px; }
+.btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--white);
+  font-family: var(--ff);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 14px; cursor: pointer; transition: all 0.2s;
+}
+.btn:hover { background: rgba(255,255,255,0.1); }
+.btn.primary { background: var(--white); color: var(--black); border-color: var(--white); }
+.btn.primary:hover { background: var(--gray-200); }
+
+/* STL VIEWER */
+.viewer-section {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: clamp(32px, 4vw, 56px) 0;
+}
+.viewer-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: stretch;
+}
+@media (max-width: 900px) { .viewer-grid { grid-template-columns: 1fr; } }
+
+.upload-panel {
+  background: var(--gray-800);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.upload-btn {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px;
+  background: var(--black);
+  border: 1px dashed rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  padding: 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--ff);
+  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 600;
+}
+.upload-btn:hover { border-color: var(--cobalt); color: var(--white); background: rgba(33,15,234,0.08); }
+.upload-btn svg { width: 32px; height: 32px; opacity: 0.6; }
+.upload-info { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.upload-info .v { color: var(--white); font-variant-numeric: tabular-nums; }
+.upload-info .row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+.upload-info .row:last-child { border-bottom: none; }
+.viewer-canvas-wrap {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+  border: 1px solid rgba(255,255,255,0.06);
+  min-height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.viewer-canvas-wrap canvas { display: block; width: 100% !important; height: 100% !important; }
+.viewer-empty {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25); gap: 16px;
+  pointer-events: none;
+}
+.viewer-empty svg { width: 64px; height: 64px; opacity: 0.4; }
+.viewer-controls {
+  position: absolute; top: 16px; right: 16px;
+  display: flex; flex-direction: column; align-items: stretch; gap: 8px;
+  z-index: 5;
+}
+.viewer-controls-row {
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+.vc-btn {
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  font-family: var(--ff);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 8px 12px; cursor: pointer;
+  transition: all 0.2s;
+}
+.vc-btn:hover { background: rgba(33,15,234,0.4); border-color: var(--cobalt); }
+.vc-btn.active { background: var(--cobalt); border-color: var(--cobalt); }
+.vc-color {
+  -webkit-appearance: none; appearance: none;
+  width: 32px; height: 32px;
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.vc-color:hover { border-color: var(--cobalt); }
+.vc-color::-webkit-color-swatch-wrapper { padding: 0; }
+.vc-color::-webkit-color-swatch { border: none; }
+.vc-color::-moz-color-swatch { border: none; }
+
+/* Lighting slider — compact strip under material buttons */
+.light-control {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 6px 10px;
+  width: 220px;
+  align-self: flex-end;
+}
+.light-label {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  white-space: nowrap;
+}
+.light-deg {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--white);
+  min-width: 28px;
+  text-align: right;
+}
+.light-slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1;
+  height: 3px;
+  background: linear-gradient(to right,
+    rgba(255,255,255,0.1) 0%,
+    var(--cobalt) 50%,
+    rgba(255,255,255,0.1) 100%);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.light-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px;
+  background: var(--white);
+  border: 2px solid var(--cobalt);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.light-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+.light-slider::-moz-range-thumb {
+  width: 12px; height: 12px;
+  background: var(--white);
+  border: 2px solid var(--cobalt);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 40px 0; text-align: center;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+</style>
+<!-- Vercel Web Analytics + Speed Insights -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="liberti-lab.html" class="nav-logo">LIBERTI LAB</a>
+    <ul class="nav-links">
+      <li><a href="liberti-lab.html">Studio</a></li>
+      <li><a href="capabilities.html">Capabilities</a></li>
+      <li><a href="cost-calculator.html" class="active">Calculator</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="calc-hero">
+  <div class="container">
+    <span class="calc-tag">Internal Tool · v1</span>
+    <h1 class="calc-h1">Print<br><em>cost calculator</em></h1>
+    <p class="calc-sub">Quote large-format FDM prints from raw inputs. Tuned for the Giga (1m × 800mm × 1m). Edit defaults in the script block at the bottom of the file.</p>
+  </div>
+</section>
+
+<section class="viewer-section">
+  <div class="container">
+    <div class="viewer-grid">
+      <div class="upload-panel">
+        <div class="panel-label" style="margin-bottom:0">STL Model</div>
+        <label class="upload-btn" for="stlInput">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 3v14m-5-5l5 5 5-5M5 21h14"/>
+          </svg>
+          <span id="uploadBtnLabel">Upload STL</span>
+        </label>
+        <input type="file" id="stlInput" accept=".stl" style="display:none">
+        <div class="upload-info">
+          <div class="row"><span>File</span><span class="v" id="iFile">—</span></div>
+          <div class="row"><span>Volume</span><span class="v" id="iVol">—</span></div>
+        </div>
+        <button class="btn" id="autoFillBtn" style="margin-top:14px" disabled>Auto-fill weight from STL</button>
+      </div>
+
+      <div class="viewer-canvas-wrap" id="viewerWrap">
+        <div class="viewer-empty" id="viewerEmpty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/>
+          </svg>
+          <div>Upload an STL to preview</div>
+        </div>
+        <div class="viewer-controls" id="viewerControls" style="display:none">
+          <div class="viewer-controls-row">
+            <button class="vc-btn" data-mat="frosted" id="matFrosted">Shaded</button>
+            <button class="vc-btn" data-mat="matte" id="matMatte">Color</button>
+            <input type="color" id="matteColor" value="#210fea" class="vc-color" title="Color picker — applies to Color material">
+          </div>
+          <div class="light-control" id="lightControl">
+            <span class="light-label">Light</span>
+            <input type="range" id="lightAngle" min="0" max="360" value="45" class="light-slider">
+            <span class="light-deg" id="lightDeg">45°</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="calc-grid">
+
+    <!-- INPUTS -->
+    <div class="panel">
+      <div class="panel-label">Inputs</div>
+
+      <div class="field-group">
+        <h3>Parts in Quote</h3>
+        <div id="partsList" class="parts-list"></div>
+        <button class="add-part-btn" id="addPartBtn" type="button">+ Add Part</button>
+      </div>
+
+      <div class="field-group" id="activePartEditor">
+        <h3>Active Part <span style="opacity:0.4;font-weight:400">— editing <span id="activePartLabel">Part 1</span></span></h3>
+        <div class="field">
+          <label>Part name <span class="hint">For your records — appears on the quote</span></label>
+          <input type="text" id="partName" placeholder="e.g. Artemis Vase">
+        </div>
+        <div class="field">
+          <label>Material</label>
+          <select id="material">
+            <option value="PLA" data-cost="22">PLA — $22/kg</option>
+            <option value="PETG" data-cost="26">PETG — $26/kg</option>
+            <option value="ASA" data-cost="34">ASA — $34/kg</option>
+            <option value="PA-CF" data-cost="78">PA-CF — $78/kg</option>
+            <option value="PC-CF" data-cost="92">PC-CF — $92/kg</option>
+            <option value="custom" data-cost="0">Custom…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Material cost <span class="hint">USD per kg</span></label>
+          <input type="number" id="matCost" value="22" step="0.50" min="0">
+        </div>
+        <div class="field">
+          <label>Part weight <span class="hint">grams of filament</span></label>
+          <input type="number" id="weight" value="450" step="1" min="0">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <h3>Design</h3>
+        <div class="field">
+          <label>Design time <span class="hint">CAD modeling, iteration, client revisions (hours)</span></label>
+          <input type="number" id="designHr" value="0" step="0.5" min="0">
+        </div>
+        <div class="field">
+          <label>Design rate <span class="hint">USD/hr — industrial design rate</span></label>
+          <input type="number" id="designRate" value="95" step="5" min="0">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <h3>Time</h3>
+        <div class="field-row">
+          <div>
+            <label>Print — hours</label>
+            <input type="number" id="printH" value="14" step="1" min="0">
+          </div>
+          <div>
+            <label>Print — minutes</label>
+            <input type="number" id="printM" value="30" step="1" min="0" max="59">
+          </div>
+        </div>
+        <div class="field">
+          <label>Labor time <span class="hint">setup, post-process, finishing (minutes)</span></label>
+          <input type="number" id="laborMin" value="30" step="5" min="0">
+        </div>
+        <div class="field">
+          <label>Labor rate <span class="hint">USD/hr for your finishing time</span></label>
+          <input type="number" id="laborRate" value="65" step="5" min="0">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <h3>Machine &amp; Power</h3>
+        <div class="field">
+          <label>Machine rate <span class="hint">USD/hr depreciation + maintenance</span></label>
+          <input type="number" id="machineRate" value="1.50" step="0.10" min="0">
+        </div>
+        <div class="field">
+          <label>Power draw <span class="hint">average watts during print</span></label>
+          <input type="number" id="watts" value="450" step="10" min="0">
+        </div>
+        <div class="field">
+          <label>Electricity rate <span class="hint">USD/kWh — NJ avg ~$0.17</span></label>
+          <input type="number" id="kwhRate" value="0.17" step="0.01" min="0">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <h3>Extras &amp; Risk</h3>
+        <div class="field">
+          <label>Hardware / inserts <span class="hint">magnets, threaded inserts, etc.</span></label>
+          <input type="number" id="hardware" value="0" step="0.50" min="0">
+        </div>
+        <div class="field">
+          <label>Packaging <span class="hint">box, foam, label</span></label>
+          <input type="number" id="packaging" value="0" step="0.50" min="0">
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="failureToggle" checked>
+          <span class="switch"></span>
+          <span class="lbl">Add failure-risk premium</span>
+        </label>
+        <div class="field">
+          <label>Failure rate <span class="hint">% of prints that fail and reprint</span></label>
+          <input type="number" id="failurePct" value="8" step="1" min="0" max="100">
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="taxToggle">
+          <span class="switch"></span>
+          <span class="lbl">Add NJ sales tax (6.625%)</span>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <h3>LED Lighting</h3>
+        <label class="toggle">
+          <input type="checkbox" id="ledToggle">
+          <span class="switch"></span>
+          <span class="lbl">Add LED strip lighting to print</span>
+        </label>
+        <div id="ledFields" style="display:none">
+          <div class="led-row">
+            <label class="led-row-label">Coverage</label>
+            <div class="led-btns" data-led="coverage">
+              <button class="led-btn active" data-val="full">Full</button>
+              <button class="led-btn" data-val="partial">Partial</button>
+            </div>
+          </div>
+          <div class="led-row">
+            <label class="led-row-label">Color</label>
+            <div class="led-btns" data-led="color">
+              <button class="led-btn active" data-val="white">White</button>
+              <button class="led-btn" data-val="rgb">RGB</button>
+            </div>
+          </div>
+          <div class="led-row">
+            <label class="led-row-label">Control</label>
+            <div class="led-btns" data-led="control">
+              <button class="led-btn active" data-val="remote">Remote</button>
+              <button class="led-btn" data-val="app">App</button>
+              <button class="led-btn" data-val="manual">Manual</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Strip length <span class="hint">meters — defaults from bbox</span></label>
+            <input type="number" id="ledLength" value="1.5" step="0.1" min="0">
+          </div>
+          <div class="field">
+            <label>Install time <span class="hint">wiring, channel routing (minutes)</span></label>
+            <input type="number" id="ledInstallMin" value="45" step="5" min="0">
+          </div>
+          <div class="led-summary" id="ledSummary">
+            <div class="line"><span class="k">Strip × <span id="ledLenOut">1.5</span>m</span><span class="v" id="ledStripCost">$0.00</span></div>
+            <div class="line"><span class="k">Controller</span><span class="v" id="ledCtrlCost">$0.00</span></div>
+            <div class="line"><span class="k">Power supply</span><span class="v" id="ledPSU">$0.00</span></div>
+            <div class="line"><span class="k">Install labor</span><span class="v" id="ledLaborCost">$0.00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <h3>Shipping</h3>
+        <div class="field">
+          <label>Method</label>
+          <select id="shipMethod">
+            <option value="0">Local pickup / delivery — $0</option>
+            <option value="12">USPS Priority (small) — $12</option>
+            <option value="22">UPS Ground (medium) — $22</option>
+            <option value="45">UPS Ground (large box) — $45</option>
+            <option value="120">Freight / oversize crate — $120</option>
+            <option value="custom">Custom…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Shipping cost <span class="hint">USD — actual label + box</span></label>
+          <input type="number" id="shipCost" value="0" step="0.50" min="0">
+        </div>
+        <div class="field">
+          <label>Insurance &amp; handling <span class="hint">declared value coverage, custom crating</span></label>
+          <input type="number" id="shipExtra" value="0" step="0.50" min="0">
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="shipMarkupToggle">
+          <span class="switch"></span>
+          <span class="lbl">Mark up shipping <span style="opacity:0.5">(off = pass through at cost)</span></span>
+        </label>
+      </div>
+
+      <div class="field-group">
+        <h3>Special Instructions</h3>
+        <textarea id="specialNotes" rows="5" placeholder="Notes for client — material finish, post-process, timeline caveats, delivery instructions, anything that should appear on the printed quote…"></textarea>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="result">
+      <div class="result-card">
+        <div class="label">Client Quote</div>
+        <div class="quote" id="quoteOut">$0<span class="quote-cents">.00</span></div>
+        <div class="tier-select" id="tierSelect">
+          <!-- Tiers injected from PRICING_TIERS config -->
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <h4>Cost Breakdown</h4>
+        <div class="line"><span class="k">Design</span><span class="v" id="bDesign">$0.00</span></div>
+        <div class="line"><span class="k">Material</span><span class="v" id="bMat">$0.00</span></div>
+        <div class="line"><span class="k">Machine time</span><span class="v" id="bMachine">$0.00</span></div>
+        <div class="line"><span class="k">Electricity</span><span class="v" id="bPower">$0.00</span></div>
+        <div class="line"><span class="k">Labor</span><span class="v" id="bLabor">$0.00</span></div>
+        <div class="line"><span class="k">Hardware</span><span class="v" id="bHard">$0.00</span></div>
+        <div class="line"><span class="k">Packaging</span><span class="v" id="bPack">$0.00</span></div>
+        <div class="line"><span class="k">LED lighting <span id="ledSpecOut" style="opacity:0.4"></span></span><span class="v" id="bLED">$0.00</span></div>
+        <div class="line"><span class="k">Failure premium</span><span class="v" id="bFail">$0.00</span></div>
+        <div class="line total"><span class="k">True Cost</span><span class="v" id="bTotal">$0.00</span></div>
+        <div class="line"><span class="k">Markup (<span id="markupLabel">—</span>)</span><span class="v" id="bMarkup">$0.00</span></div>
+        <div class="line"><span class="k">Shipping <span id="shipNote" style="opacity:0.4">(at cost)</span></span><span class="v" id="bShip">$0.00</span></div>
+        <div class="line"><span class="k">NJ sales tax</span><span class="v" id="bTax">$0.00</span></div>
+        <div class="line total"><span class="k">Client Quote</span><span class="v" id="bQuote">$0.00</span></div>
+
+        <div class="copy-row">
+          <button class="btn" onclick="copyBreakdown()">Copy breakdown</button>
+          <button class="btn primary" onclick="copyQuote()">Copy quote</button>
+        </div>
+        <div class="copy-row" style="margin-top:10px">
+          <button class="btn primary" onclick="exportPDF()" style="background:var(--cobalt); color:var(--white); border-color:var(--cobalt)">📄 Export Client PDF</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Liberti Lab · 98 Forrest St · Jersey City NJ</footer>
+
+<script>
+/* ============================================================
+   LIBERTI LAB COST CALCULATOR — config & logic
+   Edit PRICING_TIERS below to change quote markup options.
+   ============================================================ */
+
+// ⬇️ TODO (USER) — define your pricing tiers.
+// Each tier needs: { id, label, markup (decimal), default? }
+// Markup is applied to TRUE COST: quote = trueCost * (1 + markup)
+// Pick labels that fit how YOU sell — friends/family, prototypes,
+// production, design objects, etc. 3–5 tiers is the sweet spot.
+// Tiers calibrated from 2025–2026 market research:
+//  · Xometry / Hubs / Craftcloud FDM marketplace floor (Prototype anchor)
+//  · MakerCost & 3DPrintingIndustry "3× material" rule of thumb
+//  · 1stDibs / Makelab / Etsy designer-tier observed prices
+//  · Standard 50/50 gallery consignment split (Red Dot Blog, PuppetVendors)
+// Production sits BELOW Prototype because volume B2B competes with JLC3DP /
+// Xometry on unit price — you can't beat them; win on proximity + IP control.
+const PRICING_TIERS = [
+  { id: 'cost',       label: 'At cost',       sublabel: '',                            markup: 0.00 },
+  { id: 'friend',     label: 'Friend',        sublabel: '',                            markup: 0.15 },
+  { id: 'production', label: 'Production',    sublabel: 'High Volume / High Quality',  markup: 1.00 },
+  { id: 'prototype',  label: 'Prototype',     sublabel: 'Low Volume / Mid Quality',    markup: 2.00, default: true },
+  { id: 'object',     label: 'Design object', sublabel: 'Low Volume / High Quality',   markup: 5.00 },
+  { id: 'gallery',    label: 'Gallery',       sublabel: 'Limited Edition / Consigned', markup: 10.00 },
+];
+
+const NJ_SALES_TAX = 0.06625;
+
+// LED pricing model — based on 2025 retail at low qty (Amazon / DigiKey / BTF-Lighting)
+const LED_PRICING = {
+  stripPerMeter: { white: 5, rgb: 12 },        // 24V LED strip, $/m
+  controller:    { manual: 0, remote: 12, app: 40 },  // hardware unit
+  psu:           20,                            // 24V 60W universal
+  coverageMult:  { full: 1.0, partial: 0.5 },   // multiplier on strip length
+  installPad:    8,                             // misc wire/heatshrink/connectors
+};
+const LED_STATE = { coverage: 'full', color: 'white', control: 'remote' };
+
+// ----- read inputs -----
+function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function vs(id) { return document.getElementById(id).value; }
+function checked(id) { return document.getElementById(id).checked; }
+
+let activeTier = PRICING_TIERS.find(t => t.default) || PRICING_TIERS[0];
+
+// ===== Multi-part state =====
+let PARTS = [];
+let activePartId = null;
+
+function newPart(defaults = {}) {
+  return Object.assign({
+    id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+    name: '',
+    material: 'PLA',
+    matCost: 22,
+    weight: 450,
+    printH: 14,
+    printM: 30,
+    laborMin: 30,
+    volumeCM3: null,
+    geometry: null,
+    stlName: null,
+  }, defaults);
+}
+function getActive() { return PARTS.find(p => p.id === activePartId); }
+
+function syncFieldsToActive() {
+  const p = getActive();
+  if (!p) return;
+  p.name = document.getElementById('partName').value;
+  p.material = document.getElementById('material').value;
+  p.matCost = v('matCost');
+  p.weight = v('weight');
+  p.printH = v('printH');
+  p.printM = v('printM');
+  p.laborMin = v('laborMin');
+}
+function syncActiveToFields() {
+  const p = getActive();
+  if (!p) return;
+  document.getElementById('partName').value = p.name;
+  document.getElementById('material').value = p.material;
+  document.getElementById('matCost').value = p.matCost;
+  document.getElementById('weight').value = p.weight;
+  document.getElementById('printH').value = p.printH;
+  document.getElementById('printM').value = p.printM;
+  document.getElementById('laborMin').value = p.laborMin;
+}
+
+function perPartCost(p) {
+  const printH = p.printH + p.printM / 60;
+  const material = (p.weight / 1000) * p.matCost;
+  const machine  = printH * v('machineRate');
+  const power    = (v('watts') / 1000) * printH * v('kwhRate');
+  const labor    = (p.laborMin / 60) * v('laborRate');
+  return { material, machine, power, labor, printH, total: material + machine + power + labor };
+}
+
+function addPart(autoSelect = true) {
+  const p = newPart({ name: 'Part ' + (PARTS.length + 1) });
+  PARTS.push(p);
+  if (autoSelect) selectPart(p.id);
+  renderPartsList();
+  calc();
+}
+function selectPart(id) {
+  syncFieldsToActive();
+  activePartId = id;
+  syncActiveToFields();
+  document.getElementById('activePartLabel').textContent =
+    'Part ' + (PARTS.findIndex(p => p.id === id) + 1);
+  showActivePartInViewer();
+  renderPartsList();
+  calc();
+}
+function removePart(id) {
+  PARTS = PARTS.filter(p => p.id !== id);
+  if (activePartId === id) {
+    if (PARTS.length === 0) addPart(true);
+    else selectPart(PARTS[0].id);
+  } else {
+    renderPartsList();
+    calc();
+  }
+}
+
+function renderPartsList() {
+  const list = document.getElementById('partsList');
+  list.innerHTML = '';
+  PARTS.forEach((p, i) => {
+    const c = perPartCost(p);
+    const card = document.createElement('div');
+    card.className = 'part-card' + (p.id === activePartId ? ' active' : '');
+    const safeName = (p.name || 'Untitled').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
+    card.innerHTML = `
+      <div class="part-card-num">P${i+1}</div>
+      <div class="part-card-body">
+        <div class="part-card-name">${safeName}${p.stlName ? ' · ' + p.stlName.split('.')[0] : ''}</div>
+        <div class="part-card-meta">${p.weight}g · ${p.printH}h ${p.printM}m</div>
+      </div>
+      <div class="part-card-cost">$${c.total.toFixed(0)}</div>
+      <button class="part-remove" title="Remove part">×</button>
+    `;
+    card.addEventListener('click', () => selectPart(p.id));
+    card.querySelector('.part-remove').addEventListener('click', e => {
+      e.stopPropagation();
+      removePart(p.id);
+    });
+    list.appendChild(card);
+  });
+}
+
+document.getElementById('addPartBtn').addEventListener('click', () => addPart(true));
+
+function calc() {
+  // Push current field values into the active part first
+  syncFieldsToActive();
+
+  // Sum per-part costs
+  let material = 0, machine = 0, electricity = 0, labor = 0;
+  PARTS.forEach(p => {
+    const c = perPartCost(p);
+    material   += c.material;
+    machine    += c.machine;
+    electricity += c.power;
+    labor      += c.labor;
+  });
+
+  const hardware  = v('hardware');
+  const packaging = v('packaging');
+  const designHr   = v('designHr');
+  const designRate = v('designRate');
+  const design     = designHr * designRate;
+  const laborRate  = v('laborRate'); // for LED install calc
+
+  // ----- LED lighting cost -----
+  let ledCost = 0;
+  let ledSpec = '';
+  if (checked('ledToggle')) {
+    const lenM = v('ledLength') * (LED_PRICING.coverageMult[LED_STATE.coverage] || 1);
+    const strip = lenM * LED_PRICING.stripPerMeter[LED_STATE.color];
+    const ctrl = LED_PRICING.controller[LED_STATE.control];
+    const psu = LED_PRICING.psu;
+    const installH = v('ledInstallMin') / 60;
+    const installLabor = installH * laborRate;
+    ledCost = strip + ctrl + psu + installLabor + LED_PRICING.installPad;
+    ledSpec = `(${LED_STATE.color.toUpperCase()} · ${LED_STATE.coverage} · ${LED_STATE.control})`;
+    // Update LED summary panel
+    setMoney('ledStripCost', strip);
+    setMoney('ledCtrlCost', ctrl);
+    setMoney('ledPSU', psu);
+    setMoney('ledLaborCost', installLabor + LED_PRICING.installPad);
+    document.getElementById('ledLenOut').textContent = lenM.toFixed(2);
+  }
+
+  const subtotal   = design + material + machine + electricity + labor + hardware + packaging + ledCost;
+
+  // Failure premium: if N% of prints fail, you reprint N% of the time.
+  // Expected cost multiplier = 1 / (1 - failureRate).
+  // Premium = subtotal * (1/(1-f) - 1) = subtotal * f/(1-f).
+  let failurePremium = 0;
+  if (checked('failureToggle')) {
+    const f = Math.min(0.99, v('failurePct') / 100);
+    failurePremium = subtotal * (f / (1 - f));
+  }
+
+  const trueCost = subtotal + failurePremium;
+  const markupAmt = trueCost * activeTier.markup;
+
+  // Shipping: pass-through at cost OR marked up like everything else
+  const shipBase = v('shipCost') + v('shipExtra');
+  const shipBilled = checked('shipMarkupToggle')
+    ? shipBase * (1 + activeTier.markup)
+    : shipBase;
+
+  const preTax = trueCost + markupAmt + shipBilled;
+  const tax = checked('taxToggle') ? preTax * NJ_SALES_TAX : 0;
+  const quote = preTax + tax;
+
+  // ----- render -----
+  setMoney('bDesign', design);
+  setMoney('bMat', material);
+  setMoney('bMachine', machine);
+  setMoney('bPower', electricity);
+  setMoney('bLabor', labor);
+  setMoney('bHard', hardware);
+  setMoney('bPack', packaging);
+  setMoney('bLED', ledCost);
+  document.getElementById('ledSpecOut').textContent = ledSpec;
+  setMoney('bFail', failurePremium);
+  setMoney('bTotal', trueCost);
+  setMoney('bMarkup', markupAmt);
+  setMoney('bShip', shipBilled);
+  setMoney('bTax', tax);
+  setMoney('bQuote', quote);
+  document.getElementById('markupLabel').textContent = activeTier.label;
+  document.getElementById('shipNote').textContent =
+    checked('shipMarkupToggle') ? '(marked up)' : '(at cost)';
+  renderPartsList();
+  renderQuoteHero(quote);
+}
+
+function setMoney(id, n) {
+  document.getElementById(id).textContent = '$' + n.toFixed(2);
+}
+function renderQuoteHero(n) {
+  const whole = Math.floor(n);
+  const cents = Math.round((n - whole) * 100).toString().padStart(2, '0');
+  document.getElementById('quoteOut').innerHTML =
+    '$' + whole.toLocaleString() + '<span class="quote-cents">.' + cents + '</span>';
+}
+
+// ----- tier buttons -----
+function renderTiers() {
+  const wrap = document.getElementById('tierSelect');
+  wrap.innerHTML = '';
+  PRICING_TIERS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'tier-btn' + (t === activeTier ? ' active' : '');
+    const sub = t.sublabel
+      ? `<span class="tier-btn-sub">${t.sublabel}</span>`
+      : '';
+    b.innerHTML = `
+      <span class="tier-btn-main">${t.label} · +${Math.round(t.markup * 100)}%</span>
+      ${sub}
+    `;
+    b.onclick = () => { activeTier = t; renderTiers(); calc(); };
+    wrap.appendChild(b);
+  });
+}
+
+// ----- material dropdown wiring -----
+document.getElementById('material').addEventListener('change', e => {
+  const opt = e.target.selectedOptions[0];
+  const cost = parseFloat(opt.dataset.cost);
+  if (cost > 0) document.getElementById('matCost').value = cost.toFixed(2);
+  calc();
+});
+
+// ----- shipping method dropdown wiring -----
+document.getElementById('shipMethod').addEventListener('change', e => {
+  const val = e.target.value;
+  if (val !== 'custom') document.getElementById('shipCost').value = parseFloat(val).toFixed(2);
+  calc();
+});
+
+// ----- bind all inputs -----
+document.querySelectorAll('input, select').forEach(el => {
+  el.addEventListener('input', calc);
+  el.addEventListener('change', calc);
+});
+
+// ----- LED section wiring -----
+document.getElementById('ledToggle').addEventListener('change', e => {
+  document.getElementById('ledFields').style.display = e.target.checked ? 'block' : 'none';
+  calc();
+});
+document.querySelectorAll('.led-btns').forEach(group => {
+  const key = group.dataset.led;
+  group.querySelectorAll('.led-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.led-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      LED_STATE[key] = btn.dataset.val;
+      calc();
+    });
+  });
+});
+
+// ----- copy actions -----
+function copyQuote() {
+  const part = vs('partName') || 'Untitled part';
+  const q = document.getElementById('bQuote').textContent;
+  navigator.clipboard.writeText(`${part}: ${q} (${activeTier.label})`);
+  flash('Copied quote');
+}
+function copyBreakdown() {
+  const part = vs('partName') || 'Untitled part';
+  const lines = [
+    `LIBERTI LAB — Print Quote`,
+    `Part: ${part}`,
+    `Tier: ${activeTier.label} (+${Math.round(activeTier.markup * 100)}%)`,
+    ``,
+    `Design:          ${document.getElementById('bDesign').textContent}`,
+    `Material:        ${document.getElementById('bMat').textContent}`,
+    `Machine time:    ${document.getElementById('bMachine').textContent}`,
+    `Electricity:     ${document.getElementById('bPower').textContent}`,
+    `Labor:           ${document.getElementById('bLabor').textContent}`,
+    `Hardware:        ${document.getElementById('bHard').textContent}`,
+    `Packaging:       ${document.getElementById('bPack').textContent}`,
+    `LED lighting:    ${document.getElementById('bLED').textContent} ${document.getElementById('ledSpecOut').textContent}`,
+    `Failure premium: ${document.getElementById('bFail').textContent}`,
+    `True cost:       ${document.getElementById('bTotal').textContent}`,
+    `Markup:          ${document.getElementById('bMarkup').textContent}`,
+    `Shipping:        ${document.getElementById('bShip').textContent}`,
+    `Sales tax:       ${document.getElementById('bTax').textContent}`,
+    `─────────────────────────`,
+    `Client Quote:    ${document.getElementById('bQuote').textContent}`,
+  ];
+  const notes = document.getElementById('specialNotes').value.trim();
+  if (notes) {
+    lines.push('', 'SPECIAL INSTRUCTIONS', notes);
+  }
+  const joined = lines.join('\n');
+  navigator.clipboard.writeText(joined);
+  flash('Copied breakdown');
+}
+function flash(msg) {
+  const btn = event.target;
+  const old = btn.textContent;
+  btn.textContent = '✓ ' + msg;
+  setTimeout(() => { btn.textContent = old; }, 1400);
+}
+
+// ===== Inline ↔ three.js module bridge =====
+// Module calls this after parsing an uploaded STL to bind it to the active part
+window.__attachSTLToActivePart = (geometry, volCM3, fileName) => {
+  const p = getActive();
+  if (!p) return;
+  p.geometry = geometry;
+  p.volumeCM3 = volCM3;
+  p.stlName = fileName;
+  if (!p.name || /^Part \d+$/.test(p.name)) {
+    p.name = fileName.replace(/\.stl$/i, '').slice(0, 40);
+    document.getElementById('partName').value = p.name;
+  }
+  renderPartsList();
+  calc();
+};
+
+function showActivePartInViewer() {
+  const p = getActive();
+  if (window.__showPartInViewer) {
+    window.__showPartInViewer(p ? p.geometry : null, p ? p.name : '', p ? p.volumeCM3 : null);
+  }
+}
+
+// ===== INIT =====
+renderTiers();
+addPart(true);  // create first part with defaults
+calc();
+
+// ===== PDF EXPORT =====
+/* ============================================================
+   PDF EXPORT — Liberti Lab Design System
+   Aesthetic: Editorial-technical, Vignelli restraint.
+   Colors: #210FEA blue, #0A0A0A black, grays, #B8B0E8 lavender.
+   Font: jsPDF ships helvetica; DIN would need embedded TTF.
+         Helvetica is the closest geometric-sans fallback.
+   ============================================================ */
+async function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const M = 56;
+
+  // ----- Design system palette -----
+  const C = {
+    blue:     [33, 15, 234],
+    black:    [10, 10, 10],
+    gray700:  [68, 68, 68],
+    gray500:  [102, 102, 102],
+    gray400:  [136, 136, 136],
+    white:    [255, 255, 255],
+    lavender: [184, 176, 232],
+  };
+  const setText = ([r,g,b]) => doc.setTextColor(r,g,b);
+  const setFill = ([r,g,b]) => doc.setFillColor(r,g,b);
+  const setDraw = ([r,g,b]) => doc.setDrawColor(r,g,b);
+
+  // ----- Primitives -----
+  function drawTriangle(x1, y1, x2, y2, x3, y3) {
+    doc.lines([[x2-x1, y2-y1], [x3-x2, y3-y2]], x1, y1, [1,1], 'F', true);
+  }
+  // 6-point star = two overlapping equilateral triangles (hexagram)
+  function drawStar(cx, cy, r, color) {
+    setFill(color);
+    const s = Math.sin(Math.PI/3), c = Math.cos(Math.PI/3);
+    drawTriangle(cx, cy - r, cx - r*s, cy + r*c, cx + r*s, cy + r*c);
+    drawTriangle(cx, cy + r, cx - r*s, cy - r*c, cx + r*s, cy - r*c);
+  }
+  // LIBERTI wordmark — bold, all caps, tracked spacing
+  function drawWordmark(x, baselineY, color, size = 22, tracking = 2) {
+    setText(color);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(size);
+    doc.setCharSpace(tracking);
+    doc.text('LIBERTI', x, baselineY);
+    doc.setCharSpace(0);
+    // approximate width of "LIBERTI" at the given font size with tracking
+    const w = doc.getTextWidth('LIBERTI');
+    return x + w + 8;
+  }
+  function eyebrow(text, x, y, color = C.blue, size = 8, tracking = 2.5) {
+    setText(color);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(size);
+    doc.setCharSpace(tracking);
+    doc.text(text, x, y);
+    doc.setCharSpace(0);
+  }
+  function headline(text, x, y, color = C.blue, size = 40, tracking = -1.5) {
+    setText(color);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(size);
+    doc.setCharSpace(tracking);
+    doc.text(text, x, y);
+    doc.setCharSpace(0);
+  }
+  function bodyText(text, x, y, color = C.gray700, size = 11) {
+    setText(color);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(size);
+    doc.text(text, x, y);
+  }
+  // Header bar — blue strip with wordmark + divider + project name
+  function drawHeaderBar(projectName) {
+    const h = 56;
+    setFill(C.blue);
+    doc.rect(0, 0, W, h, 'F');
+    const wordmarkEnd = drawWordmark(M, h/2 + 6, C.white, 15, 2);
+    drawStar(wordmarkEnd + 4, h/2, 6, C.white);
+    setDraw(C.white);
+    doc.setLineWidth(0.6);
+    doc.line(wordmarkEnd + 22, h/2 - 8, wordmarkEnd + 22, h/2 + 10);
+    bodyText(projectName, wordmarkEnd + 32, h/2 + 4, C.white, 10.5);
+  }
+  // Footer bar — blue strip with lavender meta text
+  function drawFooterBar(pageNum, totalPages) {
+    const h = 28;
+    setFill(C.blue);
+    doc.rect(0, H - h, W, h, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setCharSpace(2);
+    setText(C.lavender);
+    doc.text('LIBERTI LAB   ·   98 FORREST ST, JERSEY CITY NJ 07304', M, H - 11);
+    doc.text(`PAGE ${pageNum} / ${totalPages}   ·   LIBERTI-LAB.COM`, W - M, H - 11, { align: 'right' });
+    doc.setCharSpace(0);
+  }
+
+  const partName = (document.getElementById('partName').value || 'Untitled Project').trim();
+  const dateStr = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+  // ============================================================
+  // PAGE 1 — COVER (full blue bleed)
+  // ============================================================
+  setFill(C.blue);
+  doc.rect(0, 0, W, H, 'F');
+
+  // Wordmark + star (top-left)
+  const coverWordEnd = drawWordmark(M, M + 28, C.white, 22, 2);
+  drawStar(coverWordEnd + 4, M + 22, 8, C.white);
+
+  // Tagline (top-right)
+  setText(C.white);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setCharSpace(6);
+  doc.text('DISRUPTIVE BY DESIGN', W - M, M + 24, { align: 'right' });
+  doc.setCharSpace(0);
+
+  // Two-tone hero headline: line 1 white, line 2 black, no terminal period
+  const heroSize = 76;
+  const heroY1 = H * 0.42;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(heroSize);
+  doc.setCharSpace(-2);
+  setText(C.white);
+  doc.text('PRINT', M, heroY1);
+  setText(C.black);
+  const partHeadline = partName.toUpperCase();
+  const wrappedHero = doc.splitTextToSize(partHeadline, W - M*2);
+  doc.text(wrappedHero, M, heroY1 + heroSize * 0.9);
+  doc.setCharSpace(0);
+
+  // PREPARED / PREPARED BY / DOCUMENT TYPE meta row
+  const metaY = H - M - 70;
+  eyebrow('PREPARED',      M,        metaY, C.lavender);
+  eyebrow('PREPARED BY',   M + 180,  metaY, C.lavender);
+  eyebrow('DOCUMENT TYPE', M + 360,  metaY, C.lavender);
+  bodyText(dateStr,    M,        metaY + 18, C.white, 11);
+  bodyText('LIBERTI LAB · G LACORTE', M + 180, metaY + 18, C.white, 11);
+  bodyText('PRINT QUOTE',          M + 360, metaY + 18, C.white, 11);
+
+  // ============================================================
+  // PAGE 2 — PROJECT / PARTS / VISUAL
+  // ============================================================
+  doc.addPage();
+  drawHeaderBar(partName);
+  let y = 56 + 56;
+
+  // Eyebrow
+  eyebrow(`QUOTE   ·   ${activeTier.label.toUpperCase()}   ·   ${PARTS.length} PART${PARTS.length === 1 ? '' : 'S'}`, M, y);
+  y += 18;
+
+  // Headline (blue, big)
+  const projLines = doc.splitTextToSize(partName.toUpperCase(), W - M*2);
+  headline(projLines.join('\n'), M, y + 32);
+  y += 32 + (projLines.length * 38) + 12;
+
+  // Full-width black hairline divider
+  setDraw(C.black);
+  doc.setLineWidth(0.5);
+  doc.line(M, y, W - M, y);
+  y += 28;
+
+  // 3D snapshot — current viewer state
+  if (window.__captureSnapshot) {
+    try {
+      const snap = window.__captureSnapshot();
+      if (snap) {
+        // Pure white background — snapshot is already rendered against white,
+        // page is white, no frame or gray fill so model sits on a clean surface.
+        const maxW = W - M*2;
+        const maxH = 280;
+        let imgW = maxW, imgH = maxW / snap.aspect;
+        if (imgH > maxH) { imgH = maxH; imgW = maxH * snap.aspect; }
+        const xOff = M + (maxW - imgW) / 2;
+        doc.addImage(snap.dataURL, 'PNG', xOff, y, imgW, imgH);
+        y += imgH + 32;
+      }
+    } catch(e) { console.warn('snapshot failed', e); }
+  }
+
+  // PARTS TABLE
+  if (PARTS.length > 0) {
+    eyebrow('PARTS', M, y);
+    y += 16;
+    // Column labels
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setCharSpace(2);
+    setText(C.gray400);
+    doc.text('#', M, y);
+    doc.text('PART', M + 30, y);
+    doc.text('MATERIAL', M + 230, y);
+    doc.text('WEIGHT', M + 320, y);
+    doc.text('TIME', M + 390, y);
+    doc.text('SUBTOTAL', W - M, y, { align: 'right' });
+    doc.setCharSpace(0);
+    y += 6;
+    setDraw(C.black);
+    doc.setLineWidth(0.3);
+    doc.line(M, y, W - M, y);
+    y += 14;
+    // Rows
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    PARTS.forEach((p, i) => {
+      const c = perPartCost(p);
+      setText(C.black);
+      doc.text(String(i+1).padStart(2,'0'), M, y);
+      const name = p.name || 'Untitled';
+      doc.text(name.length > 32 ? name.slice(0,30) + '…' : name, M + 30, y);
+      setText(C.gray500);
+      doc.text(p.material, M + 230, y);
+      doc.text(p.weight + ' g', M + 320, y);
+      doc.text(`${p.printH}h ${p.printM}m`, M + 390, y);
+      setText(C.black);
+      doc.text('$' + c.total.toFixed(2), W - M, y, { align: 'right' });
+      y += 18;
+    });
+  }
+
+  // ============================================================
+  // PAGE 3 — COST BREAKDOWN + CLIENT QUOTE
+  // ============================================================
+  doc.addPage();
+  drawHeaderBar(partName);
+  y = 56 + 56;
+
+  eyebrow('COST BREAKDOWN', M, y);
+  y += 16;
+  headline('THE NUMBERS', M, y + 28, C.blue, 36, -1.2);
+  y += 56;
+
+  setDraw(C.black);
+  doc.setLineWidth(0.5);
+  doc.line(M, y, W - M, y);
+  y += 24;
+
+  // ----- Aggregate audit context for line items so the client can verify -----
+  // Totals across all parts (mixed materials show as combined weight).
+  const totalWeightG = PARTS.reduce((s,p) => s + p.weight, 0);
+  const totalPrintH  = PARTS.reduce((s,p) => s + p.printH + p.printM/60, 0);
+  const totalLaborM  = PARTS.reduce((s,p) => s + p.laborMin, 0);
+  const machineRate  = v('machineRate');
+  const laborRateVal = v('laborRate');
+  const designHours  = v('designHr');
+  const designRateVal= v('designRate');
+  const ledHasInstall = checked('ledToggle');
+
+  // Itemized list with em-dash bullets + audit basis where useful.
+  // Each row: [label-with-basis, value]. Hidden if value is $0.00 and not core.
+  const rowsAll = [
+    [`Design  (${designHours} hr @ $${designRateVal}/hr)`,                 document.getElementById('bDesign').textContent, true],
+    [`Material  (${(totalWeightG/1000).toFixed(2)} kg)`,                   document.getElementById('bMat').textContent, true],
+    [`Machine time  (${totalPrintH.toFixed(1)} hrs @ $${machineRate}/hr)`, document.getElementById('bMachine').textContent, true],
+    ['Electricity',                                                        document.getElementById('bPower').textContent, true],
+    [`Labor  (${totalLaborM} min @ $${laborRateVal}/hr)`,                  document.getElementById('bLabor').textContent, true],
+    ['Hardware',                                                           document.getElementById('bHard').textContent, false],
+    ['Packaging',                                                          document.getElementById('bPack').textContent, false],
+    ['LED lighting ' + document.getElementById('ledSpecOut').textContent,  document.getElementById('bLED').textContent, ledHasInstall],
+    ['Failure premium',                                                    document.getElementById('bFail').textContent, true],
+    ['Shipping',                                                           document.getElementById('bShip').textContent, false],
+    ['NJ sales tax',                                                       document.getElementById('bTax').textContent, false],
+  ];
+  // Hide $0.00 items that aren't core to the quote
+  const rows = rowsAll.filter(([, val, alwaysShow]) => alwaysShow || (val && val !== '$0.00'));
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  rows.forEach(([k,v]) => {
+    setText(C.gray700);
+    doc.text('—   ' + k, M, y);   // em-dash bullet per design system
+    setText(C.black);
+    doc.text(v, W - M, y, { align: 'right' });
+    y += 17;
+  });
+
+  // Special instructions
+  const notes = document.getElementById('specialNotes').value.trim();
+  if (notes) {
+    y += 20;
+    eyebrow('SPECIAL INSTRUCTIONS', M, y);
+    y += 14;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    setText(C.gray700);
+    const wrapped = doc.splitTextToSize(notes, W - M*2);
+    doc.text(wrapped, M, y);
+    y += wrapped.length * 15 + 6;
+  }
+
+  // TOTAL PROJECT COST — 1.5px black rule above, 18px/700 totals treatment scaled up
+  // Single rolled-up number: true cost + markup + shipping + tax. Markup is no longer
+  // exposed as a separate line — the client sees one number, not a margin breakdown.
+  y += 18;
+  setDraw(C.black);
+  doc.setLineWidth(1.5);
+  doc.line(M, y, W - M, y);
+  y += 28;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setCharSpace(2);
+  setText(C.blue);
+  doc.text('TOTAL PROJECT COST', M, y);
+  doc.setCharSpace(0);
+  doc.setFontSize(32);
+  setText(C.black);
+  doc.text(document.getElementById('bQuote').textContent, W - M, y + 8, { align: 'right' });
+
+  // Disclaimer
+  y += 40;
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(8);
+  setText(C.gray400);
+  doc.text(`Quote valid 30 days from ${dateStr}. Estimate based on inputs provided; final invoice may vary with material, finish, and revisions.`, M, y);
+
+  // ============================================================
+  // FOOTER on every page
+  // ============================================================
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    drawFooterBar(i, pageCount);
+  }
+
+  const filename = (partName.toLowerCase().replace(/[^a-z0-9]+/g,'-') || 'quote') + '-liberti-lab.pdf';
+  doc.save(filename);
+}
+window.exportPDF = exportPDF;
+</script>
+
+<!-- ===== STL VIEWER (three.js, module) ===== -->
+<script type="module">
+import * as THREE from 'three';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const wrap = document.getElementById('viewerWrap');
+const emptyState = document.getElementById('viewerEmpty');
+const controls = document.getElementById('viewerControls');
+
+let renderer, scene, camera, orbit, mesh, currentGeometry, keyLight;
+let currentMaterialKind = 'frosted';
+const LIGHT_RADIUS = 220, LIGHT_HEIGHT = 200;
+
+// Material density g/cm³ (for auto-weight)
+const DENSITY = { PLA: 1.24, PETG: 1.27, ASA: 1.07, 'PA-CF': 1.16, 'PC-CF': 1.20, custom: 1.24 };
+
+function initThree() {
+  const w = wrap.clientWidth, h = wrap.clientHeight || 420;
+  renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  wrap.appendChild(renderer.domElement);
+  window.__stlCanvas = renderer.domElement;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x111111);
+
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+  camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 5000);
+  camera.position.set(150, 120, 200);
+
+  orbit = new OrbitControls(camera, renderer.domElement);
+  orbit.enableDamping = true;
+  orbit.dampingFactor = 0.08;
+
+  // Key light — orbits around model via slider
+  keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  setLightAngle(45);
+  scene.add(keyLight);
+
+  window.addEventListener('resize', onResize);
+  animate();
+}
+
+function setLightAngle(deg) {
+  if (!keyLight) return;
+  const rad = deg * Math.PI / 180;
+  keyLight.position.set(
+    Math.cos(rad) * LIGHT_RADIUS,
+    LIGHT_HEIGHT,
+    Math.sin(rad) * LIGHT_RADIUS
+  );
+}
+
+function onResize() {
+  if (!renderer) return;
+  const w = wrap.clientWidth, h = wrap.clientHeight || 420;
+  renderer.setSize(w, h);
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (orbit) orbit.update();
+  if (renderer && scene && camera) renderer.render(scene, camera);
+}
+// Snapshot helper: render against a white background for the PDF, then restore.
+// Returns a high-resolution PNG dataURL of the current camera/material/light state.
+window.__captureSnapshot = () => {
+  if (!renderer || !scene || !camera) return null;
+  const originalBg = scene.background;
+  const originalSize = renderer.getSize(new THREE.Vector2());
+  const originalPixelRatio = renderer.getPixelRatio();
+
+  // Render at 2× for crisp PDF print
+  const snapW = originalSize.x * 2;
+  const snapH = originalSize.y * 2;
+
+  scene.background = new THREE.Color(0xffffff);
+  renderer.setPixelRatio(1);
+  renderer.setSize(snapW, snapH, false);
+  camera.aspect = snapW / snapH;
+  camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+
+  const dataURL = renderer.domElement.toDataURL('image/png');
+
+  // Restore for live viewing
+  scene.background = originalBg;
+  renderer.setPixelRatio(originalPixelRatio);
+  renderer.setSize(originalSize.x, originalSize.y, false);
+  camera.aspect = originalSize.x / originalSize.y;
+  camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+
+  return { dataURL, aspect: snapW / snapH };
+};
+window.__renderForSnapshot = () => renderer && renderer.render(scene, camera);
+
+function makeMaterial(kind) {
+  if (kind === 'frosted') {
+    return new THREE.MeshPhysicalMaterial({
+      color: 0xeeeeee,
+      metalness: 0,
+      roughness: 0.45,
+      transmission: 0.7,
+      thickness: 2.0,
+      ior: 1.45,
+      side: THREE.DoubleSide,
+    });
+  }
+  // matte — uses live color picker value
+  const hex = document.getElementById('matteColor').value;
+  return new THREE.MeshStandardMaterial({
+    color: new THREE.Color(hex),
+    roughness: 0.55,
+    metalness: 0.0,
+  });
+}
+
+function setMaterial(kind) {
+  currentMaterialKind = kind;
+  if (mesh) { mesh.material.dispose(); mesh.material = makeMaterial(kind); }
+  document.querySelectorAll('.vc-btn').forEach(b => b.classList.toggle('active', b.dataset.mat === kind));
+}
+
+function loadSTL(file) {
+  if (!renderer) initThree();
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const loader = new STLLoader();
+    const geom = loader.parse(e.target.result);
+    geom.center();
+    geom.computeVertexNormals();
+    const volCM3 = computeVolume(geom) / 1000;
+    // Bind geometry + volume to the currently active part (inline state)
+    if (window.__attachSTLToActivePart) {
+      window.__attachSTLToActivePart(geom, volCM3, file.name);
+    }
+    // Then render it in the viewer
+    showInViewer(geom, file.name, volCM3);
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function showInViewer(geometry, name, volCM3) {
+  if (!renderer) initThree();
+  if (mesh) { scene.remove(mesh); mesh.material.dispose(); mesh = null; }
+  if (!geometry) {
+    emptyState.style.display = 'flex';
+    controls.style.display = 'none';
+    document.getElementById('iFile').textContent = '—';
+    document.getElementById('iVol').textContent = '—';
+    document.getElementById('autoFillBtn').disabled = true;
+    document.getElementById('uploadBtnLabel').textContent = 'Upload STL';
+    return;
+  }
+  currentGeometry = geometry;
+  mesh = new THREE.Mesh(geometry, makeMaterial(currentMaterialKind));
+  scene.add(mesh);
+  // Frame camera to model
+  const bb = new THREE.Box3().setFromObject(mesh);
+  const size = bb.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+  camera.position.set(maxDim * 1.4, maxDim * 1.1, maxDim * 1.8);
+  camera.lookAt(0, 0, 0);
+  orbit.target.set(0, 0, 0);
+  orbit.update();
+  // Info display
+  document.getElementById('iFile').textContent = name && name.length > 22 ? name.slice(0,20) + '…' : (name || '—');
+  document.getElementById('iVol').textContent = volCM3 ? volCM3.toFixed(1) + ' cm³' : '—';
+  document.getElementById('uploadBtnLabel').textContent = '↻ Replace STL';
+  window.__stlVolumeCM3 = volCM3;
+  document.getElementById('autoFillBtn').disabled = !volCM3;
+  emptyState.style.display = 'none';
+  controls.style.display = 'flex';
+  document.querySelector('[data-mat="frosted"]').classList.add('active');
+}
+
+// Inline calls this when the user clicks a different part card
+window.__showPartInViewer = (geometry, name, volCM3) => {
+  showInViewer(geometry, name, volCM3);
+};
+
+// STL volume via signed tetrahedron sum (assumes mm units, standard for STL)
+function computeVolume(geometry) {
+  const pos = geometry.attributes.position;
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  let vol = 0;
+  for (let i = 0; i < pos.count; i += 3) {
+    a.fromBufferAttribute(pos, i);
+    b.fromBufferAttribute(pos, i + 1);
+    c.fromBufferAttribute(pos, i + 2);
+    vol += a.dot(b.clone().cross(c)) / 6.0;
+  }
+  return Math.abs(vol);
+}
+
+// Wire upload
+document.getElementById('stlInput').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  if (f) loadSTL(f);
+});
+
+// Wire material buttons
+document.querySelectorAll('.vc-btn').forEach(btn => {
+  btn.addEventListener('click', () => setMaterial(btn.dataset.mat));
+});
+
+// Live color picker — only repaints when Color material is active
+document.getElementById('matteColor').addEventListener('input', (e) => {
+  if (currentMaterialKind === 'matte' && mesh) {
+    mesh.material.color.set(e.target.value);
+  }
+});
+
+// Lighting orbit slider — 0–360° around model
+document.getElementById('lightAngle').addEventListener('input', (e) => {
+  const deg = parseInt(e.target.value, 10);
+  setLightAngle(deg);
+  document.getElementById('lightDeg').textContent = deg + '°';
+});
+
+// Auto-fill weight from STL volume × material density
+// Assumes typical Liberti Lab settings: 15% infill, 12% solid shell of bbox volume.
+const DEFAULT_INFILL = 0.15;
+const DEFAULT_SHELL  = 0.12;
+document.getElementById('autoFillBtn').addEventListener('click', () => {
+  const volCM3 = window.__stlVolumeCM3;
+  if (!volCM3) return;
+  const matKey = document.getElementById('material').value;
+  const density = DENSITY[matKey] || 1.24;
+  // Effective fill = shell (solid) + (1 - shell) × infill
+  const effective = DEFAULT_SHELL + (1 - DEFAULT_SHELL) * DEFAULT_INFILL;
+  const grams = volCM3 * density * effective;
+  document.getElementById('weight').value = Math.round(grams);
+  document.getElementById('weight').dispatchEvent(new Event('input'));
+});
+</script>
+
+</body>
+</html>
